@@ -20,3 +20,5 @@ Game::Render() {
 		case GAME: 	DrawScene(); Draw_player();
 	}
 }
+
+trying PR.
