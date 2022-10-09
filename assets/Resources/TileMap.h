@@ -25,29 +25,40 @@ public:
 
 	~TileMap();
 
+	void moveMap(int increment);
 	void render() const;
 	void free();
 	
-	int getTileSize() const { return tileSize; }
+	int getTileSize() const { return 32; }
 
-	bool collisionMoveLeft(const glm::ivec2 &pos, const glm::ivec2 &size) const;
-	bool collisionMoveRight(const glm::ivec2 &pos, const glm::ivec2 &size) const;
-	bool collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY) const;
+	bool collisionMoveLeft(const glm::ivec2 &pos, const glm::ivec2 &size);
+	bool collisionMoveRight(const glm::ivec2 &pos, const glm::ivec2 &size);
+	bool collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY);
 	
 private:
 	bool loadLevel(const string &levelFile);
 	void prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program);
+
+	bool overlapVertical(glm::ivec4 r1, glm::ivec4 r2);
+	bool overlapHorizontal(glm::ivec4 r1, glm::ivec4 r2);
+	glm::ivec2 TileMap::getOffset(glm::ivec4 r1, glm::ivec4 r2);
 
 private:
 	GLuint vao;
 	GLuint vbo;
 	GLint posLocation, texCoordLocation;
 	int nTiles;
-	glm::ivec2 position, mapSize, tilesheetSize;
-	int tileSize, blockSize;
+	glm::ivec2 mapSize, sectionSize, blocksheetSize;
+	int blockSize;
 	Texture tilesheet;
 	glm::vec2 tileTexSize;
 	int *map;
+	int collidersSize;
+	glm::ivec4 *collisions;
+
+	int position;
+
+	ShaderProgram *shaderProgram;
 
 };
 

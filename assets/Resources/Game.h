@@ -2,11 +2,11 @@
 #define _GAME_INCLUDE
 
 
-#include "Scene.h"
+#include "GameScene.h"
 
 
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
+#define SCREEN_WIDTH 1920
+#define SCREEN_HEIGHT 1080
 
 
 // Game is a singleton (a class with a single instance) that represents our whole application
@@ -44,7 +44,7 @@ public:
 
 private:
 	bool bPlay;                       // Continue to play game?
-	Scene scene;                      // Scene to render
+	GameScene scene;                  // Scene to render
 	bool keys[256], specialKeys[256]; // Store key states so that 
 	                                  // we can have access at any time
 

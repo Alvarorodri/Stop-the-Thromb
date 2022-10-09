@@ -1,0 +1,8 @@
+BOX_COLLISION
+720 7								-- Entire map size
+80 7								-- Section map size
+32								-- Block size
+images/background/testing-long-map.png				-- Map
+images/background/testing-long-map_collisions-computed.txt	-- Collisions boxes
+80 63								-- Number of block in Map
+63 72 204							-- Discart pixels
