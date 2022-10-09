@@ -6,7 +6,6 @@
 #include <GL/gl.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include "TileMap.h"
-#include "Line.h"
 
 
 using namespace std;
@@ -122,9 +121,6 @@ bool TileMap::loadLevel(const string &levelFile) {
 		aa.str(line);
 		aa >> x >> y >> z >> w;
 		collisions[i] = glm::ivec4(x, y, z, w);
-
-		Line a = Line::Line(glm::vec3(x, y, 0), glm::vec3(z, y, 0));
-		a.draw();
 	}
 
 	fin.close();
