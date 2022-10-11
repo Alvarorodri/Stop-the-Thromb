@@ -3,8 +3,12 @@
 
 
 #include <glm/glm.hpp>
+#include "Collision.h"
+#include "CollisionSystem.h"
 #include "Texture.h"
 #include "ShaderProgram.h"
+
+#include "GeneralDefines.h"
 
 
 // Class Tilemap is capable of loading a tile map from a text file in a very
@@ -17,48 +21,45 @@ class TileMap
 {
 
 private:
-	TileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram &program);
+	TileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram &program, glm::mat4 &project);
 
 public:
 	// Tile maps can only be created inside an OpenGL context
-	static TileMap *createTileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram &program);
+	static TileMap *createTileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram &program, glm::mat4 &project);
 
 	~TileMap();
 
 	void moveMap(int increment);
-	void render() const;
+	void render();
 	void free();
 	
-	int getTileSize() const { return 32; }
-
-	bool collisionMoveLeft(const glm::ivec2 &pos, const glm::ivec2 &size);
-	bool collisionMoveRight(const glm::ivec2 &pos, const glm::ivec2 &size);
-	bool collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY);
+	int getTileSize() const { return blockSize; }
 	
 private:
 	bool loadLevel(const string &levelFile);
 	void prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program);
 
-	bool overlapVertical(glm::ivec4 r1, glm::ivec4 r2);
-	bool overlapHorizontal(glm::ivec4 r1, glm::ivec4 r2);
-	glm::ivec2 TileMap::getOffset(glm::ivec4 r1, glm::ivec4 r2);
+public:
+
 
 private:
 	GLuint vao;
 	GLuint vbo;
 	GLint posLocation, texCoordLocation;
+	ShaderProgram *shaderProgram;
+	glm::mat4 projection;
+
 	int nTiles;
 	glm::ivec2 mapSize, sectionSize, blocksheetSize;
 	int blockSize;
 	Texture tilesheet;
 	glm::vec2 tileTexSize;
 	int *map;
-	int collidersSize;
-	glm::ivec4 *collisions;
 
 	int position;
 
-	ShaderProgram *shaderProgram;
+	Collision *collision;
+	CollisionSystem *collisionSystem;
 
 };
 

@@ -4,6 +4,10 @@
 
 #include "Sprite.h"
 #include "TileMap.h"
+#include "Collision.h"
+#include "CollisionSystem.h"
+
+#include "GeneralDefines.h"
 
 
 // Player is basically a Sprite that represents the player. As such it has
@@ -14,6 +18,7 @@ class Player
 {
 
 public:
+	Player(glm::mat4 &project);
 	void init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram);
 	void update(int deltaTime);
 	void render();
@@ -28,6 +33,11 @@ private:
 	Texture spritesheet;
 	Sprite *sprite;
 	TileMap *map;
+
+	glm::mat4 projection;
+
+	Collision *collider;
+	CollisionSystem *collisionSystem;
 
 };
 

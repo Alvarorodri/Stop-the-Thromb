@@ -9,7 +9,7 @@
 #define SCREEN_Y 0
 
 //Init position of the player
-#define INIT_PLAYER_X_TILES 0
+#define INIT_PLAYER_X_TILES 7
 #define INIT_PLAYER_Y_TILES 2
 
 
@@ -30,21 +30,22 @@ GameScene::~GameScene()
 
 void GameScene::init()
 {
+	// 224.0f is the amount of pixel that has the map as height
+	projection = glm::ortho(0.f, float((SCREEN_WIDTH / float(SCREEN_HEIGHT / 224.0f)) - 1), float((SCREEN_HEIGHT / float(SCREEN_HEIGHT / 224.0f)) - 1), 0.f);
+	currentTime = 0.0f;
+
 	initShaders();
-	map = TileMap::createTileMap("levels/level00.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
-	player = new Player();
+	map = TileMap::createTileMap("levels/level00.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram, projection);
+	player = new Player(projection);
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 	player->setTileMap(map);
-	projection = glm::ortho(0.f, float(SCREEN_WIDTH/3 - 1), float(SCREEN_HEIGHT/3 - 1), 0.f);
-	currentTime = 0.0f;
 }
 
 void GameScene::update(int deltaTime)
 {
 	currentTime += deltaTime;
 	player->update(deltaTime);
-	//map->moveMap(5);
 }
 
 void GameScene::render()
@@ -57,7 +58,16 @@ void GameScene::render()
 	modelview = glm::mat4(1.0f);
 	texProgram.setUniformMatrix4f("modelview", modelview);
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
+
 	map->render();
+
+	texProgram.use();
+	texProgram.setUniformMatrix4f("projection", projection);
+	texProgram.setUniform4f("color", 1.0f, 1.0f, 1.0f, 1.0f);
+	modelview = glm::mat4(1.0f);
+	texProgram.setUniformMatrix4f("modelview", modelview);
+	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
+
 	player->render();
 }
 

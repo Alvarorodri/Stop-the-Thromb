@@ -7,18 +7,13 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "TileMap.h"
 
-
-using namespace std;
-
-
-TileMap *TileMap::createTileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram &program) {
-	TileMap *map = new TileMap(levelFile, minCoords, program);
-	
+TileMap *TileMap::createTileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram &program, glm::mat4 &project) {
+	TileMap *map = new TileMap(levelFile, minCoords, program, project);
 	return map;
 }
 
-
-TileMap::TileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram &program) {
+TileMap::TileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram &program, glm::mat4 &project) {
+	projection = project;
 	loadLevel(levelFile);
 	prepareArrays(minCoords, program);
 }
@@ -30,11 +25,12 @@ TileMap::~TileMap() {
 
 void TileMap::moveMap(int increment) {
 	position += increment;
+	collision->changePositionRelative(glm::vec2(increment, 0));
 	render();
 }
 
-void TileMap::render() const {
-	glm::mat4 modelview = glm::translate(glm::mat4(1.0f), glm::vec3(-position, 0.0f, 0.f));
+void TileMap::render() {
+	glm::mat4 modelview = glm::translate(glm::mat4(1.0f), glm::vec3(position, 0.0f, 0.f));
 	shaderProgram->setUniformMatrix4f("modelview", modelview);
 	glEnable(GL_TEXTURE_2D);
 	tilesheet.use();
@@ -43,6 +39,10 @@ void TileMap::render() const {
 	glEnableVertexAttribArray(texCoordLocation);
 	glDrawArrays(GL_TRIANGLES, 0, 6 * nTiles);
 	glDisable(GL_TEXTURE_2D);
+
+#ifdef SHOW_HIT_BOXES
+	collision->render();
+#endif // SHOW_HIT_BOXES
 }
 
 void TileMap::free() {
@@ -108,11 +108,19 @@ bool TileMap::loadLevel(const string &levelFile) {
 		return false;
 
 	// Get number of collision boxes
+	int collidersSize;
+	collision = new Collision(projection, Collision::Map);
+
+	collisionSystem = CollisionSystem::getInstance();
+	collisionSystem->addColliderIntoGroup(collision);
+
+	//TODO: Maybe remove this in the future??
+	collision->changePositionAbsolute(glm::vec2(-4,0));
+
 	getline(fin, line);
 	sstream.str(line);
 	sstream >> collidersSize;
 
-	collisions = new glm::ivec4[collidersSize];
 	for (int i = 0; i < collidersSize; ++i) {
 		int x, y, z, w;
 		stringstream aa;
@@ -120,8 +128,12 @@ bool TileMap::loadLevel(const string &levelFile) {
 		getline(fin, line);
 		aa.str(line);
 		aa >> x >> y >> z >> w;
-		collisions[i] = glm::ivec4(x, y, z, w);
+		collision->addCollider(glm::ivec4(x, y, z, w));
 	}
+
+#ifdef SHOW_HIT_BOXES
+	collision->showHitBox();
+#endif // SHOW_HIT_BOXES
 
 	fin.close();
 	
@@ -170,79 +182,6 @@ void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program) 
 	shaderProgram = &program;
 	position = 0;
 }
-
-// Collision tests for axis aligned bounding boxes.
-// Method collisionMoveDown also corrects Y coordinate if the box is
-// already intersecting a tile below.
-
-bool TileMap::collisionMoveLeft(const glm::ivec2 &pos, const glm::ivec2 &size) {
-	glm::ivec4 objCollider = glm::ivec4(pos.x, pos.y, pos.x + size.x, pos.y + size.y);
-
-	for (int i = 0; i < collidersSize; ++i) {
-		if (overlapHorizontal(objCollider, collisions[i])) {
-			return true;
-		}
-	}
-	return false;
-}
-
-bool TileMap::collisionMoveRight(const glm::ivec2 &pos, const glm::ivec2 &size) {
-	glm::ivec4 objCollider = glm::ivec4(pos.x, pos.y, pos.x + size.x, pos.y + size.y);
-
-	for (int i = 0; i < collidersSize; ++i) {
-		if (overlapHorizontal(objCollider, collisions[i])) {
-			return true;
-		}
-	}
-	return false;
-}
-
-bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY) {
-	glm::ivec4 objCollider = glm::ivec4(pos.x, pos.y, pos.x + size.x, pos.y+size.y);
-
-	for (int i = 0; i < collidersSize; ++i) {
-		if (overlapVertical(objCollider, collisions[i])) {
-			*posY = pos.y-4;
-			return true;
-		}
-	}
-
-	return false;
-}
-
-bool TileMap::overlapVertical(glm::ivec4 r1, glm::ivec4 r2) {
-	// if one rectangle is on left side of other
-	if (r1[0] > r2[2] || r2[0] > r1[2]) {
-		return false;
-	}
-
-	// if one rectangle is above other
-	if (r1[3] < r2[1] || r1[1] > r2[3]) {
-		return false;
-	}
-
-	return true;
-}
-
-bool TileMap::overlapHorizontal(glm::ivec4 r1, glm::ivec4 r2) {
-	// if one rectangle is on left side of other
-	if (r1[0] > r2[2] || r2[0] > r1[2]) {
-		return false;
-	}
-
-	// if one rectangle is above other
-	if (r1[3] < r2[1] || r1[1] > r2[3]) {
-		return false;
-	}
-
-	return true;
-}
-
-
-glm::ivec2 TileMap::getOffset(glm::ivec4 r1, glm::ivec4 r2) {
-	return glm::ivec2(0, 0);
-}
-
 
 
 
