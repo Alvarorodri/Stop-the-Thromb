@@ -345,3 +345,14 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+assets/[Dd]ebug/*.exe
+assets/[Dd]ebug/*.ilk
+assets/[Dd]ebug/*.pdb
+
+assets/[Dd]ebug/*.exe
+assets/[Dd]ebug/*.ilk
+assets/[Rr]elease/*.pdb
+
+assets/Resources/[Dd]ebug/
+assets/Resources/[Rr]elease/

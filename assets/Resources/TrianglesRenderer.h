@@ -1,52 +1,48 @@
 #ifndef _TRIANGLESRENDERER_INCLUDE
 #define _TRIANGLESRENDERER_INCLUDE
 
-
-#include <string>
-#include <GL/glew.h>
-#include <GL/gl.h>
-#include <cmath>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include "ShaderProgram.h"
 #include <iostream>
 #include <vector>
+
+#include <glm/gtc/matrix_transform.hpp>
+
+#include "ShaderProgram.h"
 
 class TrianglesRenderer {
 
 private:
 
-	TrianglesRenderer::TrianglesRenderer();
-	~TrianglesRenderer();
-	void TrianglesRenderer::initShaders();
+    TrianglesRenderer::TrianglesRenderer();
+    ~TrianglesRenderer();
+
+    void TrianglesRenderer::initShaders();
 
 public:
 
-	static TrianglesRenderer *TrianglesRenderer::createTriangleRender(const glm::mat4 &project);
+    static TrianglesRenderer *TrianglesRenderer::createTriangleRender(const glm::mat4 &project);
 
-	void TrianglesRenderer::addTriangle(const glm::mat3x2 &vert);
-	void TrianglesRenderer::moveHitBoxesRelative(const glm::ivec2 &pos);
-	void TrianglesRenderer::moveHitBoxesAbsolute(const glm::ivec2 &pos);
+    void TrianglesRenderer::addTriangle(const glm::mat3x2 &vert);
+    void TrianglesRenderer::moveHitBoxesRelative(const glm::ivec2 &pos);
+    void TrianglesRenderer::moveHitBoxesAbsolute(const glm::ivec2 &pos);
 
-	int TrianglesRenderer::setColor(glm::vec3 color);
+    int TrianglesRenderer::setColor(glm::vec3 color);
 
-	void TrianglesRenderer::send();
-	int TrianglesRenderer::render();
+    void TrianglesRenderer::send();
+    int TrianglesRenderer::render();
 
 private:
-	ShaderProgram shaderProgram;
-	unsigned int VBO, VAO;
 
-	vector<float> vertices;
-	int nTriangles;
+    ShaderProgram shaderProgram;
+    unsigned int VBO, VAO;
 
-	GLint posLocation;
-	glm::mat4 projection;
+    vector<float> vertices;
+    int nTriangles;
 
-	glm::vec3 lineColor;
+    GLint posLocation;
+    glm::mat4 projection;
 
-	glm::ivec2 position;
+    glm::vec3 lineColor;
+    glm::ivec2 position;
 };
-
 
 #endif // _TRIANGLESRENDERER_INCLUDE
