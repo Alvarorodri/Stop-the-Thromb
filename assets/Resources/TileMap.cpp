@@ -107,9 +107,6 @@ bool TileMap::loadLevel(const string &levelFile) {
     collisionSystem = CollisionSystem::getInstance();
     collisionSystem->addColliderIntoGroup(collision);
 
-    //TODO: Maybe remove this in the future??
-    collision->changePositionAbsolute(glm::vec2(-4,0));
-
     getline(fin, line);
     sstream.str(line);
     sstream >> collidersSize;

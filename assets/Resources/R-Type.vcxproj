@@ -47,6 +47,16 @@
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="TrianglesRenderer.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\hitBox.frag" />
+    <None Include="shaders\hitBox.vert" />
+    <None Include="shaders\level-obstacles.frag" />
+    <None Include="shaders\level-obstacles.vert" />
+    <None Include="shaders\simple.frag" />
+    <None Include="shaders\simple.vert" />
+    <None Include="shaders\texture.frag" />
+    <None Include="shaders\texture.vert" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5BE6CA2A-E5A8-40CC-9015-047CE0C78036}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

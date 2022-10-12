@@ -55,10 +55,10 @@ if sys.argv[1] == "2" or sys.argv[1] == "3":
 			cv2.rectangle(image,(x,y),(x+w,y+h),(0,255,0),2)
 
 	for rect in rectangles:
-		rect[0] += int(rect[1]/224) * 2560
-		rect[1] = int(rect[1]%224)
-		rect[2] += int(rect[3]/224) * 2560
-		rect[3] = int(rect[3]%224)
+		rect[0] += int(rect[1]/256) * 2560
+		rect[1] = int(rect[1]%256)
+		rect[2] += int(rect[3]/256) * 2560
+		rect[3] = int(rect[3]%256)
 
 	# sort rectangles by x
 	rectangles.sort(key=lambda x: x[0])
@@ -71,8 +71,8 @@ if sys.argv[1] == "2" or sys.argv[1] == "3":
 
 
 
-	#draw the rectangles on the new image with dimension 23000x224
-	image2 = np.zeros((224,23000,3), np.uint8)
+	#draw the rectangles on the new image with dimension 23000x256
+	image2 = np.zeros((256,23000,3), np.uint8)
 	for rect in rectangles:
 		cv2.rectangle(image2,(rect[0],rect[1]),(rect[2],rect[3]),(0,255,0),1)
 
