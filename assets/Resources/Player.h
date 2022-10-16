@@ -18,8 +18,8 @@ public:
 
 public:
 
-    Player(glm::mat4 &project);
-    void init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram);
+    Player(glm::mat4 *project);
+    void init(const glm::ivec2 &tileMapPos);
     void update(int deltaTime);
     void render();
 
@@ -35,7 +35,7 @@ private:
     Sprite *sprite;
     TileMap *map;
 
-    glm::mat4 projection;
+    glm::mat4 *projection;
 
     Collision *collider;
     CollisionSystem *collisionSystem;

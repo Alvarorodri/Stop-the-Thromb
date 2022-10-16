@@ -1,6 +1,7 @@
 #ifndef _SPRITE_INCLUDE
 #define _SPRITE_INCLUDE
 
+#include <iostream>
 #include <vector>
 
 #include <glm/glm.hpp>
@@ -16,15 +17,17 @@ class Sprite {
 
 private:
 
-    Sprite(const glm::vec2 &quadSize, const glm::vec2 &sizeInSpritesheet, Texture *spritesheet, ShaderProgram *program);
+    Sprite(const glm::vec2 &quadSize, const glm::vec2 &sizeInSpritesheet, Texture *spritesheet, glm::mat4 *project);
+
+    void initShaders();
 
 public:
 
     // Textured quads can only be created inside an OpenGL context
-    static Sprite *createSprite(const glm::vec2 &quadSize, const glm::vec2 &sizeInSpritesheet, Texture *spritesheet, ShaderProgram *program);
+    static Sprite *createSprite(const glm::vec2 &quadSize, const glm::vec2 &sizeInSpritesheet, Texture *spritesheet, glm::mat4 *project);
 
     void update(int deltaTime);
-    void render() const;
+    void render();
     void free();
 
     void setNumberAnimations(int nAnimations);
@@ -38,10 +41,12 @@ public:
 private:
 
     Texture *texture;
-    ShaderProgram *shaderProgram;
     GLuint vao;
     GLuint vbo;
     GLint posLocation, texCoordLocation;
+    ShaderProgram shaderProgram;
+    glm::mat4 *projection;
+
     glm::vec2 position;
     int currentAnimation, currentKeyframe;
     float timeAnimation;

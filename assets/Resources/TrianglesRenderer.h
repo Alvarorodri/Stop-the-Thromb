@@ -19,7 +19,7 @@ private:
 
 public:
 
-    static TrianglesRenderer *TrianglesRenderer::createTriangleRender(const glm::mat4 &project);
+    static TrianglesRenderer *TrianglesRenderer::createTriangleRender(glm::mat4 *project);
 
     void TrianglesRenderer::addTriangle(const glm::mat3x2 &vert);
     void TrianglesRenderer::moveHitBoxesRelative(const glm::ivec2 &pos);
@@ -39,7 +39,7 @@ private:
     int nTriangles;
 
     GLint posLocation;
-    glm::mat4 projection;
+    glm::mat4 *projection;
 
     glm::vec3 lineColor;
     glm::ivec2 position;

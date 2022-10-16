@@ -1,7 +1,7 @@
 #ifndef _GENERALDEFINES_INCLUDE
 #define _GENERALDEFINES_INCLUDE
 
-#define SHOW_HIT_BOXES true
+#define SHOW_HIT_BOXES
 
 #define SCREEN_X 0
 #define SCREEN_Y 0
@@ -15,7 +15,7 @@
 
 #define TIME_PER_FRAME 1000.f / 60.f // Approx. 60 fps
 
-#define SCREEN_WIDTH 1280
+#define SCREEN_WIDTH 1270
 #define SCREEN_HEIGHT 720
 
 #endif // _GENERALDEFINES_INCLUDE

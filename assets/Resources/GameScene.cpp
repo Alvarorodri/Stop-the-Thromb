@@ -2,6 +2,11 @@
 #include "Game.h"
 #include "GeneralDefines.h"
 
+GameScene *GameScene::getGame() {
+    GameScene *scene = new GameScene();
+    return scene;
+}
+
 GameScene::GameScene() {
     map = NULL;
     player = NULL;
@@ -17,13 +22,13 @@ GameScene::~GameScene() {
 
 void GameScene::init() {
     // 256.0f is the amount of pixel that has the map as height, it may need a rework to get that value directly from level.txt
-    projection = glm::ortho(0.f, float((SCREEN_WIDTH / float(SCREEN_HEIGHT / 256.0f)) - 1), float((SCREEN_HEIGHT / float(SCREEN_HEIGHT / 256.0f)) - 1), 0.f);
+    projection = glm::ortho(0.f, float((SCREEN_WIDTH / float(SCREEN_HEIGHT / 255.0f)) - 2), float((SCREEN_HEIGHT / float(SCREEN_HEIGHT / 255.0f)) - 2), 0.f);
     currentTime = 0.0f;
 
     initShaders();
-    map = TileMap::createTileMap("levels/level00.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram, projection);
-    player = new Player(projection);
-    player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+    map = TileMap::createTileMap("levels/level00.txt", glm::vec2(SCREEN_X, SCREEN_Y), &projection);
+    player = new Player(&projection);
+    player->init(glm::ivec2(SCREEN_X, SCREEN_Y));
     player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
     player->setTileMap(map);
 }
@@ -34,23 +39,7 @@ void GameScene::update(int deltaTime) {
 }
 
 void GameScene::render() {
-    glm::mat4 modelview;
-
-    texProgram.use();
-    texProgram.setUniformMatrix4f("projection", projection);
-    texProgram.setUniform4f("color", 1.0f, 1.0f, 1.0f, 1.0f);
-    modelview = glm::mat4(1.0f);
-    texProgram.setUniformMatrix4f("modelview", modelview);
-    texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
-
     map->render();
-
-    texProgram.use();
-    texProgram.setUniformMatrix4f("projection", projection);
-    texProgram.setUniform4f("color", 1.0f, 1.0f, 1.0f, 1.0f);
-    modelview = glm::mat4(1.0f);
-    texProgram.setUniformMatrix4f("modelview", modelview);
-    texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 
     player->render();
 }

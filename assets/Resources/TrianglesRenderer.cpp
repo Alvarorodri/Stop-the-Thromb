@@ -46,7 +46,7 @@ void TrianglesRenderer::initShaders() {
     fShader.free();
 }
 
-TrianglesRenderer *TrianglesRenderer::createTriangleRender(const glm::mat4 &project) {
+TrianglesRenderer *TrianglesRenderer::createTriangleRender(glm::mat4 *project) {
     TrianglesRenderer *trianglesRenderer = new TrianglesRenderer();
     trianglesRenderer->projection = project;
     return trianglesRenderer;
@@ -88,7 +88,7 @@ int TrianglesRenderer::render() {
     shaderProgram.use();
 
     //setting uniforms of vertex
-    shaderProgram.setUniformMatrix4f("projection", projection);
+    shaderProgram.setUniformMatrix4f("projection", *projection);
 
     glm::mat4 modelview = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.f));
     shaderProgram.setUniformMatrix4f("modelview", modelview);

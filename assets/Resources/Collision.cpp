@@ -1,6 +1,6 @@
 #include "Collision.h"
 
-Collision::Collision(const glm::mat4 &project, Collision::CollisionGroups group) {
+Collision::Collision(glm::mat4 *project, Collision::CollisionGroups group) {
     collidersSize = 0;
     collisions = new glm::ivec4[1000];
     collisionGroup = group;
@@ -23,7 +23,7 @@ Collision::~Collision() {
     position = glm::ivec2(0, 0);
 }
 
-void Collision::setProjection(const glm::mat4 &project) {
+void Collision::setProjection(glm::mat4 *project) {
     trianglesRenderer = TrianglesRenderer::createTriangleRender(project);
 }
 

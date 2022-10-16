@@ -19,12 +19,12 @@ class TileMap {
 
 private:
 
-    TileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram &program, glm::mat4 &project);
+    TileMap(const string &levelFile, const glm::vec2 &minCoords, glm::mat4 *project);
 
 public:
 
     // Tile maps can only be created inside an OpenGL context
-    static TileMap *createTileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram &program, glm::mat4 &project);
+    static TileMap *createTileMap(const string &levelFile, const glm::vec2 &minCoords, glm::mat4 *project);
 
     ~TileMap();
 
@@ -36,16 +36,24 @@ public:
 
 private:
 
-    bool loadLevel(const string &levelFile);
-    void prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program);
+    bool loadLevel(const string &levelFile, const glm::vec2 &minCoords);
+
+    bool loadGame(ifstream &fin, const glm::vec2 &minCoords);
+    bool loadStaticImage(ifstream &fin, const glm::vec2 &minCoords);
+
+    bool getCollisions(const string &collisionFile);
+
+    void prepareArrays(const glm::vec2 &minCoords);
+
+    void initShaders();
 
 private:
 
     GLuint vao;
     GLuint vbo;
     GLint posLocation, texCoordLocation;
-    ShaderProgram *shaderProgram;
-    glm::mat4 projection;
+    ShaderProgram shaderProgram;
+    glm::mat4 *projection;
 
     int nTiles;
     glm::ivec2 mapSize, sectionSize, blocksheetSize;

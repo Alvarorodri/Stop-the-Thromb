@@ -3,18 +3,48 @@
 void Game::init() {
     bPlay = true;
     glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
-    scene.init();
+
+    scene = MainMenuScene::getMainMenu();
+
+    scene->init();
 }
 
 bool Game::update(int deltaTime) {
-    scene.update(deltaTime);
+    scene->update(deltaTime);
 
     return bPlay;
 }
 
 void Game::render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    scene.render();
+    scene->render();
+}
+
+void Game::changeToInstruction() {
+    return;
+}
+
+void Game::changeToCredits() {
+    scene = LoadingScene::getLoading();
+    scene->init();
+}
+
+void Game::changeToGame(bool lateRender) {
+    if (lateRender) {
+        scene = LoadingScene::getLoading();
+        scene->init();
+        scene->render();
+        reinterpret_cast<LoadingScene*>(scene)->nextScreen("GAME");
+    }
+
+    if (!lateRender) {
+        scene = GameScene::getGame();
+        scene->init();
+    }
+}
+
+void Game::exit() {
+    glutLeaveMainLoop();
 }
 
 void Game::keyPressed(int key) {

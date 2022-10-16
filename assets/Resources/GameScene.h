@@ -3,6 +3,7 @@
 
 #include <glm/glm.hpp>
 
+#include "Scene.h"
 #include "ShaderProgram.h"
 #include "TileMap.h"
 #include "Player.h"
@@ -10,11 +11,15 @@
 // Scene contains all the entities of our game.
 // It is responsible for updating and render them.
 
-class GameScene {
+class GameScene : public Scene{
+
+private:
+
+    GameScene();
 
 public:
 
-    GameScene();
+    static GameScene *getGame();
     ~GameScene();
 
     void init();
