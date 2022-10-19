@@ -33,6 +33,7 @@
     <ClInclude Include="LoadingScene.h" />
     <ClInclude Include="MainMenuScene.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PowerUp.h" />
     <ClInclude Include="Quad.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
@@ -59,6 +60,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuScene.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PowerUp.cpp" />
     <ClCompile Include="Quad.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />

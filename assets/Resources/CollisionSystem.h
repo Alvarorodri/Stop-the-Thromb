@@ -34,7 +34,7 @@ private:
 
 private:
 
-    vector<vector<Collision*>> groups = vector<vector<Collision*>>(5, vector<Collision*>(0));
+    vector<vector<Collision*>> groups = vector<vector<Collision*>>(10, vector<Collision*>(0));
 
 };
 
