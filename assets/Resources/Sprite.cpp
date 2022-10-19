@@ -27,18 +27,25 @@ Sprite::Sprite(const glm::vec2 &quadSize, const glm::vec2 &sizeInSpritesheet, Te
     texture = spritesheet;
     currentAnimation = -1;
     position = glm::vec2(0.f);
+	finishedAnimation = true;
 }
 
 void Sprite::update(int deltaTime) {
     if(currentAnimation >= 0) {
         timeAnimation += deltaTime;
 
+		
         while(timeAnimation > animations[currentAnimation].millisecsPerKeyframe) {
             timeAnimation -= animations[currentAnimation].millisecsPerKeyframe;
             currentKeyframe = (currentKeyframe + 1) % animations[currentAnimation].keyframeDispl.size();
         }
-
-        texCoordDispl = animations[currentAnimation].keyframeDispl[currentKeyframe];
+		texCoordDispl = animations[currentAnimation].keyframeDispl[currentKeyframe];
+		if (currentKeyframe != animations[currentAnimation].keyframeDispl.size() - 1) {
+			finishedAnimation = false;
+		}
+		else 
+			finishedAnimation = true;
+		
     }
 }
 
@@ -68,6 +75,14 @@ void Sprite::setNumberAnimations(int nAnimations) {
     animations.resize(nAnimations);
 }
 
+void Sprite::setFinishedAnimation(bool finish){
+	finishedAnimation = finish;
+
+}
+bool Sprite::isFinidhedAnimation() {
+	return finishedAnimation;
+}
+
 void Sprite::setAnimationSpeed(int animId, int keyframesPerSec) {
     if(animId < int(animations.size()))
         animations[animId].millisecsPerKeyframe = 1000.f / keyframesPerSec;
@@ -78,12 +93,15 @@ void Sprite::addKeyframe(int animId, const glm::vec2 &displacement) {
         animations[animId].keyframeDispl.push_back(displacement);
 }
 
-void Sprite::changeAnimation(int animId) {
+void Sprite::changeAnimation(int animId, bool special) {
     if(animId < int(animations.size())) {
+		finishedAnimation = false;
+		int pastKeyframe = currentKeyframe;
         currentAnimation = animId;
         currentKeyframe = 0;
         timeAnimation = 0.f;
         texCoordDispl = animations[animId].keyframeDispl[0];
+		
     }
 }
 

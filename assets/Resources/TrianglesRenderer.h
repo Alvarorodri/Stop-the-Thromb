@@ -22,8 +22,8 @@ public:
     static TrianglesRenderer *TrianglesRenderer::createTriangleRender(glm::mat4 *project);
 
     void TrianglesRenderer::addTriangle(const glm::mat3x2 &vert);
-    void TrianglesRenderer::moveHitBoxesRelative(const glm::ivec2 &pos);
-    void TrianglesRenderer::moveHitBoxesAbsolute(const glm::ivec2 &pos);
+    void TrianglesRenderer::moveHitBoxesRelative(const glm::vec2 &pos);
+    void TrianglesRenderer::moveHitBoxesAbsolute(const glm::vec2 &pos);
 
     int TrianglesRenderer::setColor(glm::vec3 color);
 
@@ -42,7 +42,7 @@ private:
     glm::mat4 *projection;
 
     glm::vec3 lineColor;
-    glm::ivec2 position;
+    glm::vec2 position;
 };
 
 #endif // _TRIANGLESRENDERER_INCLUDE

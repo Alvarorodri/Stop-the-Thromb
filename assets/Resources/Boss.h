@@ -1,5 +1,5 @@
-#ifndef _PLAYER_INCLUDE
-#define _PLAYER_INCLUDE
+#ifndef _BOSS_INCLUDE
+#define _BOSS_INCLUDE
 
 #include "Sprite.h"
 #include "TileMap.h"
@@ -8,17 +8,17 @@
 
 #include "GeneralDefines.h"
 
-// Player is basically a Sprite that represents the player. As such it has
+// Boss is basically a Sprite that represents the Boss. As such it has
 // all properties it needs to track its movement, jumping, and collisions.
-class Player {
+class Boss {
 
 public:
 
-	enum PlayerAnims {STAND_RIGHT, STAND_UP, STAND_DOWN, MOVE_UP, MOVE_DOWN, DOWN_RETURN, UP_RETURN };
+	enum BossAnims {STAND_RIGHT, STAND_UP, STAND_DOWN, MOVE_UP, MOVE_DOWN, DOWN_RETURN, UP_RETURN };
 
 public:
 
-    Player(glm::mat4 *project);
+    Boss(glm::mat4 *project);
     void init(const glm::ivec2 &tileMapPos);
     void update(int deltaTime);
     void render();
@@ -30,7 +30,7 @@ private:
 
     bool bJumping;
     glm::ivec2 tileMapDispl;
-    glm::vec2 posPlayer;
+    glm::vec2 posBoss;
     int jumpAngle, startY;
     Texture spritesheet;
     Sprite *sprite;
@@ -43,4 +43,4 @@ private:
 
 };
 
-#endif // _PLAYER_INCLUDE
+#endif // _Boss_INCLUDE

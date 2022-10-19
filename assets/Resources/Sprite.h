@@ -31,9 +31,11 @@ public:
     void free();
 
     void setNumberAnimations(int nAnimations);
+	void setFinishedAnimation(bool finish);
+	bool isFinidhedAnimation();
     void setAnimationSpeed(int animId, int keyframesPerSec);
     void addKeyframe(int animId, const glm::vec2 &frame);
-    void changeAnimation(int animId);
+    void changeAnimation(int animId, bool special);
     int animation() const;
 
     void setPosition(const glm::vec2 &pos);
@@ -52,6 +54,8 @@ private:
     float timeAnimation;
     glm::vec2 texCoordDispl;
     vector<AnimKeyframes> animations;
+
+    bool finishedAnimation;
 };
 
 #endif // _SPRITE_INCLUDE

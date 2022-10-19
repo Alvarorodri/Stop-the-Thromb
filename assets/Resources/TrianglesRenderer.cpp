@@ -4,7 +4,7 @@ TrianglesRenderer::TrianglesRenderer() {
     initShaders();
     lineColor = glm::vec3(0, 0, 1.0f);
     vertices.clear();
-    position = glm::ivec2(0);
+    position = glm::vec2(0);
     nTriangles = 0;
 }
 
@@ -62,11 +62,11 @@ void TrianglesRenderer::addTriangle(const glm::mat3x2 &vert) {
     }
 }
 
-void TrianglesRenderer::moveHitBoxesRelative(const glm::ivec2 &pos) {
+void TrianglesRenderer::moveHitBoxesRelative(const glm::vec2 &pos) {
     position += pos;
 }
 
-void TrianglesRenderer::moveHitBoxesAbsolute(const glm::ivec2 &pos) {
+void TrianglesRenderer::moveHitBoxesAbsolute(const glm::vec2 &pos) {
     position = pos;
 }
 

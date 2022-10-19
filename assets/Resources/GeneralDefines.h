@@ -9,9 +9,9 @@
 #define INIT_PLAYER_X_TILES 7
 #define INIT_PLAYER_Y_TILES 2
 
-#define JUMP_ANGLE_STEP 4
+#define JUMP_ANGLE_STEP 1
 #define JUMP_HEIGHT 96
-#define FALL_STEP 4
+#define FALL_STEP 1
 
 #define TIME_PER_FRAME 1000.f / 60.f // Approx. 60 fps
 

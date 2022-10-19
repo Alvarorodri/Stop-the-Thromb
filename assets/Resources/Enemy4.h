@@ -1,5 +1,5 @@
-#ifndef _PLAYER_INCLUDE
-#define _PLAYER_INCLUDE
+#ifndef _Enemy4_INCLUDE
+#define _Enemy4_INCLUDE
 
 #include "Sprite.h"
 #include "TileMap.h"
@@ -8,17 +8,17 @@
 
 #include "GeneralDefines.h"
 
-// Player is basically a Sprite that represents the player. As such it has
+// Enemy4 is basically a Sprite that represents the Enemy4. As such it has
 // all properties it needs to track its movement, jumping, and collisions.
-class Player {
+class Enemy4 {
 
 public:
 
-	enum PlayerAnims {STAND_RIGHT, STAND_UP, STAND_DOWN, MOVE_UP, MOVE_DOWN, DOWN_RETURN, UP_RETURN };
+	enum Enemy4Anims {STAND_RIGHT};
 
 public:
 
-    Player(glm::mat4 *project);
+    Enemy4(glm::mat4 *project);
     void init(const glm::ivec2 &tileMapPos);
     void update(int deltaTime);
     void render();
@@ -29,9 +29,10 @@ public:
 private:
 
     bool bJumping;
+	bool landed;
     glm::ivec2 tileMapDispl;
-    glm::vec2 posPlayer;
-    int jumpAngle, startY;
+    glm::vec2 posEnemy4;
+    float jumpAngle, startY;
     Texture spritesheet;
     Sprite *sprite;
     TileMap *map;
@@ -43,4 +44,4 @@ private:
 
 };
 
-#endif // _PLAYER_INCLUDE
+#endif // _Enemy4_INCLUDE
