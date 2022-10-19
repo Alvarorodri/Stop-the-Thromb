@@ -25,7 +25,7 @@ void PowerUp::init(const PowerUp::PowerUpType type) {
             sprite->addKeyframe(i, glm::vec2((1.0 / 8.0) * i, 0.f));
         }
 
-    sprite->changeAnimation(type);
+    sprite->changeAnimation(type, false);
 
     collider->addCollider(glm::ivec4(0, 0, PowerUp::size, PowerUp::size));
     collider->changePositionAbsolute(glm::ivec2(posPowerUp.x, posPowerUp.y));
@@ -42,7 +42,7 @@ void PowerUp::update(int deltaTime) {
 }
 
 void PowerUp::setType(const PowerUp::PowerUpType type) {
-    sprite->changeAnimation(type);
+    sprite->changeAnimation(type, false);
 }
 
 void PowerUp::render() {

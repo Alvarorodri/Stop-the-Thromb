@@ -2,7 +2,7 @@
 
 Collision::Collision(glm::mat4 *project, Collision::CollisionGroups group) {
     collidersSize = 0;
-    collisions = new glm::ivec4[1000];
+    collisions = new glm::vec4[1000];
     collisionGroup = group;
 
     position = glm::vec2(0, 0);
@@ -12,7 +12,7 @@ Collision::Collision(glm::mat4 *project, Collision::CollisionGroups group) {
 
 Collision::Collision() {
     collidersSize = 0;
-    collisions = new glm::ivec4[1000];
+    collisions = new glm::vec4[1000];
 
     position = glm::vec2(0, 0);
 }
