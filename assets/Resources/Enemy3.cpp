@@ -50,16 +50,14 @@ void Enemy3::update(int deltaTime) {
 	sprite->update(deltaTime);
 
 	if(!landed){
-		posEnemy3.y += FALL_STEP;
-		collider->changePositionRelative(glm::vec2(0, FALL_STEP));
-		if (collisionSystem->isColliding(Enemy3::collider))
-		{
+		if (collisionSystem->isColliding(Enemy3::collider, glm::vec2(0, FALL_STEP))) {
 			landed = true;
 			jumpAngle = 0;
-			posEnemy3.y -= FALL_STEP;
 			startY = posEnemy3.y;
-			collider->changePositionRelative(glm::vec2(0, -FALL_STEP));
-		}
+        } else {
+            posEnemy3.y += FALL_STEP;
+            collider->changePositionRelative(glm::vec2(0, FALL_STEP));
+        }
 	}
 
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy3.x), float(tileMapDispl.y + posEnemy3.y)));

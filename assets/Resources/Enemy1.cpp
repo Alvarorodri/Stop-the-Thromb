@@ -60,12 +60,11 @@ void Enemy1::update(int deltaTime)
     if(sprite->animation() == STAND_LEFT) 
 		sprite->changeAnimation(MOVE_LEFT, false);
 
-    posEnemy1.x -= 0.5;
-    collider->changePositionRelative(glm::vec2(-0.5, 0));
-    if(collisionSystem->isColliding(Enemy1::collider)) {
-        posEnemy1.x += 0.5;
-        collider->changePositionRelative(glm::vec2(0.5, 0));
+    if(collisionSystem->isColliding(Enemy1::collider, glm::vec2(-0.5, 0))) {
         sprite->changeAnimation(STAND_LEFT, false);
+    } else {
+        posEnemy1.x -= 0.5;
+        collider->changePositionRelative(glm::vec2(-0.5, 0));
     }
 
 
@@ -74,43 +73,32 @@ void Enemy1::update(int deltaTime)
 		jumpDelay = 200;
 		bJumping = true;
 	}
-	if (bJumping)
-	{
+
+	if (bJumping) {
 		jumpAngle += JUMP_ANGLE_STEP;
-		if (jumpAngle == 180)
-		{
+		if (jumpAngle == 180) {
 			bJumping = false;
 			collider->changePositionRelative(glm::vec2(0, startY-posEnemy1.y));
 			posEnemy1.y = startY;
-		}
-		else
-		{
-			float antpos = posEnemy1.y;
-			posEnemy1.y = startY - 96.0f * sin(3.14159f * jumpAngle / 180.f);
-			collider->changePositionRelative(glm::vec2(0, (startY - 96.0f * sin(3.14159f * jumpAngle / 180.f))-antpos));
-			if (collisionSystem->isColliding(Enemy1::collider)) {
-					
+		} else {
+			if (collisionSystem->isColliding(Enemy1::collider, glm::vec2(0, (startY - 96.0f * sin(3.14159f * jumpAngle / 180.f)) - posEnemy1.y))) {
 				bJumping = false;
-				posEnemy1.y = antpos;
-				collider->changePositionRelative(glm::vec2(0, -((startY - 96.0f * sin(3.14159f * jumpAngle / 180.f)) - antpos)));
-
-			}
+            } else {
+                collider->changePositionRelative(glm::vec2(0, (startY - 96.0f * sin(3.14159f * jumpAngle / 180.f)) - posEnemy1.y));
+                posEnemy1.y = startY - 96.0f * sin(3.14159f * jumpAngle / 180.f);
+            }
 		}
-	}
-	else
-	{
-		landed = false;
-		posEnemy1.y += FALL_STEP;
-		collider->changePositionRelative(glm::vec2(0, FALL_STEP));
-		if (collisionSystem->isColliding(Enemy1::collider) )
-		{				
+	} else {
+		if (collisionSystem->isColliding(Enemy1::collider, glm::vec2(0, FALL_STEP)) ) {
 				bJumping = false;
 				landed = true;
 				jumpAngle = 0;
-				posEnemy1.y -= FALL_STEP;
 				startY = posEnemy1.y;
-				collider->changePositionRelative(glm::vec2(0, -FALL_STEP));
-		}
+        } else {
+            landed = false;
+            posEnemy1.y += FALL_STEP;
+            collider->changePositionRelative(glm::vec2(0, FALL_STEP));
+        }
 	}
 
 

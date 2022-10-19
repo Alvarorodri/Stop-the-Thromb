@@ -54,9 +54,6 @@ void Player::init(const glm::ivec2 &tileMapPos) {
 		sprite->addKeyframe(DOWN_RETURN, glm::vec2(0.0625*5.0, 0.0625*4.0f));
 		//sprite->addKeyframe(DOWN_RETURN, glm::vec2(0.0625*2.0, 0.0625*2.0f));
 
-
-
-
     sprite->changeAnimation(0, false);
     tileMapDispl = tileMapPos;
 
@@ -74,80 +71,74 @@ void Player::update(int deltaTime)
 {
     sprite->update(deltaTime);
     if(Game::instance().getSpecialKey(GLUT_KEY_LEFT)) {
-
-        //posPlayer.x -= 2;
-        //collider.changePositionRelative(glm::vec2(-2, 0));
-        map->moveMap(3);
-        if(collisionSystem->isColliding(Player::collider)) {
-            //posPlayer.x += 2;
-            //collider.changePositionRelative(glm::vec2(2, 0));
-            map->moveMap(-3);
+        if(collisionSystem->isColliding(Player::collider, glm::ivec2(-3, 0))) {
             sprite->changeAnimation(STAND_RIGHT, false);
+        }else {
+            //posPlayer.x -= 2;
+            //collider.changePositionRelative(glm::vec2(-2, 0));
+            map->moveMap(3);
         }
 	}
     else if(Game::instance().getSpecialKey(GLUT_KEY_RIGHT)) {
-        //posPlayer.x += 2;
-        //collider.changePositionRelative(glm::vec2(2, 0));
-        map->moveMap(-2);
-        if(collisionSystem->isColliding(Player::collider)) {
-            //posPlayer.x -= 2;
-            //collider.changePositionRelative(glm::vec2(-2, 0));
-            map->moveMap(2);
+        if(collisionSystem->isColliding(Player::collider, glm::ivec2(2, 0))) {
             sprite->changeAnimation(STAND_RIGHT, false);
+        }else {
+            //posPlayer.x += 2;
+            //collider.changePositionRelative(glm::vec2(2, 0));
+            map->moveMap(-2);
         }
     }
 
     if (Game::instance().getSpecialKey(GLUT_KEY_DOWN)) {
-		if (sprite->animation() == STAND_RIGHT) {
-			sprite->changeAnimation(MOVE_DOWN, false);
-		}
-		else if (sprite->animation() == STAND_UP) {
-			sprite->changeAnimation(UP_RETURN, false);
-		}
-		else if (sprite->animation() == STAND_UP || sprite->animation() == MOVE_UP)sprite->changeAnimation(UP_RETURN, false);
+        if (sprite->animation() == STAND_RIGHT) {
+            sprite->changeAnimation(MOVE_DOWN, false);
+        }
+        else if (sprite->animation() == STAND_UP) {
+            sprite->changeAnimation(UP_RETURN, false);
+        }
+        else if (sprite->animation() == STAND_UP || sprite->animation() == MOVE_UP) {
+            sprite->changeAnimation(UP_RETURN, false);
+        }
 
-        posPlayer.y += 2;
-        collider->changePositionRelative(glm::vec2(0, 2));
-        if (collisionSystem->isColliding(Player::collider))
-        {
+        if (!collisionSystem->isColliding(Player::collider, glm::vec2(0, 2))) {
+            posPlayer.y += 2;
+            collider->changePositionRelative(glm::vec2(0, 2));
+        }
+    } else if (Game::instance().getSpecialKey(GLUT_KEY_UP)) {
+        if (sprite->animation() == STAND_RIGHT) {
+            sprite->changeAnimation(MOVE_UP, false);
+        }
+        else if (sprite->animation() == STAND_DOWN) {
+            sprite->changeAnimation(DOWN_RETURN, false);
+        }
+        else if (sprite->animation() == STAND_DOWN || sprite->animation() == MOVE_DOWN) {
+            sprite->changeAnimation(DOWN_RETURN, false);
+        }
+
+        if (!collisionSystem->isColliding(Player::collider, glm::vec2(0, -2))) {
             posPlayer.y -= 2;
             collider->changePositionRelative(glm::vec2(0, -2));
         }
     }
-	else if (Game::instance().getSpecialKey(GLUT_KEY_UP)) {
-        posPlayer.y -= 2;
-		if (sprite->animation() == STAND_RIGHT) {
-			sprite->changeAnimation(MOVE_UP, false);
-		}
-		else if (sprite->animation() == STAND_DOWN) {
-			sprite->changeAnimation(DOWN_RETURN, false);
-		}
-		else if (sprite->animation() == STAND_DOWN || sprite->animation() == MOVE_DOWN)sprite->changeAnimation(DOWN_RETURN,false);
-        collider->changePositionRelative(glm::vec2(0, -2));
-        if (collisionSystem->isColliding(Player::collider))
-        {
-            posPlayer.y += 2;
-            collider->changePositionRelative(glm::vec2(0, 2));
-        }
+
+    if (sprite->animation() == MOVE_UP && sprite->isFinidhedAnimation() == true) {
+        sprite->changeAnimation(STAND_UP, false);
     }
-	if (sprite->animation() == MOVE_UP && sprite->isFinidhedAnimation() == true) {
-		sprite->changeAnimation(STAND_UP, false);
-	}
-	else if (sprite->animation() == STAND_UP && !Game::instance().getSpecialKey(GLUT_KEY_UP)) {
-		sprite->changeAnimation(UP_RETURN, false);
-	}
-	else if (sprite->animation() == UP_RETURN && sprite->isFinidhedAnimation() == true) {
-		sprite->changeAnimation(STAND_RIGHT, false);
-	}
-	else if (sprite->animation() == DOWN_RETURN && sprite->isFinidhedAnimation() == true) {
-		sprite->changeAnimation(STAND_RIGHT, false);
-	}
-	else if (sprite->animation() == MOVE_DOWN && sprite->isFinidhedAnimation() == true) {
-		sprite->changeAnimation(STAND_DOWN, false);
-	}
-	else if (sprite->animation() == STAND_DOWN && !Game::instance().getSpecialKey(GLUT_KEY_DOWN)) {
-		sprite->changeAnimation(DOWN_RETURN, false);
-	}
+    else if (sprite->animation() == STAND_UP && !Game::instance().getSpecialKey(GLUT_KEY_UP)) {
+        sprite->changeAnimation(UP_RETURN, false);
+    }
+    else if (sprite->animation() == UP_RETURN && sprite->isFinidhedAnimation() == true) {
+        sprite->changeAnimation(STAND_RIGHT, false);
+    }
+    else if (sprite->animation() == DOWN_RETURN && sprite->isFinidhedAnimation() == true) {
+        sprite->changeAnimation(STAND_RIGHT, false);
+    }
+    else if (sprite->animation() == MOVE_DOWN && sprite->isFinidhedAnimation() == true) {
+        sprite->changeAnimation(STAND_DOWN, false);
+    }
+    else if (sprite->animation() == STAND_DOWN && !Game::instance().getSpecialKey(GLUT_KEY_DOWN)) {
+        sprite->changeAnimation(DOWN_RETURN, false);
+    }
 
     sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 }
@@ -158,6 +149,7 @@ void Player::render() {
 #ifdef SHOW_HIT_BOXES
     collider->render();
 #endif // SHOW_HIT_BOXES
+
 }
 
 void Player::setTileMap(TileMap *tileMap) {

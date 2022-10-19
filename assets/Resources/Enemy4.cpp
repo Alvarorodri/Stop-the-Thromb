@@ -48,38 +48,27 @@ void Enemy4::update(int deltaTime)
 	if (bJumping)
 	{
 		jumpAngle += JUMP_ANGLE_STEP/2.0;
-		if (jumpAngle >= 180)
-		{
+		if (jumpAngle >= 180) {
 			bJumping = false;
 			collider->changePositionRelative(glm::vec2(0, startY - posEnemy4.y));
 			posEnemy4.y = startY;
-		}
-		else
-		{
-			float antpos = posEnemy4.y;
-			posEnemy4.y = (startY - 96.0f * sin(3.14159f * jumpAngle / 180.f)/2);
-			collider->changePositionRelative(glm::vec2(0, (startY - 96.0f * sin(3.14159f * jumpAngle / 180.f)/2) - antpos));
-			if (collisionSystem->isColliding(Enemy4::collider)) {
-
+		} else {
+			if (collisionSystem->isColliding(Enemy4::collider, glm::vec2(0, (startY - 96.0f * sin(3.14159f * jumpAngle / 180.f) / 2) - posEnemy4.y))) {
 				bJumping = false;
-				posEnemy4.y = antpos;
-				collider->changePositionRelative(glm::vec2(0, -((startY - 96.0f * sin(3.14159f * jumpAngle / 180.f)/2) - antpos)));
-
-			}
+            } else {
+                collider->changePositionRelative(glm::vec2(0, (startY - 96.0f * sin(3.14159f * jumpAngle / 180.f) / 2) - posEnemy4.y));
+                posEnemy4.y = (startY - 96.0f * sin(3.14159f * jumpAngle / 180.f) / 2);
+            }
 		}
-	}
-	else
-	{
-		posEnemy4.y += FALL_STEP;
-		collider->changePositionRelative(glm::vec2(0, FALL_STEP));
-		if (startY <= posEnemy4.y || collisionSystem->isColliding(Enemy4::collider))
-		{
+	} else {
+		if (startY <= posEnemy4.y || collisionSystem->isColliding(Enemy4::collider, glm::vec2(0, FALL_STEP))) {
 			bJumping = true;
 			jumpAngle = 0;
-			posEnemy4.y -= FALL_STEP;
 			startY = posEnemy4.y;
-			collider->changePositionRelative(glm::vec2(0, -FALL_STEP));
-		}
+        } else {
+            posEnemy4.y += FALL_STEP;
+            collider->changePositionRelative(glm::vec2(0, FALL_STEP));
+        }
 	}
 
     sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy4.x), float(tileMapDispl.y + posEnemy4.y)));

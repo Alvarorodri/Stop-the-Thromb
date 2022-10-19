@@ -26,11 +26,11 @@ void CollisionSystem::removeColliderFromGroup(Collision* a) {
     }*/
 }
 
-bool CollisionSystem::isColliding(const Collision* a) {
+bool CollisionSystem::isColliding(const Collision* a, const glm::vec2 &offset) {
     for (int i = 0; i < groups.size(); ++i) {
         if (i != int(a->collisionGroup)) {
             for (int j = 0; j < groups[i].size(); ++j) {
-                if (searchForCollision(a, groups[i][j])) return true;
+                if (searchForCollision(a, groups[i][j], offset)) return true;
             }
         }
     }
@@ -38,10 +38,11 @@ bool CollisionSystem::isColliding(const Collision* a) {
     return false;
 }
 
-bool CollisionSystem::searchForCollision(const Collision* a, const Collision* b) {
+bool CollisionSystem::searchForCollision(const Collision* a, const Collision* b, const glm::vec2 &offset) {
     for (int i = 0; i < a->collidersSize; ++i) {
         for (int j = 0; j < b->collidersSize; ++j) {
-            if (overlapHorizontal(a->collisions[i], b->collisions[j], a->position, b->position)) {
+            glm::vec2 posA = a->position + offset;
+            if (overlapHorizontal(a->collisions[i], b->collisions[j], posA, b->position)) {
                 return true;
             }
         }
