@@ -21,6 +21,8 @@
   <ItemGroup>
     <ClInclude Include="AnimKeyframes.h" />
     <ClInclude Include="Boss.h" />
+    <ClInclude Include="Character.h" />
+    <ClInclude Include="CharacterFactory.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="Enemy1.h" />
@@ -54,6 +56,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="Character.cpp" />
+    <ClCompile Include="CharacterFactory.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="Enemy1.cpp" />

@@ -7,6 +7,7 @@
 #include "ShaderProgram.h"
 #include "TileMap.h"
 #include "Player.h"
+#include "CharacterFactory.h"
 
 #include "ProjectileFactory.h"
 
@@ -36,6 +37,7 @@ private:
 
     TileMap *map;
     Player *player;
+	CharacterFactory *cFactory;
 
     ShaderProgram texProgram;
     float currentTime;

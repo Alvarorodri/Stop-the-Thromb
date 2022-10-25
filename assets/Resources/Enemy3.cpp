@@ -1,13 +1,8 @@
 #include "Enemy3.h"
-#include "Game.h"
-#include "GeneralDefines.h"
 
-Enemy3::Enemy3(glm::mat4 *project) {
-	projection = project;
-	collider = new Collision(project, Collision::Enemy);
+Enemy3::Enemy3(glm::mat4 *project, int id, Collision::CollisionGroups type, const glm::ivec2 &tileMapPos) :Character(project, id, type) {
 
-	collisionSystem = CollisionSystem::getInstance();
-	collisionSystem->addColliderIntoGroup(collider);
+	init(tileMapPos);
 }
 
 void Enemy3::init(const glm::ivec2 &tileMapPos) {
@@ -37,13 +32,13 @@ void Enemy3::init(const glm::ivec2 &tileMapPos) {
 	tileMapDispl = tileMapPos;
 
 	collider->addCollider(glm::ivec4(5, 8, 21, 23));
-	collider->changePositionAbsolute(glm::vec2(tileMapDispl.x + posEnemy3.x, tileMapDispl.y + posEnemy3.y));
+	collider->changePositionAbsolute(glm::vec2(tileMapDispl.x + pos.x, tileMapDispl.y + pos.y));
 
 #ifdef SHOW_HIT_BOXES
 	collider->showHitBox();
 #endif // SHOW_HIT_BOXES
 
-	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy3.x), float(tileMapDispl.y + posEnemy3.y)));
+	sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
 }
 
 void Enemy3::update(int deltaTime) {
@@ -55,30 +50,12 @@ void Enemy3::update(int deltaTime) {
 		if (info.colliding) {
 			landed = true;
 			jumpAngle = 0;
-			startY = posEnemy3.y;
+			startY = pos.y;
         } else {
-            posEnemy3.y += FALL_STEP;
+            pos.y += FALL_STEP;
             collider->changePositionRelative(glm::vec2(0, FALL_STEP));
         }
 	}
 
-	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy3.x), float(tileMapDispl.y + posEnemy3.y)));
-}
-
-void Enemy3::render() {
-	sprite->render();
-
-#ifdef SHOW_HIT_BOXES
-	collider->render();
-#endif // SHOW_HIT_BOXES
-}
-
-void Enemy3::setTileMap(TileMap *tileMap) {
-	map = tileMap;
-}
-
-void Enemy3::setPosition(const glm::vec2 &pos) {
-	posEnemy3 = pos;
-	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy3.x), float(tileMapDispl.y + posEnemy3.y)));
-	collider->changePositionAbsolute(glm::vec2(tileMapDispl.x + posEnemy3.x, tileMapDispl.y + posEnemy3.y));
+	sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
 }

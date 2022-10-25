@@ -1,13 +1,8 @@
 #include "Enemy1.h"
-#include "Game.h"
-#include "GeneralDefines.h"
 
-Enemy1::Enemy1(glm::mat4 *project) {
-    projection = project;
-    collider = new Collision(project, Collision::Enemy);
-
-    collisionSystem = CollisionSystem::getInstance();
-    collisionSystem->addColliderIntoGroup(collider);
+ 
+Enemy1::Enemy1(glm::mat4 *project,int id, Collision::CollisionGroups type, const glm::ivec2 &tileMapPos):Character(project,id, type){
+	init(tileMapPos);
 }
 
 void Enemy1::init(const glm::ivec2 &tileMapPos) {
@@ -42,13 +37,13 @@ void Enemy1::init(const glm::ivec2 &tileMapPos) {
     tileMapDispl = tileMapPos;
 
     collider->addCollider(glm::ivec4(5, 8, 21, 23));
-    collider->changePositionAbsolute(glm::vec2(tileMapDispl.x + posEnemy1.x, tileMapDispl.y + posEnemy1.y));
+    collider->changePositionAbsolute(glm::vec2(tileMapDispl.x + pos.x, tileMapDispl.y + pos.y));
 
 #ifdef SHOW_HIT_BOXES
     collider->showHitBox();
 #endif // SHOW_HIT_BOXES
 
-    sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy1.x), float(tileMapDispl.y + posEnemy1.y)));
+    sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
 }
 
 void Enemy1::update(int deltaTime)
@@ -65,10 +60,9 @@ void Enemy1::update(int deltaTime)
     if(info.colliding) {
         sprite->changeAnimation(STAND_LEFT, false);
     } else {
-        posEnemy1.x -= 0.5;
+        pos.x -= 0.5;
         collider->changePositionRelative(glm::vec2(-0.5, 0));
     }
-
 
 
 	if (jumpDelay <= 0 && landed) {
@@ -80,16 +74,16 @@ void Enemy1::update(int deltaTime)
 		jumpAngle += JUMP_ANGLE_STEP;
 		if (jumpAngle == 180) {
 			bJumping = false;
-			collider->changePositionRelative(glm::vec2(0, startY-posEnemy1.y));
-			posEnemy1.y = startY;
+			collider->changePositionRelative(glm::vec2(0, startY-pos.y));
+			pos.y = startY;
 		} else {
-            CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Enemy1::collider, glm::vec2(0, (startY - 96.0f * sin(3.14159f * jumpAngle / 180.f)) - posEnemy1.y));
+            CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Enemy1::collider, glm::vec2(0, (startY - 96.0f * sin(3.14159f * jumpAngle / 180.f)) - pos.y));
 
 			if (info.colliding) {
 				bJumping = false;
             } else {
-                collider->changePositionRelative(glm::vec2(0, (startY - 96.0f * sin(3.14159f * jumpAngle / 180.f)) - posEnemy1.y));
-                posEnemy1.y = startY - 96.0f * sin(3.14159f * jumpAngle / 180.f);
+                collider->changePositionRelative(glm::vec2(0, (startY - 96.0f * sin(3.14159f * jumpAngle / 180.f)) - pos.y));
+                pos.y = startY - 96.0f * sin(3.14159f * jumpAngle / 180.f);
             }
 		}
 	} else {
@@ -99,32 +93,14 @@ void Enemy1::update(int deltaTime)
 				bJumping = false;
 				landed = true;
 				jumpAngle = 0;
-				startY = posEnemy1.y;
+				startY = pos.y;
         } else {
             landed = false;
-            posEnemy1.y += FALL_STEP;
+            pos.y += FALL_STEP;
             collider->changePositionRelative(glm::vec2(0, FALL_STEP));
         }
 	}
 
 
-    sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy1.x), float(tileMapDispl.y + posEnemy1.y)));
-}
-
-void Enemy1::render() {
-    sprite->render();
-
-#ifdef SHOW_HIT_BOXES
-    collider->render();
-#endif // SHOW_HIT_BOXES
-}
-
-void Enemy1::setTileMap(TileMap *tileMap) {
-    map = tileMap;
-}
-
-void Enemy1::setPosition(const glm::vec2 &pos) {
-    posEnemy1 = pos;
-    sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy1.x), float(tileMapDispl.y + posEnemy1.y)));
-    collider->changePositionAbsolute(glm::vec2(tileMapDispl.x + posEnemy1.x, tileMapDispl.y + posEnemy1.y));
+    sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
 }
