@@ -12,6 +12,7 @@ Player::Player(glm::mat4 *project) {
 
 void Player::init(const glm::ivec2 &tileMapPos) {
     bJumping = false;
+	rot = false;
     spritesheet.loadFromFile("images/player/player.png", TEXTURE_PIXEL_FORMAT_RGBA);
     spritesheet.setWrapS(GL_CLAMP_TO_EDGE);
     spritesheet.setWrapT(GL_CLAMP_TO_EDGE);
@@ -195,4 +196,10 @@ void Player::setPosition(const glm::vec2 &pos) {
     sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
     collider->changePositionAbsolute(glm::vec2(tileMapDispl.x + posPlayer.x, tileMapDispl.y + posPlayer.y));
     forceDevice->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x + 32.0f), float(tileMapDispl.y + posPlayer.y)));
+}
+
+void Player::rotate(const float &angleX, const float &angleY, const float &angleZ) {
+	sprite->setRotation( glm::vec3(angleX, angleY, angleZ));
+	collider->setBox(sprite->getQuadsize());
+	collider->setRotation(glm::vec3(angleX, angleY, angleZ));
 }

@@ -30,6 +30,7 @@ void Collision::setProjection(glm::mat4 *project) {
 void Collision::addCollider(const glm::vec4 &boxCollider) {
     collisions[collidersSize] = boxCollider;
     collidersSize++;
+	
 
     // first triangle
     glm::mat3x2 triangle = glm::mat3x2(glm::vec2(boxCollider.x, boxCollider.y),
@@ -69,6 +70,14 @@ glm::vec4 Collision::getBoundingBox() {
     }
 
     return boundingBox;
+}
+
+void Collision::setRotation(const glm::vec3 &rotation) {
+	trianglesRenderer->setRotation(rotation);
+}
+
+void Collision::setBox(const glm::vec2 &size) {
+	trianglesRenderer->setBox(size);
 }
 
 #ifdef SHOW_HIT_BOXES

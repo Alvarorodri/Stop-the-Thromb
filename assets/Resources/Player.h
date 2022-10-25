@@ -32,7 +32,12 @@ public:
 
 private:
 
+    void rotate(const float &angleX, const float &angleY, const float &angleZ);
+
+private:
+
     bool bJumping;
+    bool rot;
     glm::ivec2 tileMapDispl;
     glm::vec2 posPlayer;
     int jumpAngle, startY;
@@ -48,6 +53,7 @@ private:
     ForceDevice *forceDevice;
 
     bool latchKeys[256];
+
 };
 
 #endif // _PLAYER_INCLUDE

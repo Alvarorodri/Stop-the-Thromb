@@ -36,6 +36,8 @@ public:
 
     void changePositionAbsolute(const glm::vec2 &pos);
     void changePositionRelative(const glm::vec2 &pos);
+	void setRotation(const glm::vec3 &rotation);
+	void setBox(const glm::vec2 &size);
 
     glm::vec4 getBoundingBox();
 
