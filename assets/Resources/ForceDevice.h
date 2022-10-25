@@ -2,6 +2,7 @@
 #define _FORCE_DEVICE_INCLUDE
 
 #include <vector>
+#include <set>
 
 #include "Sprite.h"
 #include "TileMap.h"
@@ -21,15 +22,22 @@ public:
 public:
 
     ForceDevice(glm::mat4 *project);
-    void init(const glm::ivec2 &tileMapPos);
+    void init(Collision *sCollider);
     void update(int deltaTime);
     void render();
 
-    void setPosition(const glm::vec2 &pos, bool initial);
+    void setPosition(const glm::vec2 &pos);
 
     Collision* getCollider();
+	bool isAttached() { return isAtached; };
 
     void setForceLevel(int level);
+
+private:
+
+    glm::vec2 getOffsetofColliders(bool left);
+
+    void attachToASide();
 
 private:
 
@@ -43,16 +51,17 @@ private:
     glm::mat4 *projection;
 
     Collision *collider;
+    Collision *shipCollider;
     CollisionSystem *collisionSystem;
 
     bool latchKeys[256];
 
     bool isAtached = true;
+    bool isLeft = false;
     float shipOffset = 32.0f; // TODO: hacerlo de alguna manera dinamica
-    float leftLimit = 50;
+    float leftLimit = 30;
     float rightLimit = 400;
     glm::vec2 targetPosition;
-    glm::vec2 shipPosition;
 
     float horizontalVelocity = 3.0;
     float verticalVelocity = 1.0;

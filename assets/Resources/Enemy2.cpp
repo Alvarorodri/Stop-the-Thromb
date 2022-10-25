@@ -44,8 +44,10 @@ void Enemy2::init(const glm::ivec2 &tileMapPos) {
 void Enemy2::update(int deltaTime)
 {
 	sprite->update(deltaTime);
-	
-	if (!collisionSystem->isColliding(Enemy2::collider, glm::vec2(-0.5, 0))) {
+
+    CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Enemy2::collider, glm::vec2(-0.5, 0));
+
+	if (!info.colliding) {
         posEnemy2.x -= 0.5;
         collider->changePositionRelative(glm::vec2(-0.5, 0));
 	}

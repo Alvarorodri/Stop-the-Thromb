@@ -49,8 +49,10 @@ void Enemy3::init(const glm::ivec2 &tileMapPos) {
 void Enemy3::update(int deltaTime) {
 	sprite->update(deltaTime);
 
+    CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Enemy3::collider, glm::vec2(0, FALL_STEP));
+
 	if(!landed){
-		if (collisionSystem->isColliding(Enemy3::collider, glm::vec2(0, FALL_STEP))) {
+		if (info.colliding) {
 			landed = true;
 			jumpAngle = 0;
 			startY = posEnemy3.y;

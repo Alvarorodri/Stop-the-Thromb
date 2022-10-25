@@ -18,24 +18,55 @@ void CollisionSystem::addColliderIntoGroup(Collision* a) {
 }
 
 void CollisionSystem::removeColliderFromGroup(Collision* a) {
-    // Unused
-    /*int group = int(a->collisionGroup);
-    for (int i = 0; i < groups[group].size(); ++i) {
-        //Do this with iterator
-        //if (groups[group][i] == a) groups.erase(i);
-    }*/
+    int group = int(a->collisionGroup);
+    for (auto it = groups[group].begin(); it != groups[group].end(); ++it) {
+        if (*it == a) {
+            groups[group].erase(it);
+            return;
+        }
+    }
 }
 
-bool CollisionSystem::isColliding(const Collision* a, const glm::vec2 &offset) {
+bool CollisionSystem::isValidCollision(const Collision* a, const Collision* b) {
+    return collisionMatrix[a->collisionGroup][b->collisionGroup];
+}
+
+bool CollisionSystem::isTriggerCollision(const Collision* a, const Collision* b) {
+    return triggersMatrix[a->collisionGroup][b->collisionGroup];
+}
+
+CollisionSystem::CollisionInfo CollisionSystem::isColliding(const Collision* a, const glm::vec2 &offset) {
     for (int i = 0; i < groups.size(); ++i) {
-        if (i != int(a->collisionGroup)) {
-            for (int j = 0; j < groups[i].size(); ++j) {
-                if (searchForCollision(a, groups[i][j], offset)) return true;
+        for (int j = 0; j < groups[i].size(); ++j) {
+            if (isValidCollision(a, groups[i][j])) {
+                if (searchForCollision(a, groups[i][j], offset)) {
+                    return CollisionInfo{ 
+                                isValidCollision(a, groups[i][j]), 
+                                groups[i][j], 
+                                false };
+                }
             }
         }
     }
 
-    return false;
+    return CollisionInfo{ false, NULL, false};
+}
+
+CollisionSystem::CollisionInfo CollisionSystem::isTriggering(const Collision* a, const glm::vec2 &offset) {
+    for (int i = 0; i < groups.size(); ++i) {
+        for (int j = 0; j < groups[i].size(); ++j) {
+            if (isTriggerCollision(a, groups[i][j])) {
+                if (searchForCollision(a, groups[i][j], offset)) {
+                    return CollisionInfo{ 
+                                false, 
+                                groups[i][j], 
+                                isTriggerCollision(a, groups[i][j]) };
+                }
+            }
+        }
+    }
+
+    return CollisionInfo{ false, NULL, false };
 }
 
 bool CollisionSystem::searchForCollision(const Collision* a, const Collision* b, const glm::vec2 &offset) {

@@ -8,6 +8,8 @@
 #include "TileMap.h"
 #include "Player.h"
 
+#include "ProjectileFactory.h"
+
 // Scene contains all the entities of our game.
 // It is responsible for updating and render them.
 

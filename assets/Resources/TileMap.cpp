@@ -167,7 +167,7 @@ bool TileMap::loadStaticImage(ifstream &fin, const glm::vec2 &minCoords) {
 
     fin.close();
 
-    collision = new Collision(projection, Collision::uknown);
+    collision = new Collision(projection, Collision::Uknown);
     collision->addCollider(glm::ivec4(-1,0,-2,1));
 
 #ifdef SHOW_HIT_BOXES

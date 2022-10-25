@@ -58,6 +58,19 @@ void Collision::changePositionRelative(const glm::vec2 &pos) {
     trianglesRenderer->moveHitBoxesRelative(pos);
 }
 
+glm::vec4 Collision::getBoundingBox() {
+    glm::vec4 boundingBox = glm::vec4(-INFINITY, -INFINITY, INFINITY, INFINITY);
+    for (int i = 0; i < collidersSize; ++i) {
+        if (collisions[i].x > boundingBox.x) boundingBox.x = collisions[i].x;
+        if (collisions[i].y > boundingBox.y) boundingBox.y = collisions[i].y;
+        if (collisions[i].z < boundingBox.z) boundingBox.z = collisions[i].z;
+        if (collisions[i].w < boundingBox.w) boundingBox.w = collisions[i].w;
+
+    }
+
+    return boundingBox;
+}
+
 #ifdef SHOW_HIT_BOXES
 void Collision::showHitBox() {
     trianglesRenderer->send();

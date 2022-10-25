@@ -10,7 +10,6 @@ GameScene *GameScene::getGame() {
 GameScene::GameScene() {
     map = NULL;
     player = NULL;
-
 }
 
 GameScene::~GameScene() {
@@ -18,7 +17,6 @@ GameScene::~GameScene() {
         delete map;
     if(player != NULL)
         delete player;
-
 }
 
 
@@ -34,12 +32,15 @@ void GameScene::init() {
     player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
     player->setTileMap(map);
 
+    ProjectileFactory::getInstance()->setProjection(&projection);
+    ProjectileFactory::getInstance()->init();
 }
 
 void GameScene::update(int deltaTime) {
     currentTime += deltaTime;
     player->update(deltaTime);
-;
+
+    ProjectileFactory::getInstance()->update(deltaTime);
 }
 
 void GameScene::render() {
@@ -47,6 +48,7 @@ void GameScene::render() {
 
     player->render();
 
+    ProjectileFactory::getInstance()->render();
 }
 
 void GameScene::initShaders() {

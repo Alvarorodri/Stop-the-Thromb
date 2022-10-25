@@ -5,6 +5,7 @@
 #include "TileMap.h"
 #include "Collision.h"
 #include "CollisionSystem.h"
+#include "ForceDevice.h"
 
 #include "GeneralDefines.h"
 
@@ -27,6 +28,8 @@ public:
     void setPosition(const glm::vec2 &pos);
     glm::vec2 getPosition() { return posPlayer; };
 
+    void inputController();
+
 private:
 
     bool bJumping;
@@ -42,6 +45,9 @@ private:
     Collision *collider;
     CollisionSystem *collisionSystem;
 
+    ForceDevice *forceDevice;
+
+    bool latchKeys[256];
 };
 
 #endif // _PLAYER_INCLUDE

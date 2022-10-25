@@ -53,7 +53,9 @@ void Enemy4::update(int deltaTime)
 			collider->changePositionRelative(glm::vec2(0, startY - posEnemy4.y));
 			posEnemy4.y = startY;
 		} else {
-			if (collisionSystem->isColliding(Enemy4::collider, glm::vec2(0, (startY - 96.0f * sin(3.14159f * jumpAngle / 180.f) / 2) - posEnemy4.y))) {
+            CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Enemy4::collider, glm::vec2(0, (startY - 96.0f * sin(3.14159f * jumpAngle / 180.f) / 2) - posEnemy4.y));
+
+			if (info.colliding) {
 				bJumping = false;
             } else {
                 collider->changePositionRelative(glm::vec2(0, (startY - 96.0f * sin(3.14159f * jumpAngle / 180.f) / 2) - posEnemy4.y));
@@ -61,7 +63,9 @@ void Enemy4::update(int deltaTime)
             }
 		}
 	} else {
-		if (startY <= posEnemy4.y || collisionSystem->isColliding(Enemy4::collider, glm::vec2(0, FALL_STEP))) {
+        CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Enemy4::collider, glm::vec2(0, FALL_STEP));
+
+		if (startY <= posEnemy4.y || info.colliding) {
 			bJumping = true;
 			jumpAngle = 0;
 			startY = posEnemy4.y;

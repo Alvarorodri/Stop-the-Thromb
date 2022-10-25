@@ -1,6 +1,8 @@
 #ifndef _COLLISION_INCLUDE
 #define _COLLISION_INCLUDE
 
+#include <math.h>
+
 #include "TrianglesRenderer.h"
 
 #include "GeneralDefines.h"
@@ -15,11 +17,12 @@ public:
 
     enum CollisionGroups {
         Player,
+        Force,
         Map,
         Enemy,
         PlayerProjectiles,
         EnemyProjectiles,
-        uknown
+        Uknown
     };
 
     Collision();
@@ -33,6 +36,8 @@ public:
 
     void changePositionAbsolute(const glm::vec2 &pos);
     void changePositionRelative(const glm::vec2 &pos);
+
+    glm::vec4 getBoundingBox();
 
 #ifdef SHOW_HIT_BOXES
     void showHitBox();
