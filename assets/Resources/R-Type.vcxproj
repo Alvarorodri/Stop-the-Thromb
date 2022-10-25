@@ -19,77 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AnimKeyframes.h" />
-    <ClInclude Include="Boss.h" />
-    <ClInclude Include="Character.h" />
-    <ClInclude Include="CharacterFactory.h" />
-    <ClInclude Include="Collision.h" />
-    <ClInclude Include="CollisionSystem.h" />
-    <ClInclude Include="Enemy1.h" />
-    <ClInclude Include="Enemy2.h" />
-    <ClInclude Include="Enemy3.h" />
-    <ClInclude Include="Enemy4.h" />
-    <ClInclude Include="ForceDevice.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="GameScene.h" />
-    <ClInclude Include="GeneralDefines.h" />
-    <ClInclude Include="LoadingScene.h" />
-    <ClInclude Include="MainMenuScene.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="PowerUp.h" />
-    <ClInclude Include="Projectile.h" />
-    <ClInclude Include="ProjectileFactory.h" />
-    <ClInclude Include="ProjectileFireball.h" />
-    <ClInclude Include="ProjectileNormal.h" />
-    <ClInclude Include="Quad.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="Shader.h" />
-    <ClInclude Include="ShaderProgram.h" />
-    <ClInclude Include="Sprite.h" />
-    <ClInclude Include="SpriteOptimized.h" />
-    <ClInclude Include="Text.h" />
-    <ClInclude Include="Texture.h" />
-    <ClInclude Include="TexturedQuad.h" />
-    <ClInclude Include="TileMap.h" />
-    <ClInclude Include="TrianglesRenderer.h" />
-    <ClInclude Include="UI_Button.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Boss.cpp" />
-    <ClCompile Include="Character.cpp" />
-    <ClCompile Include="CharacterFactory.cpp" />
-    <ClCompile Include="Collision.cpp" />
-    <ClCompile Include="CollisionSystem.cpp" />
-    <ClCompile Include="Enemy1.cpp" />
-    <ClCompile Include="Enemy2.cpp" />
-    <ClCompile Include="Enemy3.cpp" />
-    <ClCompile Include="Enemy4.cpp" />
-    <ClCompile Include="ForceDevice.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameScene.cpp" />
-    <ClCompile Include="LoadingScene.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="MainMenuScene.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PowerUp.cpp" />
-    <ClCompile Include="Projectile.cpp" />
-    <ClCompile Include="ProjectileFactory.cpp" />
-    <ClCompile Include="ProjectileFireball.cpp" />
-    <ClCompile Include="ProjectileNormal.cpp" />
-    <ClCompile Include="Quad.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="ShaderProgram.cpp" />
-    <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="SpriteOptimized.cpp" />
-    <ClCompile Include="Text.cpp" />
-    <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="TexturedQuad.cpp" />
-    <ClCompile Include="TileMap.cpp" />
-    <ClCompile Include="TrianglesRenderer.cpp" />
-    <ClCompile Include="UI_Button.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="shaders\hitBox.frag" />
     <None Include="shaders\hitBox.vert" />
     <None Include="shaders\level-obstacles.frag" />
@@ -98,6 +27,77 @@
     <None Include="shaders\simple.vert" />
     <None Include="shaders\texture.frag" />
     <None Include="shaders\texture.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main\characters\Character.cpp" />
+    <ClCompile Include="main\characters\CharacterFactory.cpp" />
+    <ClCompile Include="main\characters\enemies\Boss.cpp" />
+    <ClCompile Include="main\characters\enemies\Enemy1.cpp" />
+    <ClCompile Include="main\characters\enemies\Enemy2.cpp" />
+    <ClCompile Include="main\characters\enemies\Enemy3.cpp" />
+    <ClCompile Include="main\characters\enemies\Enemy4.cpp" />
+    <ClCompile Include="main\characters\player\ForceDevice.cpp" />
+    <ClCompile Include="main\characters\player\Player.cpp" />
+    <ClCompile Include="main\collisions\Collision.cpp" />
+    <ClCompile Include="main\collisions\CollisionSystem.cpp" />
+    <ClCompile Include="main\debug\TrianglesRenderer.cpp" />
+    <ClCompile Include="main\Game.cpp" />
+    <ClCompile Include="main\main.cpp" />
+    <ClCompile Include="main\misc\PowerUp.cpp" />
+    <ClCompile Include="main\projectiles\Projectile.cpp" />
+    <ClCompile Include="main\projectiles\ProjectileFactory.cpp" />
+    <ClCompile Include="main\projectiles\ProjectileFireball.cpp" />
+    <ClCompile Include="main\projectiles\ProjectileNormal.cpp" />
+    <ClCompile Include="main\scenes\GameScene.cpp" />
+    <ClCompile Include="main\scenes\LoadingScene.cpp" />
+    <ClCompile Include="main\scenes\MainMenuScene.cpp" />
+    <ClCompile Include="main\scenes\Scene.cpp" />
+    <ClCompile Include="main\textures\Sprite.cpp" />
+    <ClCompile Include="main\textures\SpriteOptimized.cpp" />
+    <ClCompile Include="main\textures\TexturedQuad.cpp" />
+    <ClCompile Include="main\textures\TileMap.cpp" />
+    <ClCompile Include="main\ui\Text.cpp" />
+    <ClCompile Include="main\ui\UI_Button.cpp" />
+    <ClCompile Include="main\utilities\Quad.cpp" />
+    <ClCompile Include="main\utilities\Shader.cpp" />
+    <ClCompile Include="main\utilities\ShaderProgram.cpp" />
+    <ClCompile Include="main\utilities\Texture.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="main\characters\Character.h" />
+    <ClInclude Include="main\characters\CharacterFactory.h" />
+    <ClInclude Include="main\characters\enemies\Boss.h" />
+    <ClInclude Include="main\characters\enemies\Enemy1.h" />
+    <ClInclude Include="main\characters\enemies\Enemy2.h" />
+    <ClInclude Include="main\characters\enemies\Enemy3.h" />
+    <ClInclude Include="main\characters\enemies\Enemy4.h" />
+    <ClInclude Include="main\characters\player\ForceDevice.h" />
+    <ClInclude Include="main\characters\player\Player.h" />
+    <ClInclude Include="main\collisions\Collision.h" />
+    <ClInclude Include="main\collisions\CollisionSystem.h" />
+    <ClInclude Include="main\debug\TrianglesRenderer.h" />
+    <ClInclude Include="main\Game.h" />
+    <ClInclude Include="main\GeneralDefines.h" />
+    <ClInclude Include="main\misc\PowerUp.h" />
+    <ClInclude Include="main\projectiles\Projectile.h" />
+    <ClInclude Include="main\projectiles\ProjectileFactory.h" />
+    <ClInclude Include="main\projectiles\ProjectileFireball.h" />
+    <ClInclude Include="main\projectiles\ProjectileNormal.h" />
+    <ClInclude Include="main\scenes\GameScene.h" />
+    <ClInclude Include="main\scenes\LoadingScene.h" />
+    <ClInclude Include="main\scenes\MainMenuScene.h" />
+    <ClInclude Include="main\scenes\Scene.h" />
+    <ClInclude Include="main\textures\Sprite.h" />
+    <ClInclude Include="main\textures\SpriteOptimized.h" />
+    <ClInclude Include="main\textures\TexturedQuad.h" />
+    <ClInclude Include="main\textures\TileMap.h" />
+    <ClInclude Include="main\ui\Text.h" />
+    <ClInclude Include="main\ui\UI_Button.h" />
+    <ClInclude Include="main\utilities\AnimKeyframes.h" />
+    <ClInclude Include="main\utilities\Quad.h" />
+    <ClInclude Include="main\utilities\Shader.h" />
+    <ClInclude Include="main\utilities\ShaderProgram.h" />
+    <ClInclude Include="main\utilities\Texture.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5BE6CA2A-E5A8-40CC-9015-047CE0C78036}</ProjectGuid>
@@ -148,7 +148,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\libs\freetype-2.3.5-1-bin\include\freetype2;..\..\libs\freetype-2.3.5-1-bin\include;..\..\libs\Simple OpenGL Image Library\src;..\..\libs\freeglut\include;..\..\libs\glew-1.13.0\include;..\..\libs\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>main\;..\..\libs\freetype-2.3.5-1-bin\include\freetype2;..\..\libs\freetype-2.3.5-1-bin\include;..\..\libs\Simple OpenGL Image Library\src;..\..\libs\freeglut\include;..\..\libs\glew-1.13.0\include;..\..\libs\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -16,211 +16,72 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{7753321b-6243-4df9-98a7-f84186c3e296}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AnimKeyframes.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderProgram.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Sprite.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="TileMap.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="GameScene.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Collision.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="TrianglesRenderer.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionSystem.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneralDefines.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="MainMenuScene.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="UI_Button.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Text.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="TexturedQuad.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Quad.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="LoadingScene.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="PowerUp.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Boss.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy1.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy2.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy3.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy4.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="ForceDevice.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Projectile.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="ProjectileFactory.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="ProjectileNormal.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteOptimized.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="ProjectileFireball.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Character.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="CharacterFactory.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Game.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="ShaderProgram.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="Sprite.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="TileMap.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="GameScene.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="Collision.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="TrianglesRenderer.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionSystem.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="MainMenuScene.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="UI_Button.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="Text.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="TexturedQuad.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="Quad.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="LoadingScene.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="PowerUp.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="Boss.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy1.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy2.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy3.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy4.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="ForceDevice.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="Projectile.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="ProjectileFactory.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="ProjectileNormal.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="SpriteOptimized.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="ProjectileFireball.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="CharacterFactory.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
+    <Filter Include="Archivos de código fuente\Characters">
+      <UniqueIdentifier>{5d6be320-8e27-4178-a6fd-9d5b3509b88a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Collisions">
+      <UniqueIdentifier>{8fc49216-655c-4968-8cbc-58e65cc30395}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Debug">
+      <UniqueIdentifier>{48bc2cd8-8fb9-4956-aed8-9a88973167e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Misc">
+      <UniqueIdentifier>{202a6ab2-b576-4c1b-aac5-6d468ae8c9d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Utilities">
+      <UniqueIdentifier>{dd56104b-43ce-48b7-89db-fc445eefafaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Characters">
+      <UniqueIdentifier>{17ebadf3-8745-49bb-92dd-47cfc664a65a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Collisions">
+      <UniqueIdentifier>{c2a4c516-f26c-48b0-ba5a-ef22dff2cc5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Debug">
+      <UniqueIdentifier>{8097a562-e173-46e2-85b7-591195d4dc99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Misc">
+      <UniqueIdentifier>{51d98ffe-d337-4896-acd3-01a8f986b8bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Utilities">
+      <UniqueIdentifier>{51b808c1-a6a7-4d7b-b8b7-3dc72f564f1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\UI">
+      <UniqueIdentifier>{c51e3bb5-6ea2-4ff3-9e40-254fb5610585}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Textures">
+      <UniqueIdentifier>{4455f18f-5e5c-475d-b694-345c56d6b835}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Scenes">
+      <UniqueIdentifier>{89108818-f1af-4ad3-8932-6a2078c40f02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Projectiles">
+      <UniqueIdentifier>{9eadd434-4c01-4938-9551-a44f1cd0a317}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Projectiles">
+      <UniqueIdentifier>{1f5541d8-56e8-4d11-8edd-e60c74c9fd70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Scenes">
+      <UniqueIdentifier>{0134749a-0d15-4a94-82d6-5cdfea30c3dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Textures">
+      <UniqueIdentifier>{8969a063-620b-4364-bb63-0255f335c745}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\UI">
+      <UniqueIdentifier>{9e6fb5cc-5fa8-419d-a21b-8b54bd0edf48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Characters\Enemies">
+      <UniqueIdentifier>{7959f841-557f-4707-a7da-a99ab245092e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Characters\Player">
+      <UniqueIdentifier>{512ef08a-7171-45b3-8339-a088d67bda1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Characters\Enemies">
+      <UniqueIdentifier>{32dfb595-64f5-4712-baf8-23bdda6a61c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Characters\Player">
+      <UniqueIdentifier>{443810c0-1e49-40d5-824a-5b5828ccaf9d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\texture.vert">
@@ -247,5 +108,210 @@
     <None Include="shaders\texture.frag">
       <Filter>Shaders</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main\Game.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="main\main.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="main\utilities\Quad.cpp">
+      <Filter>Archivos de código fuente\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="main\utilities\Shader.cpp">
+      <Filter>Archivos de código fuente\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="main\utilities\ShaderProgram.cpp">
+      <Filter>Archivos de código fuente\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="main\utilities\Texture.cpp">
+      <Filter>Archivos de código fuente\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="main\ui\Text.cpp">
+      <Filter>Archivos de código fuente\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="main\ui\UI_Button.cpp">
+      <Filter>Archivos de código fuente\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="main\textures\Sprite.cpp">
+      <Filter>Archivos de código fuente\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="main\textures\SpriteOptimized.cpp">
+      <Filter>Archivos de código fuente\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="main\textures\TexturedQuad.cpp">
+      <Filter>Archivos de código fuente\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="main\textures\TileMap.cpp">
+      <Filter>Archivos de código fuente\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="main\scenes\GameScene.cpp">
+      <Filter>Archivos de código fuente\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="main\scenes\LoadingScene.cpp">
+      <Filter>Archivos de código fuente\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="main\scenes\MainMenuScene.cpp">
+      <Filter>Archivos de código fuente\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="main\scenes\Scene.cpp">
+      <Filter>Archivos de código fuente\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="main\projectiles\Projectile.cpp">
+      <Filter>Archivos de código fuente\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="main\projectiles\ProjectileFactory.cpp">
+      <Filter>Archivos de código fuente\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="main\projectiles\ProjectileFireball.cpp">
+      <Filter>Archivos de código fuente\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="main\projectiles\ProjectileNormal.cpp">
+      <Filter>Archivos de código fuente\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="main\misc\PowerUp.cpp">
+      <Filter>Archivos de código fuente\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="main\debug\TrianglesRenderer.cpp">
+      <Filter>Archivos de código fuente\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="main\collisions\Collision.cpp">
+      <Filter>Archivos de código fuente\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="main\collisions\CollisionSystem.cpp">
+      <Filter>Archivos de código fuente\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="main\characters\Character.cpp">
+      <Filter>Archivos de código fuente\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="main\characters\CharacterFactory.cpp">
+      <Filter>Archivos de código fuente\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="main\characters\player\ForceDevice.cpp">
+      <Filter>Archivos de código fuente\Characters\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="main\characters\player\Player.cpp">
+      <Filter>Archivos de código fuente\Characters\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="main\characters\enemies\Boss.cpp">
+      <Filter>Archivos de código fuente\Characters\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="main\characters\enemies\Enemy1.cpp">
+      <Filter>Archivos de código fuente\Characters\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="main\characters\enemies\Enemy2.cpp">
+      <Filter>Archivos de código fuente\Characters\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="main\characters\enemies\Enemy3.cpp">
+      <Filter>Archivos de código fuente\Characters\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="main\characters\enemies\Enemy4.cpp">
+      <Filter>Archivos de código fuente\Characters\Enemies</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="main\Game.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="main\GeneralDefines.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="main\utilities\Shader.h">
+      <Filter>Archivos de encabezado\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="main\utilities\Quad.h">
+      <Filter>Archivos de encabezado\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="main\utilities\AnimKeyframes.h">
+      <Filter>Archivos de encabezado\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="main\utilities\Texture.h">
+      <Filter>Archivos de encabezado\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="main\utilities\ShaderProgram.h">
+      <Filter>Archivos de encabezado\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="main\ui\UI_Button.h">
+      <Filter>Archivos de encabezado\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="main\ui\Text.h">
+      <Filter>Archivos de encabezado\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="main\textures\TileMap.h">
+      <Filter>Archivos de encabezado\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="main\textures\TexturedQuad.h">
+      <Filter>Archivos de encabezado\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="main\textures\SpriteOptimized.h">
+      <Filter>Archivos de encabezado\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="main\textures\Sprite.h">
+      <Filter>Archivos de encabezado\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="main\scenes\Scene.h">
+      <Filter>Archivos de encabezado\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="main\scenes\MainMenuScene.h">
+      <Filter>Archivos de encabezado\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="main\scenes\LoadingScene.h">
+      <Filter>Archivos de encabezado\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="main\scenes\GameScene.h">
+      <Filter>Archivos de encabezado\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="main\projectiles\ProjectileNormal.h">
+      <Filter>Archivos de encabezado\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="main\projectiles\ProjectileFireball.h">
+      <Filter>Archivos de encabezado\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="main\projectiles\ProjectileFactory.h">
+      <Filter>Archivos de encabezado\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="main\projectiles\Projectile.h">
+      <Filter>Archivos de encabezado\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="main\misc\PowerUp.h">
+      <Filter>Archivos de encabezado\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="main\debug\TrianglesRenderer.h">
+      <Filter>Archivos de encabezado\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="main\collisions\CollisionSystem.h">
+      <Filter>Archivos de encabezado\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="main\collisions\Collision.h">
+      <Filter>Archivos de encabezado\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="main\characters\CharacterFactory.h">
+      <Filter>Archivos de encabezado\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="main\characters\Character.h">
+      <Filter>Archivos de encabezado\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="main\characters\player\ForceDevice.h">
+      <Filter>Archivos de encabezado\Characters\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="main\characters\player\Player.h">
+      <Filter>Archivos de encabezado\Characters\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="main\characters\enemies\Enemy3.h">
+      <Filter>Archivos de encabezado\Characters\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="main\characters\enemies\Enemy4.h">
+      <Filter>Archivos de encabezado\Characters\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="main\characters\enemies\Boss.h">
+      <Filter>Archivos de encabezado\Characters\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="main\characters\enemies\Enemy1.h">
+      <Filter>Archivos de encabezado\Characters\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="main\characters\enemies\Enemy2.h">
+      <Filter>Archivos de encabezado\Characters\Enemies</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
