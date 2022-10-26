@@ -72,8 +72,17 @@ CollisionSystem::CollisionInfo CollisionSystem::isTriggering(const Collision* a,
 bool CollisionSystem::searchForCollision(const Collision* a, const Collision* b, const glm::vec2 &offset) {
     for (int i = 0; i < a->collidersSize; ++i) {
         for (int j = 0; j < b->collidersSize; ++j) {
+            glm::vec4 colliderA = a->collisions[i];
+            glm::vec4 colliderB = b->collisions[j];
             glm::vec2 posA = a->position + offset;
-            if (overlapHorizontal(a->collisions[i], b->collisions[j], posA, b->position)) {
+
+            if ((posA.x + colliderA.x) >= 500.0f) {
+                return false;
+            } else if ((b->position.x + colliderB.x) >= 500.0f) {
+                break;
+            }
+
+            if (overlapHorizontal(colliderA, colliderB, posA, b->position)) {
                 return true;
             }
         }

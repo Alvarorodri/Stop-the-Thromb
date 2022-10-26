@@ -28,7 +28,7 @@ void ProjectileFireball::init(Texture *spritesheet, int type) {
 }
 
 void ProjectileFireball::update(int deltaTime) {
-    if (posProjectile.x >= 500.0f || posProjectile.y >= 300.0f || posProjectile.y < 0.0f) {
+    if (posProjectile.x >= 500.0f || posProjectile.y >= 256.0f || posProjectile.y < 0.0f) {
         ProjectileFactory::getInstance()->destroyProjectile(idProjectile);
         return;
     }
