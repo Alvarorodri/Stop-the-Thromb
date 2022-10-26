@@ -36,7 +36,6 @@ private:
 private:
 
     TileMap *map;
-    Player *player;
 	CharacterFactory *cFactory;
 
     ShaderProgram texProgram;

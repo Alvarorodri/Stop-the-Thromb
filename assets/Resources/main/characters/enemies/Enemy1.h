@@ -7,7 +7,7 @@ class Enemy1 : public Character {
 	
 public:
 
-	Enemy1(glm::mat4 *project, int id, Collision::CollisionGroups type, const glm::ivec2 &tileMapPos);
+	Enemy1(glm::mat4 *project, int id, const glm::ivec2 &tileMapPos);
     void update(int deltaTime);
 
 private:
@@ -15,6 +15,9 @@ private:
 	enum Enemy1Anims {STAND_LEFT, MOVE_LEFT, FLY_LEFT, LANDING_LEFT };
 
 	void init(const glm::ivec2 &tileMapPos);
+
+
+	int jumpDelay;
 
 };
 

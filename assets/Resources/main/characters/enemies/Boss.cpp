@@ -1,13 +1,7 @@
 #include "Boss.h"
-#include "Game.h"
-#include "GeneralDefines.h"
 
-Boss::Boss(glm::mat4 *project) {
-    projection = project;
-    collider = new Collision(project, Collision::Enemy);
-
-    collisionSystem = CollisionSystem::getInstance();
-    collisionSystem->addColliderIntoGroup(collider);
+Boss::Boss(glm::mat4 *project, int id, const glm::ivec2 &tileMapPos):Character(project, id, Collision::Enemy) {
+	init(tileMapPos);
 }
 
 void Boss::init(const glm::ivec2 &tileMapPos) {
@@ -55,36 +49,18 @@ void Boss::init(const glm::ivec2 &tileMapPos) {
     tileMapDispl = tileMapPos;
 
     collider->addCollider(glm::ivec4(3, 3, 30, 14));
-    collider->changePositionAbsolute(glm::vec2(tileMapDispl.x + posBoss.x, tileMapDispl.y + posBoss.y));
+    collider->changePositionAbsolute(glm::vec2(tileMapDispl.x + pos.x, tileMapDispl.y + pos.y));
 
 #ifdef SHOW_HIT_BOXES
     collider->showHitBox();
 #endif // SHOW_HIT_BOXES
 
-    sprite->setPosition(glm::vec2(float(tileMapDispl.x + posBoss.x), float(tileMapDispl.y + posBoss.y)));
+    sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
 }
 
 void Boss::update(int deltaTime)
 {
     sprite->update(deltaTime);
-    posBoss.x += 2;
-    sprite->setPosition(glm::vec2(float(tileMapDispl.x + posBoss.x), float(tileMapDispl.y + posBoss.y)));
-}
-
-void Boss::render() {
-    sprite->render();
-
-#ifdef SHOW_HIT_BOXES
-    collider->render();
-#endif // SHOW_HIT_BOXES
-}
-
-void Boss::setTileMap(TileMap *tileMap) {
-    map = tileMap;
-}
-
-void Boss::setPosition(const glm::vec2 &pos) {
-    posBoss = pos;
-    sprite->setPosition(glm::vec2(float(tileMapDispl.x + posBoss.x), float(tileMapDispl.y + posBoss.y)));
-    collider->changePositionAbsolute(glm::vec2(tileMapDispl.x + posBoss.x, tileMapDispl.y + posBoss.y));
+    pos.x += 2;
+    sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
 }

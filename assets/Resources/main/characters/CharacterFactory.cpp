@@ -26,45 +26,48 @@ void CharacterFactory::spawnCharacter(int type, const glm::vec2 &pos) {
 
 	Character *character = nullptr;
 	switch (type) {
-		case 0:
-			//Player
-			character = new Enemy1(projection, last_id, Collision::Enemy, tileMapPos);
+		case cPlayer:
+			if (player==nullptr) {
+				player = new Player(projection, last_id, tileMapPos);
+				player->setPosition(pos);
+			}
+			break;
+		case cEnemy1:
+			character = new Enemy1(projection, last_id, tileMapPos);
 			character->setPosition(pos);
 			break;
-		case 1:
-			character = new Enemy1(projection, last_id, Collision::Enemy, tileMapPos);
+		case cEnemy2:
+			character = new Enemy2(projection, last_id, tileMapPos);
 			character->setPosition(pos);
 			break;
-		case 2:
-			character = new Enemy2(projection, last_id, Collision::Enemy, tileMapPos);
+		case cEnemy3:
+			character = new Enemy3(projection, last_id, tileMapPos);
 			character->setPosition(pos);
 			break;
-		case 3:
-			character = new Enemy3(projection, last_id, Collision::Enemy, tileMapPos);
-			character->setPosition(pos);
-			break;
-		case 4:
-			character = new Enemy4(projection, last_id, Collision::Enemy, tileMapPos);
+		case cEnemy4:
+			character = new Enemy4(projection, last_id, tileMapPos);
 			character->setPosition(pos);
 			break;
 		default:
-			character = new Enemy1(projection, last_id, Collision::Enemy, tileMapPos);
+			character = new Enemy1(projection, last_id, tileMapPos);
 			character->setPosition(pos);
 			break;
 	}
-	characters[last_id] = character;
+	if(character!=nullptr)characters[last_id] = character;
 	++last_id;
 
 
 }
 
 void CharacterFactory::update(int deltaTime) {
+	if(player != nullptr)player->update(deltaTime);
 	for (auto it = characters.begin(); it != characters.end(); it++) {
 		it->second->update(deltaTime);
 	}
 }
 
 void CharacterFactory::render() {
+	if (player != nullptr)player->render();
 	for (auto it = characters.begin(); it != characters.end(); it++) {
 		it->second->render();
 	}

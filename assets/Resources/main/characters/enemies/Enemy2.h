@@ -7,7 +7,7 @@ class Enemy2 : public Character {
 
 public:
 
-    Enemy2(glm::mat4 *project, int id, Collision::CollisionGroups type, const glm::ivec2 &tileMapPos);
+    Enemy2(glm::mat4 *project, int id, const glm::ivec2 &tileMapPos);
     
     void update(int deltaTime);
 

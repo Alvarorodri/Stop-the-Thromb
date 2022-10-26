@@ -8,7 +8,8 @@
 #include "enemies\Enemy2.h"
 #include "enemies\Enemy3.h"
 #include "enemies\Enemy4.h"
-#include "collisions\Collision.h"
+#include "player\Player.h"
+
 class CharacterFactory {
 
 private:
@@ -18,6 +19,8 @@ private:
 	~CharacterFactory();
 
 public:
+	enum CharacterAvailable{cPlayer, cEnemy1, cEnemy2, cEnemy3, cEnemy4, cBoss};
+	Player *player = nullptr;
 
 	static CharacterFactory *getInstance();
 
@@ -29,8 +32,10 @@ public:
 	void setTileMapPos(const glm::vec2 &pos);
 	void setMap(TileMap *map);
 
+
 private:
 
+	
 	glm::mat4 *projection;
 	glm::vec2 tileMapPos;
 	TileMap *mapa;

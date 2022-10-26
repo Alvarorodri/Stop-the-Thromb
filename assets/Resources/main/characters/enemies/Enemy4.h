@@ -11,7 +11,7 @@ public:
 
 public:
 
-	Enemy4(glm::mat4 *project, int id, Collision::CollisionGroups type, const glm::ivec2 &tileMapPos);
+	Enemy4(glm::mat4 *project, int id, const glm::ivec2 &tileMapPos);
 
     void update(int deltaTime);
 

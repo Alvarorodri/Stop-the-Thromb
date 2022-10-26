@@ -9,15 +9,12 @@ GameScene *GameScene::getGame() {
 
 GameScene::GameScene() {
     map = NULL;
-    player = NULL;
 	cFactory = NULL;
 }
 
 GameScene::~GameScene() {
     if(map != NULL)
         delete map;
-    if(player != NULL)
-        delete player;
 	//if (cFactory != NULL) delete cFactory;
 
 }
@@ -30,10 +27,6 @@ void GameScene::init() {
 
     initShaders();
     map = TileMap::createTileMap("levels/level00.txt", glm::vec2(SCREEN_X, SCREEN_Y), &projection);
-    player = new Player(&projection);
-    player->init(glm::ivec2(SCREEN_X, SCREEN_Y));
-    player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
-    player->setTileMap(map);
 
     ProjectileFactory::getInstance()->setProjection(&projection);
     ProjectileFactory::getInstance()->init();
@@ -42,11 +35,12 @@ void GameScene::init() {
 	cFactory->setProjection(&projection);
 	cFactory->setTileMapPos(glm::ivec2(SCREEN_X, SCREEN_Y));
 	cFactory->setMap(map);
+
+	cFactory->spawnCharacter(CharacterFactory::CharacterAvailable::cPlayer, glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 }
 
 void GameScene::update(int deltaTime) {
     currentTime += deltaTime;
-    player->update(deltaTime);
 
     cFactory->update(deltaTime);
     ProjectileFactory::getInstance()->update(deltaTime);
@@ -54,8 +48,6 @@ void GameScene::update(int deltaTime) {
 
 void GameScene::render() {
     map->render();
-
-    player->render();
 
     cFactory->render();
     ProjectileFactory::getInstance()->render();

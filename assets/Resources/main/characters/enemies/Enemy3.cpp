@@ -1,6 +1,6 @@
 #include "Enemy3.h"
 
-Enemy3::Enemy3(glm::mat4 *project, int id, Collision::CollisionGroups type, const glm::ivec2 &tileMapPos) :Character(project, id, type) {
+Enemy3::Enemy3(glm::mat4 *project, int id, const glm::ivec2 &tileMapPos) :Character(project, id, Collision::Enemy) {
 
 	init(tileMapPos);
 }

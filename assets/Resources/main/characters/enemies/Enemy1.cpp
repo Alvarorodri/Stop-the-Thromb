@@ -1,7 +1,7 @@
 #include "Enemy1.h"
 
  
-Enemy1::Enemy1(glm::mat4 *project,int id, Collision::CollisionGroups type, const glm::ivec2 &tileMapPos):Character(project,id, type){
+Enemy1::Enemy1(glm::mat4 *project,int id, const glm::ivec2 &tileMapPos):Character(project,id, Collision::Enemy){
 	init(tileMapPos);
 }
 
@@ -17,20 +17,20 @@ void Enemy1::init(const glm::ivec2 &tileMapPos) {
     sprite = Sprite::createSprite(glm::ivec2(24,24), glm::vec2(1/16.0, 1/10.0), &spritesheet, projection);
     sprite->setNumberAnimations(4);
 
-        sprite->setAnimationSpeed(STAND_LEFT, 8);
-        sprite->addKeyframe(STAND_LEFT, glm::vec2((1.0/16.0)*0.0, (1.0/10.0)*7.0));
+    sprite->setAnimationSpeed(STAND_LEFT, 8);
+    sprite->addKeyframe(STAND_LEFT, glm::vec2((1.0/16.0)*0.0, (1.0/10.0)*7.0));
 
-		sprite->setAnimationSpeed(MOVE_LEFT, 8);
-		sprite->addKeyframe(MOVE_LEFT, glm::vec2((1.0/16.0)*3.0, (1.0/10.0)*7.0));
-		sprite->addKeyframe(MOVE_LEFT, glm::vec2((1.0/16.0)*4.0, (1.0/10.0)*7.0));
-		sprite->addKeyframe(MOVE_LEFT, glm::vec2((1.0/16.0)*5.0, (1.0/10.0)*7.0));
+	sprite->setAnimationSpeed(MOVE_LEFT, 8);
+	sprite->addKeyframe(MOVE_LEFT, glm::vec2((1.0/16.0)*3.0, (1.0/10.0)*7.0));
+	sprite->addKeyframe(MOVE_LEFT, glm::vec2((1.0/16.0)*4.0, (1.0/10.0)*7.0));
+	sprite->addKeyframe(MOVE_LEFT, glm::vec2((1.0/16.0)*5.0, (1.0/10.0)*7.0));
 		
-		sprite->setAnimationSpeed(FLY_LEFT, 8);
-		sprite->addKeyframe(FLY_LEFT, glm::vec2((1.0 / 16.0)*2.0, (1.0 / 10.0)*7.0));
+	sprite->setAnimationSpeed(FLY_LEFT, 8);
+	sprite->addKeyframe(FLY_LEFT, glm::vec2((1.0 / 16.0)*2.0, (1.0 / 10.0)*7.0));
 
-		sprite->setAnimationSpeed(LANDING_LEFT, 8);
-		sprite->addKeyframe(LANDING_LEFT, glm::vec2((1.0 / 16.0)*1.0, (1.0 / 10.0)*7.0));
-		sprite->addKeyframe(LANDING_LEFT, glm::vec2((1.0 / 16.0)*0.0, (1.0 / 10.0)*7.0));
+	sprite->setAnimationSpeed(LANDING_LEFT, 8);
+	sprite->addKeyframe(LANDING_LEFT, glm::vec2((1.0 / 16.0)*1.0, (1.0 / 10.0)*7.0));
+	sprite->addKeyframe(LANDING_LEFT, glm::vec2((1.0 / 16.0)*0.0, (1.0 / 10.0)*7.0));
 
 
     sprite->changeAnimation(STAND_LEFT, false);
