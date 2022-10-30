@@ -5,7 +5,7 @@ ProjectileNormal::ProjectileNormal(glm::mat4 *project, int id) {
     projection = project;
     idProjectile = id;
     // TODO: the collision type must be set depending of the class that called this method
-    collider = new Collision(project, Collision::PlayerProjectiles);
+    collider = new Collision(id, project, Collision::EnemyProjectiles);
 
     collisionSystem = CollisionSystem::getInstance();
     collisionSystem->addColliderIntoGroup(collider);

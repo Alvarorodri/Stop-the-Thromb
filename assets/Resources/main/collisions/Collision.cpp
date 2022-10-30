@@ -1,7 +1,8 @@
 #include "Collision.h"
 
-Collision::Collision(glm::mat4 *project, Collision::CollisionGroups group) {
+Collision::Collision(int id,glm::mat4 *project, Collision::CollisionGroups group) {
     collidersSize = 0;
+	this->id = id;
     collisions = new glm::vec4[1000];
     collisionGroup = group;
 
@@ -78,6 +79,10 @@ void Collision::setRotation(const glm::vec3 &rotation) {
 
 void Collision::setBox(const glm::vec2 &size) {
 	trianglesRenderer->setBox(size);
+}
+
+int Collision::getId() {
+	return id;
 }
 
 #ifdef SHOW_HIT_BOXES

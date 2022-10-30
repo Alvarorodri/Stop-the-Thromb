@@ -14,6 +14,18 @@ CharacterFactory::CharacterFactory() {
 CharacterFactory::~CharacterFactory() {
 }
 
+void CharacterFactory::destroyCharacter(const int &id) {
+	pendingToBeDestroyed.insert(id);
+}
+void CharacterFactory::lateDestroyCharacter() {
+	for (auto it = pendingToBeDestroyed.begin(); it != pendingToBeDestroyed.end(); ++it) {
+		characters[*it]->deleteRoutine();
+		delete characters[*it];
+		characters.erase(*it);
+	}
+	pendingToBeDestroyed.clear();
+}
+
 void CharacterFactory::init() {
 
 }
@@ -64,6 +76,7 @@ void CharacterFactory::update(int deltaTime) {
 	for (auto it = characters.begin(); it != characters.end(); it++) {
 		it->second->update(deltaTime);
 	}
+	lateDestroyCharacter();
 }
 
 void CharacterFactory::render() {

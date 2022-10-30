@@ -1,4 +1,5 @@
 #include "Enemy4.h"
+#include "Game.h"
 
 Enemy4::Enemy4(glm::mat4 *project, int id, const glm::ivec2 &tileMapPos) :Character(project, id, Collision::Enemy) {
 
@@ -7,6 +8,8 @@ Enemy4::Enemy4(glm::mat4 *project, int id, const glm::ivec2 &tileMapPos) :Charac
 
 void Enemy4::init(const glm::ivec2 &tileMapPos) {
 	bJumping = false;
+	shootDelay = 0;
+	jumpAngle2 = 0;
     spritesheet.loadFromFile("images/Enemies/basic-enemies.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	spritesheet.setWrapS(GL_CLAMP_TO_EDGE);
 	spritesheet.setWrapT(GL_CLAMP_TO_EDGE);
@@ -40,36 +43,81 @@ void Enemy4::init(const glm::ivec2 &tileMapPos) {
 void Enemy4::update(int deltaTime)
 {
     sprite->update(deltaTime);
+	glm::vec2 playerpos = CharacterFactory::getInstance()->player->getPosition();
+	if (bJumping && (playerpos.x - pos.x) <= 100.f && (playerpos.x - pos.x) >= -100.f) {
+		bJumping = false;
+		jumpAngle2 = 0;
+		startY2 = pos.y;
+
+	}
+	else if(!bJumping && ((playerpos.x - pos.x) > 100.f || (playerpos.x - pos.x) < -100.f)) bJumping = true;
 	if (bJumping)
 	{
 		jumpAngle += JUMP_ANGLE_STEP/2.0;
 		if (jumpAngle >= 180) {
-			bJumping = false;
 			collider->changePositionRelative(glm::vec2(0, startY - pos.y));
 			pos.y = startY;
+			jumpAngle = 0;
 		} else {
             CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Enemy4::collider, glm::vec2(0, (startY - 96.0f * sin(3.14159f * jumpAngle / 180.f) / 2) - pos.y));
 
 			if (info.colliding) {
-				bJumping = false;
+				jumpAngle -= JUMP_ANGLE_STEP / 2.0;
             } else {
                 collider->changePositionRelative(glm::vec2(0, (startY - 96.0f * sin(3.14159f * jumpAngle / 180.f) / 2) - pos.y));
                 pos.y = (startY - 96.0f * sin(3.14159f * jumpAngle / 180.f) / 2);
             }
 		}
 	} else {
-        CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Enemy4::collider, glm::vec2(0, FALL_STEP));
+		shoot();
+		jumpAngle2 += 2.f*PI/180.f;
+		if (jumpAngle2 >= 180) {
+			collider->changePositionRelative(glm::vec2(0, startY2 - pos.y));
+			jumpAngle2 = 0;
+		}
+		else {
+			CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Enemy4::collider, glm::vec2(0, cos(jumpAngle2)/ 8.f));
 
-		if (startY <= pos.y || info.colliding) {
-			bJumping = true;
-			jumpAngle = 0;
-			startY = pos.y;
-        } else {
-            pos.y += FALL_STEP;
-            collider->changePositionRelative(glm::vec2(0, FALL_STEP));
-        }
+			if (info.colliding) {
+				jumpAngle2 -= JUMP_ANGLE_STEP / 30.f*PI / 180.f;
+			}
+			else {
+				collider->changePositionRelative(glm::vec2(0, cos(jumpAngle2) / 8.f));
+				pos.y = cos(jumpAngle2) / 8.f +pos.y;
+			}
+		}
+		if ((playerpos.y - pos.y > 20.f) || (playerpos.y - pos.y < -0.f)) {
+			float pas = -0.5f;
+			if (playerpos.y > pos.y) pas = 0.5;
+			CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Enemy4::collider, glm::vec2(0.f,pas));
+
+			if (!info.colliding) {
+				collider->changePositionRelative(glm::vec2(0, pas));
+				pos.y = pas + pos.y;
+			}
+		}
 	}
 
-    sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
+    sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));	
+	Character::update(deltaTime);
+	
 }
 
+void Enemy4::shoot() {
+		if (shootDelay == 0) {
+			int aux = 0;
+			if (rot)aux = -5;
+			glm::vec2 playerpos = CharacterFactory::getInstance()->player->getPosition();
+			glm::vec2 dir = (playerpos + glm::vec2(16.f, 7.f)) - (pos + glm::vec2(0.f, 0.f));
+
+			float angle = atan2(dir.y, dir.x);
+			dir = glm::vec2(cos(angle), sin(angle));
+
+			float velocity = 2.0f;
+			dir *= velocity;
+
+			ProjectileFactory::getInstance()->spawnProjectile(pos + glm::vec2(0.f, 0.f), dir, false, Projectile::EnemyProjectile);
+			shootDelay = 60;
+		}
+		else shootDelay -= 1;
+}

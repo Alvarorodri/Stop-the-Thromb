@@ -7,7 +7,7 @@ Enemy1::Enemy1(glm::mat4 *project,int id, const glm::ivec2 &tileMapPos):Characte
 
 void Enemy1::init(const glm::ivec2 &tileMapPos) {
     bJumping = false;
-	jumpDelay = 200;
+	jumpDelay = 250;
     spritesheet.loadFromFile("images/Enemies/basic-enemies.png", TEXTURE_PIXEL_FORMAT_RGBA);
     spritesheet.setWrapS(GL_CLAMP_TO_EDGE);
     spritesheet.setWrapT(GL_CLAMP_TO_EDGE);
@@ -15,10 +15,10 @@ void Enemy1::init(const glm::ivec2 &tileMapPos) {
     spritesheet.setMagFilter(GL_NEAREST);
 
     sprite = Sprite::createSprite(glm::ivec2(24,24), glm::vec2(1/16.0, 1/10.0), &spritesheet, projection);
-    sprite->setNumberAnimations(4);
+    sprite->setNumberAnimations(5);
 
-    sprite->setAnimationSpeed(STAND_LEFT, 8);
-    sprite->addKeyframe(STAND_LEFT, glm::vec2((1.0/16.0)*0.0, (1.0/10.0)*7.0));
+	sprite->setAnimationSpeed(STAND_LEFT, 8);
+	sprite->addKeyframe(STAND_LEFT, glm::vec2((1.0/16.0)*2.0, (1.0/10.0)*7.0));
 
 	sprite->setAnimationSpeed(MOVE_LEFT, 8);
 	sprite->addKeyframe(MOVE_LEFT, glm::vec2((1.0/16.0)*3.0, (1.0/10.0)*7.0));
@@ -26,11 +26,19 @@ void Enemy1::init(const glm::ivec2 &tileMapPos) {
 	sprite->addKeyframe(MOVE_LEFT, glm::vec2((1.0/16.0)*5.0, (1.0/10.0)*7.0));
 		
 	sprite->setAnimationSpeed(FLY_LEFT, 8);
-	sprite->addKeyframe(FLY_LEFT, glm::vec2((1.0 / 16.0)*2.0, (1.0 / 10.0)*7.0));
+	sprite->addKeyframe(FLY_LEFT, glm::vec2((1.0 / 16.0)*1.0, (1.0 / 10.0)*7.0));
 
 	sprite->setAnimationSpeed(LANDING_LEFT, 8);
-	sprite->addKeyframe(LANDING_LEFT, glm::vec2((1.0 / 16.0)*1.0, (1.0 / 10.0)*7.0));
-	sprite->addKeyframe(LANDING_LEFT, glm::vec2((1.0 / 16.0)*0.0, (1.0 / 10.0)*7.0));
+	sprite->addKeyframe(LANDING_LEFT, glm::vec2((1.0 / 16.0)*2.0, (1.0 / 10.0)*7.0));
+	sprite->addKeyframe(LANDING_LEFT, glm::vec2((1.0 / 16.0)*2.0, (1.0 / 10.0)*7.0));
+	sprite->addKeyframe(LANDING_LEFT, glm::vec2((1.0 / 16.0)*2.0, (1.0 / 10.0)*7.0));
+	sprite->addKeyframe(LANDING_LEFT, glm::vec2((1.0 / 16.0)*2.0, (1.0 / 10.0)*7.0));
+	sprite->addKeyframe(LANDING_LEFT, glm::vec2((1.0 / 16.0)*2.0, (1.0 / 10.0)*7.0));
+
+
+	sprite->setAnimationSpeed(JUMP_LEFT, 8);
+	sprite->addKeyframe(JUMP_LEFT, glm::vec2((1.0 / 16.0)*0.0, (1.0 / 10.0)*7.0));
+	sprite->addKeyframe(JUMP_LEFT, glm::vec2((1.0 / 16.0)*0.0, (1.0 / 10.0)*7.0));
 
 
     sprite->changeAnimation(STAND_LEFT, false);
@@ -52,22 +60,35 @@ void Enemy1::update(int deltaTime)
 
 	sprite->update(deltaTime);
 
-    if(sprite->animation() == STAND_LEFT) 
-		sprite->changeAnimation(MOVE_LEFT, false);
-
-    CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Enemy1::collider, glm::vec2(-0.5, 0));
-
-    if(info.colliding) {
-        sprite->changeAnimation(STAND_LEFT, false);
-    } else {
-        pos.x -= 0.5;
-        collider->changePositionRelative(glm::vec2(-0.5, 0));
-    }
-
+	if (sprite->animation() != LANDING_LEFT || (sprite->animation() == LANDING_LEFT && sprite->isFinidhedAnimation())) {
+		
+		CollisionSystem::CollisionInfo info;
+		if (!rot)info = collisionSystem->isColliding(Enemy1::collider, glm::vec2(-0.5, 0));
+		else info = collisionSystem->isColliding(Enemy1::collider, glm::vec2(0.5, 0));
+		if (info.colliding) {
+			//if(sprite->animation() == MOVE_LEFT)sprite->changeAnimation(STAND_LEFT, false);
+			rot = !rot;
+			if (rot)rotate(0.f, 180.f, 0.f);
+			else rotate(0.f, 0.f, 0.f);
+		}
+		else {
+			if (landed && sprite->animation() != MOVE_LEFT && sprite->animation() != FLY_LEFT && sprite->animation() != JUMP_LEFT) sprite->changeAnimation(MOVE_LEFT, false);
+			if (!rot) {
+				pos.x -= 0.5;
+				collider->changePositionRelative(glm::vec2(-0.5, 0));
+			}
+			else{
+				pos.x += 0.5;
+				collider->changePositionRelative(glm::vec2(+0.5, 0));
+			}
+				
+		}
+	}
 
 	if (jumpDelay <= 0 && landed) {
-		jumpDelay = 200;
+		jumpDelay = 250;
 		bJumping = true;
+		sprite->changeAnimation(JUMP_LEFT, false);
 	}
 
 	if (bJumping) {
@@ -81,6 +102,7 @@ void Enemy1::update(int deltaTime)
 
 			if (info.colliding) {
 				bJumping = false;
+				
             } else {
                 collider->changePositionRelative(glm::vec2(0, (startY - 96.0f * sin(3.14159f * jumpAngle / 180.f)) - pos.y));
                 pos.y = startY - 96.0f * sin(3.14159f * jumpAngle / 180.f);
@@ -90,17 +112,21 @@ void Enemy1::update(int deltaTime)
         CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Enemy1::collider, glm::vec2(0, FALL_STEP));
 
 		if (info.colliding) {
+			//sprite->changeAnimation(FLY_LEFT, false);
+			if(sprite->animation() == FLY_LEFT)sprite->changeAnimation(LANDING_LEFT, false);
 				bJumping = false;
 				landed = true;
 				jumpAngle = 0;
 				startY = pos.y;
         } else {
+			sprite->changeAnimation(FLY_LEFT, false);
             landed = false;
             pos.y += FALL_STEP;
             collider->changePositionRelative(glm::vec2(0, FALL_STEP));
         }
 	}
-
+	if (sprite->animation() == JUMP_LEFT && sprite->isFinidhedAnimation()) sprite->changeAnimation(FLY_LEFT, false);
 
     sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
+	Character::update(deltaTime);
 }

@@ -5,7 +5,7 @@
 ForceDevice::ForceDevice(glm::mat4 *project) {
     projection = project;
 
-    collider = new Collision(project, Collision::Force);
+    collider = new Collision(1,project, Collision::Force);
 
     collisionSystem = CollisionSystem::getInstance();
     collisionSystem->addColliderIntoGroup(collider);

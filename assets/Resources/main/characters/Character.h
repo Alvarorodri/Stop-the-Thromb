@@ -6,7 +6,10 @@
 #include "collisions\Collision.h"
 #include "collisions\CollisionSystem.h"
 
+
+
 #include "GeneralDefines.h"
+
 
 
 class Character {
@@ -23,6 +26,7 @@ public:
 	void setTileMap(TileMap *tileMap);
 	virtual void setPosition(const glm::vec2 &pos);
 	glm::vec2 getPosition() { return pos; };
+	void deleteRoutine();
 
 protected:
 
@@ -33,14 +37,15 @@ protected:
 	bool rot;
 	int id;
 	bool landed;
-	
+	int jumpDelay;
 	glm::ivec2 tileMapDispl;
 	glm::vec2 pos;
 	float jumpAngle;
 	float startY;
 	Texture spritesheet;
 	Sprite *sprite;
-	TileMap *map;
+	TileMap *tmap;
+	int shootDelay;
 
 	glm::mat4 *projection;
 

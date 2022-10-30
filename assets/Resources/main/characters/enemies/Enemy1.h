@@ -12,7 +12,7 @@ public:
 
 private:
 
-	enum Enemy1Anims {STAND_LEFT, MOVE_LEFT, FLY_LEFT, LANDING_LEFT };
+	enum Enemy1Anims {STAND_LEFT, MOVE_LEFT, FLY_LEFT, LANDING_LEFT, JUMP_LEFT};
 
 	void init(const glm::ivec2 &tileMapPos);
 

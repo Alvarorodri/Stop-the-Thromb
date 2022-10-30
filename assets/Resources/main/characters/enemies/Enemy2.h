@@ -11,10 +11,13 @@ public:
     
     void update(int deltaTime);
 
+	
+
 private:
 	enum Enemy2Anims { MOVE_LEFT };
 
 	void init(const glm::ivec2 &tileMapPos);
+	void shoot();
 
 };
 

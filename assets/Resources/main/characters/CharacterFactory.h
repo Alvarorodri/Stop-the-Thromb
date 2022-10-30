@@ -17,6 +17,7 @@ private:
 	static CharacterFactory *instance_;
 	CharacterFactory();
 	~CharacterFactory();
+	void lateDestroyCharacter();
 
 public:
 	enum CharacterAvailable{cPlayer, cEnemy1, cEnemy2, cEnemy3, cEnemy4, cBoss};
@@ -32,6 +33,8 @@ public:
 	void setTileMapPos(const glm::vec2 &pos);
 	void setMap(TileMap *map);
 
+	void destroyCharacter(const int &id);
+
 
 private:
 
@@ -42,6 +45,8 @@ private:
 
 	map<int, Character *> characters;
 	int last_id;
+
+	set<int> pendingToBeDestroyed;
 
 };
 

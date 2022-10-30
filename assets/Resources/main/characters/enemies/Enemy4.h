@@ -17,6 +17,10 @@ public:
 
 private:
 	void init(const glm::ivec2 &tileMapPos);
+	void shoot();
+
+	float jumpAngle2;
+	float startY2;
 
 };
 

@@ -4,7 +4,7 @@
 
 PowerUp::PowerUp(glm::mat4 *project) {
     projection = project;
-    collider = new Collision(project, Collision::Uknown);
+    collider = new Collision(2,project, Collision::Uknown);
 
     collisionSystem = CollisionSystem::getInstance();
     collisionSystem->addColliderIntoGroup(collider);

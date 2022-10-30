@@ -26,7 +26,7 @@ public:
     };
 
     Collision();
-    Collision(glm::mat4 *project, CollisionGroups group);
+    Collision(int id, glm::mat4 *project, CollisionGroups group);
     ~Collision();
 
     void setProjection(glm::mat4 *project);
@@ -38,6 +38,7 @@ public:
     void changePositionRelative(const glm::vec2 &pos);
 	void setRotation(const glm::vec3 &rotation);
 	void setBox(const glm::vec2 &size);
+	int getId();
 
     glm::vec4 getBoundingBox();
 
@@ -51,12 +52,14 @@ public:
     Collision::CollisionGroups collisionGroup;
 
     int collidersSize;
+	
     glm::vec4 *collisions;
 
     glm::vec2 position;
 
 private:
 
+	int id;
     TrianglesRenderer* trianglesRenderer;
 
 };
