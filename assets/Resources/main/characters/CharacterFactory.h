@@ -28,10 +28,14 @@ public:
 	void init();
 	void update(int deltaTime);
 	void render();
+
 	void setProjection(glm::mat4 *project);
+	void setSpawnFiles(string file);
 	void spawnCharacter(int type, const glm::vec2 &pos);
 	void setTileMapPos(const glm::vec2 &pos);
 	void setMap(TileMap *map);
+
+	void spawnRoutine();
 
 	void destroyCharacter(const int &id);
 
@@ -44,9 +48,11 @@ private:
 	TileMap *mapa;
 
 	map<int, Character *> characters;
-	int last_id;
+	int last_id = 10;
 
 	set<int> pendingToBeDestroyed;
+
+	vector<pair<CharacterAvailable, glm::vec2>> enemies;
 
 };
 

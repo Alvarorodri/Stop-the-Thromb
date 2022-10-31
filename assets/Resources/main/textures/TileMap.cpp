@@ -17,7 +17,7 @@ TileMap::~TileMap() {
         delete map;
 }
 
-void TileMap::moveMap(int increment) {
+void TileMap::moveMap(float increment) {
     position += increment;
     collision->changePositionRelative(glm::vec2(increment, 0));
     render();

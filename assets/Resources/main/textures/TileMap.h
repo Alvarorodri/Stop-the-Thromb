@@ -28,11 +28,12 @@ public:
 
     ~TileMap();
 
-    void moveMap(int increment);
+    void moveMap(float increment);
     void render();
     void free();
 
     int getTileSize() const { return blockSize; }
+	float getPosition() { return position; }
 
 private:
 
@@ -62,7 +63,7 @@ private:
     glm::vec2 tileTexSize;
     int *map;
 
-    int position;
+    float position;
 
     Collision *collision;
     CollisionSystem *collisionSystem;

@@ -15,6 +15,9 @@
 
 #define TIME_PER_FRAME 1000.f / 60.f // Approx. 60 fps
 
+#define COORD_VIEW_LIMIT_X 450.0f
+#define COORD_VIEW_LIMIT_Y 300.0f
+
 #define SCREEN_WIDTH 1270
 #define SCREEN_HEIGHT 720
 #define PI 3.141592653589f
