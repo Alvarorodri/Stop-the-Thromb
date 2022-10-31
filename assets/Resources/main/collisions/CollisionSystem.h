@@ -70,7 +70,6 @@ private:
     bool isTriggerCollision(const Collision* a, const Collision* b);
     static bool searchForCollision(const Collision* a, const Collision* b, const glm::vec2 &offset);
 
-    static bool overlapVertical(const glm::vec4 &a, const glm::vec4 &b, const glm::vec2 &posA, const glm::vec2 &posB);
     static bool overlapHorizontal(const glm::vec4 &a, const glm::vec4 &b, const glm::vec2 &posA, const glm::vec2 &posB);
 
 private:

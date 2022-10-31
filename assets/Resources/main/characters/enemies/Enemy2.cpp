@@ -85,7 +85,7 @@ void Enemy2::shoot() {
 		dir *= velocity;
 		
 		ProjectileFactory::getInstance()->spawnProjectile(pos + glm::vec2(6.0f, 9.0f), dir, false, Projectile::EnemyProjectile);
-		shootDelay = 60;
+		shootDelay = 240;
 	}
 	else shootDelay -= 1;
 }
