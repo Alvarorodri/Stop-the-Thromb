@@ -1,5 +1,5 @@
-#ifndef _PROJECTILE_FIREBALL_INCLUDE
-#define _PROJECTILE_FIREBALL_INCLUDE
+#ifndef _PROJECTILE_LASERS_INCLUDE
+#define _PROJECTILE_LASERS_INCLUDE
 
 #include "projectiles\Projectile.h"
 #include "textures\Sprite.h"
@@ -10,15 +10,11 @@
 
 #include "GeneralDefines.h"
 
-class ProjectileFireball : public Projectile {
-
-private:
-
-    enum Movements { Down, Right, Up, Left};
+class ProjectileWaves : public Projectile {
 
 public:
 
-    ProjectileFireball(glm::mat4 *project, int id);
+    ProjectileWaves(glm::mat4 *project, int id);
     void init(Texture *spritesheet, int type);
     void update(int deltaTime);
     void render();
@@ -27,12 +23,11 @@ public:
 
     void collisionRoutine();
 
-    bool followMapShape();
-
 private:
 
-    int lastMovement;
-
+    Sprite *auxSprite1, *auxSprite2;
+    enum wavesState {  SpawningInitial, SpawningSections
+    };
 };
 
-#endif // _PROJECTILE_FIREBALL_INCLUDE
+#endif // _PROJECTILE_LASERS_INCLUDE

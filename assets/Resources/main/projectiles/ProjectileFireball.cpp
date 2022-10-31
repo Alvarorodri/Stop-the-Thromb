@@ -20,6 +20,8 @@ void ProjectileFireball::init(Texture *spritesheet, int type) {
     projectileConfigurator((ProjectileType)type, spriteCuts);
     sprite->changeAnimation(0, false);
 
+    lastMovement = projVelocity.y > 0.0f ? Down : Up;
+
 #ifdef SHOW_HIT_BOXES
     collider->showHitBox();
 #endif // SHOW_HIT_BOXES
@@ -35,7 +37,7 @@ void ProjectileFireball::update(int deltaTime) {
 
     collisionRoutine();
 
-    followMapShape();
+    if (!followMapShape()) return;
 
     sprite->setPosition(posProjectile);
 
@@ -82,30 +84,76 @@ void ProjectileFireball::collisionRoutine() {
     }*/
 }
 
-void ProjectileFireball::followMapShape() {
-    CollisionSystem::CollisionInfo info = CollisionSystem::getInstance()->isColliding(collider, glm::vec2(0.0f,2.0f));
+bool ProjectileFireball::followMapShape() {
+    bool movementFound = false;
+    int curMovement = lastMovement;
+    CollisionSystem::CollisionInfo info;
 
-    if (!info.colliding) {
-        posProjectile += glm::vec2(0.0f, 2.0f);
-        collider->changePositionRelative(glm::vec2(0.0f, 2.0f));
-    }
-    else {
-        info = CollisionSystem::getInstance()->isColliding(collider, glm::vec2(2.0f, 0.0f));
+    int sign = projVelocity.y < 0.0f ? -1 : 1;
 
-        if (!info.colliding) {
-            posProjectile += glm::vec2(2.0f, 0.0f);
-            collider->changePositionRelative(glm::vec2(2.0f, 0.0f));
+    while (!movementFound) {
+
+        int updateMovement = 0;
+        switch ((Movements)curMovement) {
+            case Down:
+                info = CollisionSystem::getInstance()->isColliding(collider, glm::vec2(0.0f, float(sign) * projVelocity.y));
+
+                if (!info.colliding) {
+                    posProjectile += glm::vec2(0.0f, float(sign) * projVelocity.y);
+                    collider->changePositionRelative(glm::vec2(0.0f, float(sign) * projVelocity.y));
+                    movementFound = true;
+
+                    updateMovement = (sign == 1) ? 0 : +1;
+                    lastMovement = curMovement + updateMovement;
+                }
+                break;
+            case Right:
+                info = CollisionSystem::getInstance()->isColliding(collider, glm::vec2(projVelocity.x, 0.0f));
+
+                if (!info.colliding) {
+                    posProjectile += glm::vec2(projVelocity.x, 0.0f);
+                    collider->changePositionRelative(glm::vec2(projVelocity.x, 0.0f));
+                    movementFound = true;
+
+                    updateMovement = (sign == 1) ? -1 : +1;
+                    lastMovement = curMovement + updateMovement;
+                }
+                break;
+            case Up:
+                info = CollisionSystem::getInstance()->isColliding(collider, glm::vec2(0.0f, float(sign) * -projVelocity.y));
+
+                if (!info.colliding) {
+                    posProjectile += glm::vec2(0.0f, float(sign) * -projVelocity.y);
+                    collider->changePositionRelative(glm::vec2(0.0f, float(sign) * -projVelocity.y));
+                    movementFound = true;
+
+                    updateMovement = (sign == 1) ? -1 : 0;
+                    lastMovement = curMovement + updateMovement;
+                }
+                break;
+            case Left:
+                info = CollisionSystem::getInstance()->isColliding(collider, glm::vec2(-projVelocity.x, 0.0f));
+
+                if (!info.colliding) {
+                    posProjectile += glm::vec2(-projVelocity.x, 0.0f);
+                    collider->changePositionRelative(glm::vec2(-projVelocity.x, 0.0f));
+                    movementFound = true;
+
+                    updateMovement = (sign == 1) ? -1 : +1;
+                    lastMovement = curMovement + updateMovement;
+                }
+                break;
         }
-        else {
-            info = CollisionSystem::getInstance()->isColliding(collider, glm::vec2(0.0f, -2.0f));
 
-            if (!info.colliding) {
-                posProjectile += glm::vec2(0.0f, -2.0f);
-                collider->changePositionRelative(glm::vec2(0.0f, -2.0f));
-            }
-            else {
-                ProjectileFactory::getInstance()->destroyProjectile(idProjectile);
-            }
+        curMovement += (sign == 1) ? +1 : -1;
+        if (curMovement == 4 && sign == 1) curMovement = 0;
+        else if (curMovement == -1 && sign == -1) curMovement = 3;
+
+        // If it returns to the same movement means that it tried all the posibilities
+        if (!movementFound && curMovement == lastMovement) {
+            ProjectileFactory::getInstance()->destroyProjectile(idProjectile);
+            return false;
         }
     }
+    return true;
 }

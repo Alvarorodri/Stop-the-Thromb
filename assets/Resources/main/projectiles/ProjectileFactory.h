@@ -4,9 +4,10 @@
 #include <map>
 #include <set>
 
-#include "projectiles\Projectile.h"
-#include "projectiles\ProjectileNormal.h"
-#include "projectiles\ProjectileFireball.h"
+#include "Projectile.h"
+#include "ProjectileNormal.h"
+#include "ProjectileFireball.h"
+#include "ProjectileWaves.h"
 
 class ProjectileFactory {
 

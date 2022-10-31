@@ -36,8 +36,8 @@ public:
 
     void setNumberAnimations(int nAnimations);
 	void setFinishedAnimation(bool finish);
-	void setRotation(const glm::vec3 &rot);
 	bool isFinidhedAnimation();
+    bool isHalfFinidhedAnimation();
     void setAnimationSpeed(int animId, int keyframesPerSec);
     void addKeyframe(int animId, const glm::vec2 &frame);
     void changeAnimation(int animId, bool special);
@@ -45,6 +45,9 @@ public:
 
     void setPosition(const glm::vec2 &pos);
 	glm::vec2 getQuadsize() const;
+
+    void setBox(const glm::vec2 &size);
+    void setRotation(const glm::vec3 &rotation);
 
 private:
 
@@ -56,16 +59,15 @@ private:
     glm::mat4 *projection;
 
     glm::vec2 position;
-	glm::vec2 quadsize;
     int currentAnimation, currentKeyframe;
     float timeAnimation;
     glm::vec2 texCoordDispl;
     vector<AnimKeyframes> animations;
 
-    bool finishedAnimation;
-	float angleX;
-	float angleY;
-	float angleZ;
+    bool finishedAnimation, halfFinishedAnimation;
+
+    glm::vec2 box;
+    glm::vec3 angle;
 };
 
 #endif // _SPRITE_INCLUDE

@@ -14,7 +14,7 @@ class ProjectileNormal : public Projectile {
 
 public:
 
-    ProjectileNormal(glm::mat4 *project, int id);
+    ProjectileNormal(glm::mat4 *project, int id, int type);
     void init(Texture *spritesheet, int type);
     void update(int deltaTime);
     void render();

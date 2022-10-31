@@ -6,8 +6,8 @@ TrianglesRenderer::TrianglesRenderer() {
     vertices.clear();
     position = glm::vec2(0);
     nTriangles = 0;
-	angleX = angleY = angleZ = 0;
-	box = glm::vec2(0.f, 0.f);
+	angle = glm::vec3(0.0f);
+	box = glm::vec2(0.0f);
 }
 
 TrianglesRenderer::~TrianglesRenderer() {
@@ -72,20 +72,17 @@ void TrianglesRenderer::moveHitBoxesAbsolute(const glm::vec2 &pos) {
     position = pos;
 }
 
-void TrianglesRenderer::setRotation(const glm::vec3 &rotation) {
-	angleX = rotation[0] * PI / 180.f;
-	angleY = rotation[1] * PI / 180.f;
-	angleZ = rotation[2] * PI / 180.f;
-}
-
 int TrianglesRenderer::setColor(glm::vec3 color) {
     lineColor = color;
     return 1;
 }
 
 void TrianglesRenderer::setBox(const glm::vec2 &size) {
-	box[0] = size[0];
-	box[1] = size[1];
+    box = size;
+}
+
+void TrianglesRenderer::setRotation(const glm::vec3 &rotation) {
+    angle = rotation * (PI / 180.f);
 }
 
 void TrianglesRenderer::send() {
@@ -106,9 +103,9 @@ int TrianglesRenderer::render() {
     glm::mat4 modelview = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.f));
 
 	modelview = glm::translate(modelview, glm::vec3(((box[0]) / 2.f), ((box[1]) / 2.f), 0.f));
-	modelview = glm::rotate(modelview, angleZ, glm::vec3(0.f, 0.f, 1.f));
-	modelview = glm::rotate(modelview, angleY, glm::vec3(0.f, 1.f, 0.f));
-	modelview = glm::rotate(modelview, angleX, glm::vec3(1.f, 0.f, 0.f));
+	modelview = glm::rotate(modelview, angle.z, glm::vec3(0.f, 0.f, 1.f));
+	modelview = glm::rotate(modelview, angle.y, glm::vec3(0.f, 1.f, 0.f));
+	modelview = glm::rotate(modelview, angle.x, glm::vec3(1.f, 0.f, 0.f));
 	modelview = glm::translate(modelview, glm::vec3((-(box[0]) / 2.f), -((box[1]) / 2.f), 0.f));
     shaderProgram.setUniformMatrix4f("modelview", modelview);
 

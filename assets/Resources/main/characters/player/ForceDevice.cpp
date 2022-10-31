@@ -53,11 +53,10 @@ void ForceDevice::init(Collision *sCollider) {
     collider->addCollider(glm::vec4(0, 4, 10, 20-4));
     collider->changePositionAbsolute(glm::vec2(posForce.x, posForce.y));
 
-    if (isAtached) targetPosition = posForce;
-    else {
-        targetPosition.x = rightLimit;
-        targetPosition.y = posForce.y;
-    }
+    sprite->setBox(glm::vec2(collider->getBoundingBox().z, collider->getBoundingBox().w));
+    collider->setBox(glm::vec2(collider->getBoundingBox().z, collider->getBoundingBox().w));
+
+    targetPosition = glm::vec2(isAtached ? posForce.x : rightLimit, posForce.y);
 
 #ifdef SHOW_HIT_BOXES
     collider->showHitBox();
@@ -69,77 +68,11 @@ void ForceDevice::init(Collision *sCollider) {
 }
 
 void ForceDevice::update(int deltaTime) {
-
-    if (Game::instance().getKey('h') && !latchKeys['h']) {
-        latchKeys['h'] = true;
-        if (forceLevel < 2) forceLevel++;
-        setForceLevel(forceLevel);
-    } else if (Game::instance().getKey('g') && !latchKeys['g']) {
-        latchKeys['g'] = true;
-        if (forceLevel > 0) forceLevel--;
-        setForceLevel(forceLevel);
-    }
-    else if (Game::instance().getKey('z') && !latchKeys['z']) {
-        latchKeys['z'] = true;
-        
-        if (isAtached) {
-            if (isLeft) targetPosition.x = leftLimit;
-            else targetPosition.x = rightLimit;
-        }
-        else {
-            if (isLeft) targetPosition.x = rightLimit;
-            else targetPosition.x = leftLimit;
-        }
-
-        if (!isAtached) isLeft = !isLeft;
-        isAtached = false;
-    }
-    else if (Game::instance().getKey('x') && !latchKeys['x']) {
-        latchKeys['x'] = true;
-    }
-
-    if (isAtached) {
-        targetPosition = shipCollider->position + getOffsetofColliders(isLeft);
-    }
-    else {
-        targetPosition.y = shipCollider->position.y + getOffsetofColliders(isLeft).y;
-    }
-
-    if (abs(targetPosition.x - posForce.x) >= horizontalVelocity ) {
-        int sign = (targetPosition.x >= posForce.x) ? ((targetPosition.x - posForce.x > 0.0f) ? 1 : -1) : ((posForce.x - targetPosition.x > 0.0f) ? -1 : 1);
-        CollisionSystem::CollisionInfo info = collisionSystem->isColliding(collider, glm::ivec2(sign * horizontalVelocity, 0));
-
-        if (!info.colliding) {
-            posForce.x += sign * horizontalVelocity;
-            collider->changePositionRelative(glm::ivec2(sign * horizontalVelocity, 0));
-        } 
-    }
-
-    if (abs(targetPosition.y - posForce.y) >= verticalVelocity) {
-        int sign = (targetPosition.y >= posForce.y) ? ((targetPosition.y - posForce.y > 0.0f) ? 1 : -1) : ((posForce.y - targetPosition.y > 0.0f) ? -1 : 1);
-        CollisionSystem::CollisionInfo info = collisionSystem->isColliding(collider, glm::ivec2(0, sign * verticalVelocity));
-
-        if (!info.colliding) {
-            posForce.y += sign * verticalVelocity;
-            collider->changePositionRelative(glm::ivec2(0, sign * verticalVelocity));
-        } 
-    }
-
-    CollisionSystem::CollisionInfo infoAttach = collisionSystem->isTriggering(collider, glm::ivec2(0, 0));
-    if (infoAttach.triggered && infoAttach.collider->collisionGroup == Collision::Player) attachToASide();
-
-    if (isAtached && abs(targetPosition.y - posForce.y) <= 10.0f && abs(targetPosition.x - posForce.x) <= 10.0f) {
-        posForce = targetPosition;
-        collider->changePositionAbsolute(posForce);
-    }
+    inputController();
+    collisionRoutine();
 
     sprite->setPosition(glm::vec2(posForce.x, posForce.y));
     sprite->update(deltaTime);
-
-    if (!Game::instance().getKey('h') && latchKeys['h']) latchKeys['h'] = false;
-    else if (!Game::instance().getKey('g') && latchKeys['g']) latchKeys['g'] = false;
-    else if (!Game::instance().getKey('z') && latchKeys['z']) latchKeys['z'] = false;
-    else if (!Game::instance().getKey('x') && latchKeys['x']) latchKeys['x'] = false;
 }
 
 void ForceDevice::render() {
@@ -152,9 +85,8 @@ void ForceDevice::render() {
 
 void ForceDevice::setPosition(const glm::vec2 &pos) {
     posForce = pos;
-    sprite->setPosition(glm::vec2(posForce.x, posForce.y));
-    collider->changePositionAbsolute(glm::vec2(posForce.x, posForce.y));
-    targetPosition = pos;
+    sprite->setPosition(posForce);
+    collider->changePositionAbsolute(posForce);
 }
 
 Collision* ForceDevice::getCollider() {
@@ -163,6 +95,76 @@ Collision* ForceDevice::getCollider() {
 
 void ForceDevice::setForceLevel(int level) {
     sprite->changeAnimation(level,false);
+}
+
+void ForceDevice::inputController() {
+    // Press State
+    if (Game::instance().getKey('h') && !latchKeys['h']) {
+        latchKeys['h'] = true;
+        if (forceLevel < 2) forceLevel++;
+        setForceLevel(forceLevel);
+    }
+    else if (Game::instance().getKey('g') && !latchKeys['g']) {
+        latchKeys['g'] = true;
+        if (forceLevel > 0) forceLevel--;
+        setForceLevel(forceLevel);
+    }
+    else if (Game::instance().getKey('z') && !latchKeys['z']) {
+        latchKeys['z'] = true;
+
+        if (isAtached && isLeft) targetPosition.x = leftLimit;
+        else if (isAtached && !isLeft) targetPosition.x = rightLimit;
+        else if (!isAtached && isLeft) targetPosition.x = rightLimit;
+        else targetPosition.x = leftLimit;
+
+        if (!isAtached) isLeft = !isLeft;
+
+        isAtached = false;
+
+        rotateForce(glm::vec3(0.0f, isLeft ? 180.0f:0.0f, 0.0f));
+
+    }
+    else if (Game::instance().getKey('x') && !latchKeys['x']) {
+        latchKeys['x'] = true;
+
+        spawnProjectiles();
+    }
+
+    // Release State
+    if (!Game::instance().getKey('h') && latchKeys['h']) latchKeys['h'] = false;
+    else if (!Game::instance().getKey('g') && latchKeys['g']) latchKeys['g'] = false;
+    else if (!Game::instance().getKey('z') && latchKeys['z']) latchKeys['z'] = false;
+    else if (!Game::instance().getKey('x') && latchKeys['x']) latchKeys['x'] = false;
+}
+
+void ForceDevice::collisionRoutine() {
+    if (isAtached) targetPosition = shipCollider->position + getOffsetofColliders(isLeft);
+    else targetPosition.y = shipCollider->position.y + getOffsetofColliders(isLeft).y;
+
+    if (abs(targetPosition.x - posForce.x) >= forceVelocity.x) {
+        int sign = (targetPosition.x >= posForce.x) ? ((targetPosition.x - posForce.x > 0.0f) ? 1 : -1) : ((posForce.x - targetPosition.x > 0.0f) ? -1 : 1);
+        CollisionSystem::CollisionInfo info = collisionSystem->isColliding(collider, glm::ivec2(sign * forceVelocity.x, 0));
+
+        if (!info.colliding) setPosition(posForce + glm::vec2(sign * forceVelocity.x,0.0f));
+    }
+
+    if (abs(targetPosition.y - posForce.y) >= forceVelocity.y) {
+        int sign = (targetPosition.y >= posForce.y) ? ((targetPosition.y - posForce.y > 0.0f) ? 1 : -1) : ((posForce.y - targetPosition.y > 0.0f) ? -1 : 1);
+        CollisionSystem::CollisionInfo info = collisionSystem->isColliding(collider, glm::ivec2(0, sign * forceVelocity.y));
+
+        if (!info.colliding) setPosition(posForce + glm::vec2(0.0f,sign * forceVelocity.y));
+    }
+
+    CollisionSystem::CollisionInfo infoAttach = collisionSystem->isTriggering(collider, glm::ivec2(0, 0));
+
+    if (infoAttach.triggered && infoAttach.collider->collisionGroup == Collision::Player) {
+        attachToASide();
+        rotateForce(glm::vec3(0.0f, isLeft ? 180.0f : 0.0f, 0.0f));
+    }
+
+    if (isAtached && abs(targetPosition.y - posForce.y) <= 10.0f && 
+        abs(targetPosition.x - posForce.x) <= 10.0f) setPosition(targetPosition);
+
 }
 
 glm::vec2 ForceDevice::getOffsetofColliders(bool left) {
@@ -198,4 +200,45 @@ void ForceDevice::attachToASide() {
     collider->changePositionAbsolute(targetPosition);
     sprite->setPosition(targetPosition);
     
+}
+
+void ForceDevice::rotateForce(const glm::vec3 &rotation) {
+    sprite->setRotation(rotation);
+    collider->setRotation(rotation);
+}
+
+void ForceDevice::spawnProjectiles() {
+    glm::vec4 boundingBox = collider->getBoundingBox();
+    glm::vec2 spawnOffset = glm::vec2((((boundingBox.z - boundingBox.x) * 0.2f),(boundingBox.w - boundingBox.y)/2.0f));
+
+    float sign = isLeft ? -1.0f : 1.0f;
+
+    switch (forceLevel) {
+    case ForceMK1:
+        if (!isAtached) ProjectileFactory::getInstance()->spawnProjectile(posForce + spawnOffset, glm::vec2(sign * 5.0f, 0.0f), true, Projectile::ForceProjectile);
+        break;
+    case ForceMK2:
+        if (!isAtached) {
+            ProjectileFactory::getInstance()->spawnProjectile(posForce + spawnOffset, glm::vec2(sign * 5.0f, -5.0f), true, Projectile::ForceProjectile);
+            ProjectileFactory::getInstance()->spawnProjectile(posForce + spawnOffset, glm::vec2(sign * 5.0f, 0.0f), true, Projectile::ForceProjectile);
+            ProjectileFactory::getInstance()->spawnProjectile(posForce + spawnOffset, glm::vec2(sign * 5.0f, 5.0f), true, Projectile::ForceProjectile);
+        }
+        else {
+            ProjectileFactory::getInstance()->spawnProjectile(posForce + spawnOffset, glm::vec2(sign * 5.0f, -5.0f), true, Projectile::Fireball);
+            ProjectileFactory::getInstance()->spawnProjectile(posForce + spawnOffset, glm::vec2(sign * 5.0f, 5.0f), true, Projectile::Fireball);
+        }
+        break;
+    case ForceMK3:
+        if (!isAtached) {
+            ProjectileFactory::getInstance()->spawnProjectile(posForce + spawnOffset, glm::vec2(sign * 0.0f, -5.0f), true, Projectile::ForceProjectile);
+            ProjectileFactory::getInstance()->spawnProjectile(posForce + spawnOffset, glm::vec2(sign * 5.0f, -5.0f), true, Projectile::ForceProjectile);
+            ProjectileFactory::getInstance()->spawnProjectile(posForce + spawnOffset, glm::vec2(sign * 5.0f, 0.0f), true, Projectile::ForceProjectile);
+            ProjectileFactory::getInstance()->spawnProjectile(posForce + spawnOffset, glm::vec2(sign * 5.0f, 5.0f), true, Projectile::ForceProjectile);
+            ProjectileFactory::getInstance()->spawnProjectile(posForce + spawnOffset, glm::vec2(sign * 0.0f, 5.0f), true, Projectile::ForceProjectile);
+        }
+        else {
+            ProjectileFactory::getInstance()->spawnProjectile(posForce + spawnOffset, glm::vec2(sign * 5.0f, 0.0f), true, Projectile::BombProjectile);
+        }
+        break;
+    }
 }

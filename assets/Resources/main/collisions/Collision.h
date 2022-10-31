@@ -2,6 +2,7 @@
 #define _COLLISION_INCLUDE
 
 #include <math.h>
+#include <vector>
 
 #include "debug\TrianglesRenderer.h"
 
@@ -52,15 +53,17 @@ public:
     Collision::CollisionGroups collisionGroup;
 
     int collidersSize;
-	
-    glm::vec4 *collisions;
+    vector<glm::vec4> collisions;
 
     glm::vec2 position;
 
 private:
 
 	int id;
+
+#ifdef SHOW_HIT_BOXES
     TrianglesRenderer* trianglesRenderer;
+#endif // SHOW_HIT_BOXES
 
 };
 

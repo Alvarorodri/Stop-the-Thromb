@@ -9,8 +9,10 @@ Sprite *Sprite::createSprite(const glm::vec2 &quadSize, const glm::vec2 &sizeInS
 Sprite::Sprite(const glm::vec2 &quadSize, const glm::vec2 &sizeInSpritesheet, Texture *spritesheet, glm::mat4 *project) {
     initShaders();
     projection = project;
-	quadsize = quadSize;
-	angleX = angleY = angleZ = 0;
+
+	box = quadSize;
+    angle = glm::vec3(0.0f);
+
     float vertices[24] = {	0.f, 0.f, 0.f, 0.f,
                             quadSize.x, 0.f, sizeInSpritesheet.x, 0.f,
                             quadSize.x, quadSize.y, sizeInSpritesheet.x, sizeInSpritesheet.y,
@@ -29,6 +31,7 @@ Sprite::Sprite(const glm::vec2 &quadSize, const glm::vec2 &sizeInSpritesheet, Te
     currentAnimation = -1;
     position = glm::vec2(0.f);
 	finishedAnimation = true;
+    halfFinishedAnimation = true;
 }
 
 void Sprite::update(int deltaTime) {
@@ -41,11 +44,9 @@ void Sprite::update(int deltaTime) {
             currentKeyframe = (currentKeyframe + 1) % animations[currentAnimation].keyframeDispl.size();
         }
 		texCoordDispl = animations[currentAnimation].keyframeDispl[currentKeyframe];
-		if (currentKeyframe != animations[currentAnimation].keyframeDispl.size() - 1) {
-			finishedAnimation = false;
-		}
-		else 
-			finishedAnimation = true;
+
+        finishedAnimation = (currentKeyframe == animations[currentAnimation].keyframeDispl.size() - 1);
+        halfFinishedAnimation = (currentKeyframe == (int)(animations[currentAnimation].keyframeDispl.size() / 2) + 1);
 		
     }
 }
@@ -56,11 +57,11 @@ void Sprite::render() {
     shaderProgram.setUniform4f("color", 1.0f, 1.0f, 1.0f, 1.0f);
 
     glm::mat4 modelview = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.f));
-	modelview = glm::translate(modelview, glm::vec3((quadsize.x / 2.0), (quadsize.y/2.0), 0.f));
-	modelview = glm::rotate(modelview, angleZ, glm::vec3(0.f, 0.f, 1.f));
-	modelview = glm::rotate(modelview, angleY, glm::vec3(0.f, 1.f, 0.f));
-	modelview = glm::rotate(modelview, angleX, glm::vec3(1.f, 0.f, 0.f));
-	modelview = glm::translate(modelview, glm::vec3(-(quadsize.x / 2.0), -(quadsize.y / 2.0), 0.f));
+	modelview = glm::translate(modelview, glm::vec3((box.x / 2.0), (box.y/2.0), 0.f));
+	modelview = glm::rotate(modelview, angle.z, glm::vec3(0.f, 0.f, 1.f));
+	modelview = glm::rotate(modelview, angle.y, glm::vec3(0.f, 1.f, 0.f));
+	modelview = glm::rotate(modelview, angle.x, glm::vec3(1.f, 0.f, 0.f));
+	modelview = glm::translate(modelview, glm::vec3(-(box.x / 2.0), -(box.y / 2.0), 0.f));
 
 
     shaderProgram.setUniformMatrix4f("modelview", modelview);
@@ -76,6 +77,8 @@ void Sprite::render() {
 
 void Sprite::free() {
     glDeleteBuffers(1, &vbo);
+	glDeleteVertexArrays(1, &vao);
+	shaderProgram.free();
 }
 
 void Sprite::setNumberAnimations(int nAnimations) {
@@ -87,13 +90,21 @@ void Sprite::setFinishedAnimation(bool finish){
 	finishedAnimation = finish;
 
 }
-void  Sprite::setRotation(const glm::vec3 &rot) {
-	angleX = rot[0] * PI /180.f;
-	angleY = rot[1] * PI /180.f;
-	angleZ = rot[2] * PI /180.f;
+
+void Sprite::setBox(const glm::vec2 &size) {
+    box = size;
 }
+
+void Sprite::setRotation(const glm::vec3 &rotation) {
+    angle = rotation * (PI / 180.f);
+}
+
 bool Sprite::isFinidhedAnimation() {
 	return finishedAnimation;
+}
+
+bool Sprite::isHalfFinidhedAnimation() {
+    return halfFinishedAnimation;
 }
 
 void Sprite::setAnimationSpeed(int animId, int keyframesPerSec) {
@@ -109,6 +120,7 @@ void Sprite::addKeyframe(int animId, const glm::vec2 &displacement) {
 void Sprite::changeAnimation(int animId, bool special) {
     if(animId < int(animations.size())) {
 		finishedAnimation = false;
+        halfFinishedAnimation = false;
 		int pastKeyframe = currentKeyframe;
         currentAnimation = animId;
         currentKeyframe = 0;
@@ -127,7 +139,7 @@ void Sprite::setPosition(const glm::vec2 &pos) {
 }
 
 glm::vec2 Sprite::getQuadsize() const{
-	return quadsize;
+	return box;
 }
 
 void Sprite::initShaders() {

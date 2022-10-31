@@ -209,6 +209,9 @@
     <ClCompile Include="main\characters\enemies\Enemy4.cpp">
       <Filter>Archivos de código fuente\Characters\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="main\projectiles\ProjectileWaves.cpp">
+      <Filter>Archivos de código fuente\Projectiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\Game.h">
@@ -312,6 +315,9 @@
     </ClInclude>
     <ClInclude Include="main\characters\enemies\Enemy2.h">
       <Filter>Archivos de encabezado\Characters\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="main\projectiles\ProjectileWaves.h">
+      <Filter>Archivos de encabezado\Projectiles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

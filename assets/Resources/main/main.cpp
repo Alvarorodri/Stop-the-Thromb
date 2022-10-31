@@ -3,6 +3,8 @@
 #include "Game.h"
 #include "GeneralDefines.h"
 
+// TODO https://learn.microsoft.com/en-us/visualstudio/debugger/finding-memory-leaks-using-the-crt-library?view=vs-2022
+
 //Remove console (only works in Visual Studio)
 #pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
 

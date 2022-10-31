@@ -25,6 +25,11 @@ void Projectile::setPosition(const glm::vec2 &pos) {
 
 void Projectile::setVelocity(const glm::vec2 &vel) {
     projVelocity = vel;
+
+    sprite->setBox(glm::vec2(collider->getBoundingBox().z, collider->getBoundingBox().w));
+    collider->setBox(glm::vec2(collider->getBoundingBox().z, collider->getBoundingBox().w));
+    sprite->setRotation(glm::vec3(0.0f,0.0f,atan2(vel.y, vel.x) * (180 / PI)));
+    collider->setRotation(glm::vec3(0.0f, 0.0f, atan2(vel.y, vel.x) * (180 / PI)));
 }
 
 void Projectile::setType(const ProjectileType type) {
@@ -41,5 +46,7 @@ void Projectile::collisionRoutine() {
 
 void Projectile::deleteRoutine() {
     collisionSystem->removeColliderFromGroup(collider);
-    delete collider;
+	sprite->free();
+	delete sprite;
+	delete collider;
 }

@@ -1,11 +1,11 @@
 #include "ProjectileNormal.h"
 #include "GeneralDefines.h"
 
-ProjectileNormal::ProjectileNormal(glm::mat4 *project, int id) {
+ProjectileNormal::ProjectileNormal(glm::mat4 *project, int id, int type) {
     projection = project;
     idProjectile = id;
     // TODO: the collision type must be set depending of the class that called this method
-    collider = new Collision(id, project, Collision::EnemyProjectiles);
+    collider = new Collision(id, project, (ProjectileType)type == ProjectileType::EnemyProjectile ? Collision::EnemyProjectiles : Collision::PlayerProjectiles);
 
     collisionSystem = CollisionSystem::getInstance();
     collisionSystem->addColliderIntoGroup(collider);
