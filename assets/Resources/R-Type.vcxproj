@@ -107,7 +107,7 @@
     <ProjectGuid>{5BE6CA2A-E5A8-40CC-9015-047CE0C78036}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>My01window</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -153,12 +153,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>main\;..\..\libs\freetype-2.3.5-1-bin\include\freetype2;..\..\libs\freetype-2.3.5-1-bin\include;..\..\libs\Simple OpenGL Image Library\src;..\..\libs\freeglut\include;..\..\libs\glew-1.13.0\include;..\..\libs\SDL2-2.24.1\include;..\..\libs\SDL2_mixer-2.6.2\include;..\..\libs\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>main\;..\..\libs\freetype-2.3.5-1-bin\include\freetype2;..\..\libs\freetype-2.3.5-1-bin\include;..\..\libs\Simple OpenGL Image Library\src;..\..\libs\freeglut\include;..\..\libs\glew-1.13.0\include;..\..\libs\SDL2-2.24.2\include;..\..\libs\SDL2_mixer-2.6.2\include;..\..\libs\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\libs\freetype-2.3.5-1-bin\lib;..\..\libs\Simple OpenGL Image Library\projects\VC9\Debug;..\..\libs\freeglut\lib;..\..\libs\SDL2-2.24.1\lib\x86;..\..\libs\SDL2_mixer-2.6.2\lib\x86;..\..\libs\glew-1.13.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\libs\freetype-2.3.5-1-bin\lib;..\..\libs\Simple OpenGL Image Library\projects\VC9\Debug;..\..\libs\freeglut\lib;..\..\libs\SDL2-2.24.2\lib\x86;..\..\libs\SDL2_mixer-2.6.2\lib\x86;..\..\libs\glew-1.13.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>freetype.lib;SOIL.lib;glew32.lib;odbc32.lib;odbccp32.lib;dsound.lib;SDL2.lib;SDL2main.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
