@@ -1,6 +1,7 @@
 #ifndef _PLAYER_INCLUDE
 #define _PLAYER_INCLUDE
 
+#include "sound\AudioManager.h"
 #include "characters\Character.h"
 #include "ForceDevice.h"
 

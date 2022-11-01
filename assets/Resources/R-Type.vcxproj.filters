@@ -82,6 +82,12 @@
     <Filter Include="Archivos de encabezado\Characters\Player">
       <UniqueIdentifier>{443810c0-1e49-40d5-824a-5b5828ccaf9d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de encabezado\Sound">
+      <UniqueIdentifier>{f6151a1c-6d55-4313-a325-c3c06262690a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Sound">
+      <UniqueIdentifier>{2972832e-1b1e-4f93-ae1c-81cfdf1ec9bd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\texture.vert">
@@ -212,6 +218,9 @@
     <ClCompile Include="main\projectiles\ProjectileWaves.cpp">
       <Filter>Archivos de código fuente\Projectiles</Filter>
     </ClCompile>
+    <ClCompile Include="main\sound\AudioManager.cpp">
+      <Filter>Archivos de código fuente\Sound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\Game.h">
@@ -318,6 +327,9 @@
     </ClInclude>
     <ClInclude Include="main\projectiles\ProjectileWaves.h">
       <Filter>Archivos de encabezado\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="main\sound\AudioManager.h">
+      <Filter>Archivos de encabezado\Sound</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

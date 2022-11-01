@@ -53,6 +53,7 @@
     <ClCompile Include="main\scenes\LoadingScene.cpp" />
     <ClCompile Include="main\scenes\MainMenuScene.cpp" />
     <ClCompile Include="main\scenes\Scene.cpp" />
+    <ClCompile Include="main\sound\AudioManager.cpp" />
     <ClCompile Include="main\textures\Sprite.cpp" />
     <ClCompile Include="main\textures\SpriteOptimized.cpp" />
     <ClCompile Include="main\textures\TexturedQuad.cpp" />
@@ -89,6 +90,7 @@
     <ClInclude Include="main\scenes\LoadingScene.h" />
     <ClInclude Include="main\scenes\MainMenuScene.h" />
     <ClInclude Include="main\scenes\Scene.h" />
+    <ClInclude Include="main\sound\AudioManager.h" />
     <ClInclude Include="main\textures\Sprite.h" />
     <ClInclude Include="main\textures\SpriteOptimized.h" />
     <ClInclude Include="main\textures\TexturedQuad.h" />
@@ -139,6 +141,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>..\..\libs\SDL2_mixer-2.6.2\include;..\..\libs\SDL2-2.24.1\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -150,13 +153,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>main\;..\..\libs\freetype-2.3.5-1-bin\include\freetype2;..\..\libs\freetype-2.3.5-1-bin\include;..\..\libs\Simple OpenGL Image Library\src;..\..\libs\freeglut\include;..\..\libs\glew-1.13.0\include;..\..\libs\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>main\;..\..\libs\freetype-2.3.5-1-bin\include\freetype2;..\..\libs\freetype-2.3.5-1-bin\include;..\..\libs\Simple OpenGL Image Library\src;..\..\libs\freeglut\include;..\..\libs\glew-1.13.0\include;..\..\libs\SDL2-2.24.1\include;..\..\libs\SDL2_mixer-2.6.2\include;..\..\libs\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\libs\freetype-2.3.5-1-bin\lib;..\..\libs\Simple OpenGL Image Library\projects\VC9\Debug;..\..\libs\freeglut\lib;..\..\libs\glew-1.13.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>freetype.lib;SOIL.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\libs\freetype-2.3.5-1-bin\lib;..\..\libs\Simple OpenGL Image Library\projects\VC9\Debug;..\..\libs\freeglut\lib;..\..\libs\SDL2-2.24.1\lib\x86;..\..\libs\SDL2_mixer-2.6.2\lib\x86;..\..\libs\glew-1.13.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>freetype.lib;SOIL.lib;glew32.lib;odbc32.lib;odbccp32.lib;dsound.lib;SDL2.lib;SDL2main.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

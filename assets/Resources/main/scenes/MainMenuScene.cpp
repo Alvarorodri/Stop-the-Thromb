@@ -1,6 +1,7 @@
 #include "MainMenuScene.h"
 #include "Game.h"
 #include "ui\UI_Button.h"
+#include "sound\AudioManager.h"
 #include "GeneralDefines.h"
 
 MainMenuScene *MainMenuScene::getMainMenu() {
@@ -33,6 +34,8 @@ void MainMenuScene::init() {
 
     buttons[selectedButton].setState(UI_Button::Selected);
     enableControls = true;
+
+	AudioManager::getInstance()->init("sounds/sounds.txt");
 }
 
 void MainMenuScene::update(int deltaTime) {
@@ -65,10 +68,16 @@ void MainMenuScene::update(int deltaTime) {
 
             buttons[selectedButton].setState(UI_Button::Clicked);
         }
+		else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT) && !latchKeys[GLUT_KEY_RIGHT]) {
+			latchKeys[GLUT_KEY_RIGHT] = true;
+
+			//AudioManager::getInstance()->playSoundEffect(0);
+		}
 
         if (!Game::instance().getSpecialKey(GLUT_KEY_DOWN) && latchKeys[GLUT_KEY_DOWN]) latchKeys[GLUT_KEY_DOWN] = false;
         else if (!Game::instance().getSpecialKey(GLUT_KEY_UP) && latchKeys[GLUT_KEY_UP]) latchKeys[GLUT_KEY_UP] = false;
         else if (!Game::instance().getSpecialKey(GLUT_KEY_LEFT) && latchKeys[GLUT_KEY_LEFT]) latchKeys[GLUT_KEY_LEFT] = false;
+		else if (!Game::instance().getSpecialKey(GLUT_KEY_RIGHT) && latchKeys[GLUT_KEY_RIGHT]) latchKeys[GLUT_KEY_RIGHT] = false;
     }
 }
 
