@@ -22,6 +22,7 @@ private:
 	float jumpAngle2;
 	float startY2;
 
+
 };
 
 #endif // _Enemy4_INCLUDE

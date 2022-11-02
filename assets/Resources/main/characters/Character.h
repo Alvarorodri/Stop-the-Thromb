@@ -5,7 +5,7 @@
 #include "textures\TileMap.h"
 #include "collisions\Collision.h"
 #include "collisions\CollisionSystem.h"
-
+#include "TextureManager.h"
 
 
 #include "GeneralDefines.h"

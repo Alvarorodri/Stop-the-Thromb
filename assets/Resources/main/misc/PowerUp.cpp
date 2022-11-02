@@ -11,11 +11,7 @@ PowerUp::PowerUp(glm::mat4 *project) {
 }
 
 void PowerUp::init(const PowerUp::PowerUpType type) {
-    spritesheet.loadFromFile("images/misc/power-ups.png", TEXTURE_PIXEL_FORMAT_RGBA);
-    spritesheet.setWrapS(GL_CLAMP_TO_EDGE);
-    spritesheet.setWrapT(GL_CLAMP_TO_EDGE);
-    spritesheet.setMinFilter(GL_NEAREST);
-    spritesheet.setMagFilter(GL_NEAREST);
+	spritesheet = TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::PoweUp);
 
     sprite = Sprite::createSprite(glm::ivec2(PowerUp::size, PowerUp::size), glm::vec2(1.0/8.0, 1.0), &spritesheet, projection);
     sprite->setNumberAnimations(8);

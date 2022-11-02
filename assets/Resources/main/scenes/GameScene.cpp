@@ -38,6 +38,9 @@ void GameScene::init() {
 	cFactory->setMap(map);
 
 	cFactory->spawnCharacter(CharacterFactory::CharacterAvailable::cPlayer, glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
+	cFactory->spawnCharacter(CharacterFactory::CharacterAvailable::cEnemy1, glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize()+50, INIT_PLAYER_Y_TILES * map->getTileSize()));
+	cFactory->spawnCharacter(CharacterFactory::CharacterAvailable::cEnemy4, glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize()+80, INIT_PLAYER_Y_TILES * map->getTileSize()));
+
 
 
 }

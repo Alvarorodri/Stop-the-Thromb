@@ -16,11 +16,8 @@ ProjectileFactory::~ProjectileFactory() {
 void ProjectileFactory::init() {
     last_id = 0;
     
-    spritesheet1.loadFromFile("images/projectiles/projectiles.png", TEXTURE_PIXEL_FORMAT_RGBA);
-    spritesheet1.setWrapS(GL_CLAMP_TO_EDGE);
-    spritesheet1.setWrapT(GL_CLAMP_TO_EDGE);
-    spritesheet1.setMinFilter(GL_NEAREST);
-    spritesheet1.setMagFilter(GL_NEAREST);
+	spritesheet1 = TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::Projectiles);
+
 }
 
 void ProjectileFactory::setProjection(glm::mat4 *project) {

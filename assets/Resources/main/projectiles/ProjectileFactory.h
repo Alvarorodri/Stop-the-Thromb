@@ -8,6 +8,7 @@
 #include "ProjectileNormal.h"
 #include "ProjectileFireball.h"
 #include "ProjectileWaves.h"
+#include "TextureManager.h"
 
 class ProjectileFactory {
 

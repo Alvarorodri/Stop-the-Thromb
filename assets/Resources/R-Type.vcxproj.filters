@@ -224,6 +224,9 @@
     <ClCompile Include="main\sound\AudioManager.cpp">
       <Filter>Archivos de código fuente\Sound</Filter>
     </ClCompile>
+    <ClCompile Include="main\TextureManager.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\Game.h">
@@ -336,6 +339,9 @@
     </ClInclude>
     <ClInclude Include="main\sound\AudioManager.h">
       <Filter>Archivos de encabezado\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="main\TextureManager.h">
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

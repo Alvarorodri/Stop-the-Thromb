@@ -10,11 +10,7 @@ void Enemy4::init(const glm::ivec2 &tileMapPos) {
 	bJumping = false;
 	shootDelay = 0;
 	jumpAngle2 = 0;
-    spritesheet.loadFromFile("images/Enemies/basic-enemies.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	spritesheet.setWrapS(GL_CLAMP_TO_EDGE);
-	spritesheet.setWrapT(GL_CLAMP_TO_EDGE);
-	spritesheet.setMinFilter(GL_NEAREST);
-	spritesheet.setMagFilter(GL_NEAREST);
+	spritesheet = TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::Enemies);
 
 	sprite = Sprite::createSprite(glm::ivec2(48, 48), glm::vec2(1 / 8.0, 1 / 5.0), &spritesheet, projection);
     sprite->setNumberAnimations(1);
@@ -69,6 +65,8 @@ void Enemy4::update(int deltaTime)
             }
 		}
 	} else {
+		jumpAngle = 0;
+		startY = pos.y;
 		shoot();
 		jumpAngle2 += 2.f*PI/180.f;
 		if (jumpAngle2 >= 180) {

@@ -10,11 +10,8 @@ Enemy2::Enemy2(glm::mat4 *project, int id, const glm::ivec2 &tileMapPos) :Charac
 void Enemy2::init(const glm::ivec2 &tileMapPos) {
 	bJumping = false;
 	shootDelay = 60;
-	spritesheet.loadFromFile("images/Enemies/basic-enemies.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	spritesheet.setWrapS(GL_CLAMP_TO_EDGE);
-	spritesheet.setWrapT(GL_CLAMP_TO_EDGE);
-	spritesheet.setMinFilter(GL_NEAREST);
-	spritesheet.setMagFilter(GL_NEAREST);
+	spritesheet = TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::Enemies);
+
 
 	sprite = Sprite::createSprite(glm::ivec2(24, 24), glm::vec2(1 / 16.0, 1 / 10.0), &spritesheet, projection);
 	sprite->setNumberAnimations(1);

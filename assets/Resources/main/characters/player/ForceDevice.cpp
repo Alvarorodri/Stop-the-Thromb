@@ -14,11 +14,7 @@ ForceDevice::ForceDevice(glm::mat4 *project) {
 }
 
 void ForceDevice::init(Collision *sCollider) {
-    spritesheet.loadFromFile("images/player/force-pit-beam.png", TEXTURE_PIXEL_FORMAT_RGBA);
-    spritesheet.setWrapS(GL_CLAMP_TO_EDGE);
-    spritesheet.setWrapT(GL_CLAMP_TO_EDGE);
-    spritesheet.setMinFilter(GL_NEAREST);
-    spritesheet.setMagFilter(GL_NEAREST);
+	spritesheet = TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::Force);
 
     sprite = Sprite::createSprite(glm::ivec2(20, 20), glm::vec2(1.0f/10.0f, 1.0f/16.0f), &spritesheet, projection);
     sprite->setNumberAnimations(3);
