@@ -23,7 +23,7 @@ public:
 	virtual void update(int deltaTime);
 	virtual void render();
 
-	void setTileMap(TileMap *tileMap);
+	virtual void setTileMap(TileMap *tileMap);
 	virtual void setPosition(const glm::vec2 &pos);
 	glm::vec2 getPosition() { return pos; };
 	void deleteRoutine();
@@ -31,7 +31,7 @@ public:
 protected:
 
 	virtual void init(const glm::ivec2 &tileMapPos);
-	void rotate(const float &angleX, const float &angleY, const float &angleZ);
+	virtual void rotate(const float &angleX, const float &angleY, const float &angleZ);
 
 	bool bJumping;
 	bool rot;

@@ -8,6 +8,8 @@
 #include "enemies\Enemy2.h"
 #include "enemies\Enemy3.h"
 #include "enemies\Enemy4.h"
+#include "enemies\Boss.h"
+#include "enemies\Worm.h"
 #include "player\Player.h"
 
 class CharacterFactory {
@@ -20,7 +22,7 @@ private:
 	void lateDestroyCharacter();
 
 public:
-	enum CharacterAvailable{cPlayer, cEnemy1, cEnemy2, cEnemy3, cEnemy4, cBoss};
+	enum CharacterAvailable{cPlayer, cEnemy1, cEnemy2, cEnemy3, cEnemy4, cBoss, cWorm};
 	Player *player = nullptr;
 
 	static CharacterFactory *getInstance();
