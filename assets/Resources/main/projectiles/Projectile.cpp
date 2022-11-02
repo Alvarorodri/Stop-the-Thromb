@@ -20,6 +20,7 @@ void Projectile::render() {
 void Projectile::setPosition(const glm::vec2 &pos) {
     posProjectile = pos;
     sprite->setPosition(posProjectile);
+    collisionSystem->updateCollider(collider, posProjectile);
     collider->changePositionAbsolute(posProjectile);
 }
 

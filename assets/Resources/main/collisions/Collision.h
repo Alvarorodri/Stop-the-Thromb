@@ -1,7 +1,6 @@
 #ifndef _COLLISION_INCLUDE
 #define _COLLISION_INCLUDE
 
-#include <math.h>
 #include <vector>
 
 #include "debug\TrianglesRenderer.h"
@@ -52,8 +51,9 @@ public:
 
     Collision::CollisionGroups collisionGroup;
 
-    int collidersSize;
-    vector<glm::vec4> collisions;
+    glm::vec4 colliderBox;
+    glm::ivec4 cells;
+    bool isSelected = false;
 
     glm::vec2 position;
 

@@ -8,7 +8,6 @@ ProjectileWaves::ProjectileWaves(glm::mat4 *project, int id) {
     collider = new Collision(id, project, Collision::PlayerProjectiles);
 
     collisionSystem = CollisionSystem::getInstance();
-    collisionSystem->addColliderIntoGroup(collider);
 }
 
 void ProjectileWaves::init(Texture *spritesheet, int type) {
@@ -45,6 +44,7 @@ void ProjectileWaves::update(int deltaTime) {
 
     if (sprite != NULL && (wavesState)sprite->animation() == SpawningInitial && sprite->isHalfFinidhedAnimation()) {
         posProjectile.x += 16.0f;
+        collisionSystem->updateCollider(collider, posProjectile);
         collider->changePositionAbsolute(posProjectile);
 
         auxSprite1->changeAnimation(SpawningSections, false);
@@ -54,6 +54,7 @@ void ProjectileWaves::update(int deltaTime) {
     if (sprite == NULL) {
         if (auxSprite1->isHalfFinidhedAnimation()) {
             posProjectile.x += 24.0f;
+            collisionSystem->updateCollider(collider, posProjectile);
             collider->changePositionAbsolute(posProjectile);
 
             auxSprite2->changeAnimation(SpawningSections, false);
@@ -61,6 +62,7 @@ void ProjectileWaves::update(int deltaTime) {
         }
         if (auxSprite2->isHalfFinidhedAnimation()) {
             posProjectile.x += 24.0f;
+            collisionSystem->updateCollider(collider, posProjectile);
             collider->changePositionAbsolute(posProjectile);
 
             auxSprite1->changeAnimation(SpawningSections, false);
@@ -105,7 +107,7 @@ void ProjectileWaves::projectileConfigurator(ProjectileType type, const glm::vec
     auxSprite1->setAnimationSpeed(0, 1);
     auxSprite1->addKeyframe(0, glm::vec2(xy.x * 8.0, xy.y * 1.0));
     auxSprite1->setAnimationSpeed(SpawningSections, 32);
-    for (int j = 2.0; j < 5; ++j) {
+    for (int j = 2; j < 5; ++j) {
         for (int i = 0; i < 9; ++i) {
             if (j == 4 && i == 8) break;
             auxSprite1->addKeyframe(SpawningSections, glm::vec2(xy.x * float(i), xy.y * float(j)));
@@ -115,7 +117,7 @@ void ProjectileWaves::projectileConfigurator(ProjectileType type, const glm::vec
     auxSprite2->setAnimationSpeed(0, 1);
     auxSprite2->addKeyframe(0, glm::vec2(xy.x * 8.0, xy.y * 1.0));
     auxSprite2->setAnimationSpeed(SpawningSections, 32);
-    for (int j = 2.0; j < 5; ++j) {
+    for (int j = 2; j < 5; ++j) {
         for (int i = 0; i < 9; ++i) {
             if (j == 4 && i == 8) break;
             auxSprite2->addKeyframe(SpawningSections, glm::vec2(xy.x * float(i), xy.y * float(j)));
@@ -123,6 +125,9 @@ void ProjectileWaves::projectileConfigurator(ProjectileType type, const glm::vec
     }
 
     collider->addCollider(glm::ivec4(0, 16, 52, 48));
+
+    collisionSystem->addColliderIntoGroup(collider);
+    collisionSystem->updateCollider(collider, glm::vec2(0.0f, 0.0f));
 }
 
 void ProjectileWaves::collisionRoutine() {

@@ -11,7 +11,6 @@ Character::Character(glm::mat4 *project, int id, Collision::CollisionGroups type
 	rot = false;
 	collider = new Collision(id,projection, type);
 	collisionSystem = CollisionSystem::getInstance();
-	collisionSystem->addColliderIntoGroup(collider);	
 }	
 
 void Character::init(const glm::ivec2 &tileMapPos) {
@@ -43,6 +42,7 @@ void Character::setPosition(const glm::vec2 &pos) {
 	this->pos = pos;
 	startY = pos.y;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
+    collisionSystem->updateCollider(collider, this->pos);
 	collider->changePositionAbsolute(glm::vec2(tileMapDispl.x + pos.x, tileMapDispl.y + pos.y));
 }
 

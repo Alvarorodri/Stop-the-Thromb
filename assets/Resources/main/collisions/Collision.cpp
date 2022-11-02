@@ -1,9 +1,8 @@
 #include "Collision.h"
 
 Collision::Collision(int id,glm::mat4 *project, Collision::CollisionGroups group) {
-    collidersSize = 0;
 	this->id = id;
-    collisions = vector<glm::vec4>(0);
+    colliderBox = glm::vec4(0);
     collisionGroup = group;
 
     position = glm::vec2(0, 0);
@@ -14,17 +13,14 @@ Collision::Collision(int id,glm::mat4 *project, Collision::CollisionGroups group
 }
 
 Collision::Collision() {
-    collidersSize = 0;
-    collisions = vector<glm::vec4>(0);
+    colliderBox = glm::vec4(0);
 
     position = glm::vec2(0, 0);
 }
 
 Collision::~Collision() {
-    collidersSize = 0;
-
     position = glm::vec2(0, 0);
-	collisions.clear();
+    colliderBox = glm::vec4(0);
 }
 
 void Collision::setProjection(glm::mat4 *project) {
@@ -34,8 +30,7 @@ void Collision::setProjection(glm::mat4 *project) {
 }
 
 void Collision::addCollider(const glm::vec4 &boxCollider) {
-    collisions.push_back(boxCollider);
-    collidersSize++;
+    colliderBox = boxCollider;
 	
 #ifdef SHOW_HIT_BOXES
     // first triangle
@@ -71,17 +66,7 @@ void Collision::changePositionRelative(const glm::vec2 &pos) {
 }
 
 glm::vec4 Collision::getBoundingBox() {
-    glm::vec4 boundingBox = glm::vec4(-INFINITY, -INFINITY, INFINITY, INFINITY);
-    for (int i = 0; i < collidersSize; ++i) {
-
-        if (collisions[i].x > boundingBox.x) boundingBox.x = collisions[i].x;
-        if (collisions[i].y > boundingBox.y) boundingBox.y = collisions[i].y;
-        if (collisions[i].z < boundingBox.z) boundingBox.z = collisions[i].z;
-        if (collisions[i].w < boundingBox.w) boundingBox.w = collisions[i].w;
-
-    }
-
-    return boundingBox;
+    return colliderBox;
 }
 
 void Collision::setRotation(const glm::vec3 &rotation) {

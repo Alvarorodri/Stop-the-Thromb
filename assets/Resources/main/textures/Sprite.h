@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <vector>
-#include <math.h>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -12,8 +11,6 @@
 #include "utilities\ShaderProgram.h"
 #include "utilities\AnimKeyframes.h"
 #include "GeneralDefines.h"
-
-#define _USE_MATH_DEFINES
 
 // This class is derived from code seen earlier in TexturedQuad but it is also
 // able to manage animations stored as a spritesheet.

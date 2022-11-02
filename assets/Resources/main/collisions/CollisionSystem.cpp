@@ -8,23 +8,22 @@ CollisionSystem *CollisionSystem::getInstance() {
 }
 
 CollisionSystem::CollisionSystem() {
+	spatialHashmap = new SpatialHashmap(32);
 }
 
 CollisionSystem::~CollisionSystem() {
 }
 
 void CollisionSystem::addColliderIntoGroup(Collision* a) {
-    groups[int(a->collisionGroup)].push_back(a);
+	spatialHashmap->insertObject(a);
 }
 
 void CollisionSystem::removeColliderFromGroup(Collision* a) {
-    int group = int(a->collisionGroup);
-    for (auto it = groups[group].begin(); it != groups[group].end(); ++it) {
-        if (*it == a) {
-            groups[group].erase(it);
-            return;
-        }
-    }
+	spatialHashmap->removeObject(a);
+}
+
+void CollisionSystem::updateCollider(Collision* a, const glm::vec2 &newPos) {
+	spatialHashmap->updateObject(a, newPos);
 }
 
 bool CollisionSystem::isValidCollision(const Collision* a, const Collision* b) {
@@ -35,57 +34,69 @@ bool CollisionSystem::isTriggerCollision(const Collision* a, const Collision* b)
     return triggersMatrix[a->collisionGroup][b->collisionGroup];
 }
 
-CollisionSystem::CollisionInfo CollisionSystem::isColliding(const Collision* a, const glm::vec2 &offset) {
-    for (int i = 0; i < (int)groups.size(); ++i) {
-        for (int j = 0; j < (int)groups[i].size(); ++j) {
-            if (isValidCollision(a, groups[i][j])) {
-                if (searchForCollision(a, groups[i][j], offset)) {
-                    return CollisionInfo{ 
-                                isValidCollision(a, groups[i][j]), 
-                                groups[i][j], 
-                                false };
-                }
-            }
+CollisionSystem::CollisionInfo CollisionSystem::isColliding(Collision* a, const glm::vec2 &offset) {
+	glm::vec4 box = a->getBoundingBox();
+
+	glm::vec2 pos = glm::vec2((box.x+box.z)/2.0f, (box.y+box.w)/2.0f);
+	int radius = (int)glm::distance(pos, glm::vec2(box.x,box.y)) + 1;
+
+	pos.x += a->position.x;
+	pos.y += a->position.y;
+
+	int coll = a->collisionGroup;
+    bool collidersGroup[10] = {false, false, false, false, false, false, false, false, false, false};
+
+	for (int i = 0; i < 10/*Collision Matrix Size*/; ++i) {
+		if (collisionMatrix[coll][i]) collidersGroup[i] = true;
+	}
+
+	vector<Collision*> objects = spatialHashmap->getNearByObjects(pos, radius, collidersGroup);
+
+    for (int i = 0; i < (int)objects.size(); ++i) {
+        if (searchForCollision(a, objects[i], offset)) {
+            return CollisionInfo{ true, objects[i], false };
         }
     }
 
     return CollisionInfo{ false, NULL, false};
 }
 
-CollisionSystem::CollisionInfo CollisionSystem::isTriggering(const Collision* a, const glm::vec2 &offset) {
-    for (int i = 0; i < (int)groups.size(); ++i) {
-        for (int j = 0; j < (int)groups[i].size(); ++j) {
-            if (isTriggerCollision(a, groups[i][j])) {
-                if (searchForCollision(a, groups[i][j], offset)) {
-                    return CollisionInfo{ 
-                                false, 
-                                groups[i][j], 
-                                isTriggerCollision(a, groups[i][j]) };
-                }
-            }
+CollisionSystem::CollisionInfo CollisionSystem::isTriggering(Collision* a, const glm::vec2 &offset) {
+	glm::vec4 box = a->getBoundingBox();
+
+	glm::vec2 pos = glm::vec2((box.x + box.z) / 2.0f, (box.y + box.w) / 2.0f);
+	int radius = (int)glm::distance(pos, glm::vec2(box.x, box.y)) + 1;
+
+	int coll = a->collisionGroup;
+
+    bool collidersGroup[10] = { false, false, false, false, false, false, false, false, false, false };
+
+	for (int i = 0; i < 10/*Collision Matrix Size*/; ++i) {
+		if (triggersMatrix[coll][i]) collidersGroup[i] = true;
+	}
+
+    vector<Collision*> objects = spatialHashmap->getNearByObjects(pos, radius, collidersGroup);
+
+    for (int i = 0; i < (int)objects.size(); ++i) {
+        if (searchForCollision(a, objects[i], offset)) {
+            return CollisionInfo{ false, objects[i], true };
         }
     }
-
+	
     return CollisionInfo{ false, NULL, false };
 }
 
 bool CollisionSystem::searchForCollision(const Collision* a, const Collision* b, const glm::vec2 &offset) {
-    for (int i = 0; i < a->collidersSize; ++i) {
-        for (int j = 0; j < b->collidersSize; ++j) {
-            glm::vec4 colliderA = a->collisions[i];
-            glm::vec4 colliderB = b->collisions[j];
-            glm::vec2 posA = a->position + offset;
+    glm::vec2 posA = a->position + offset;
 
-            if ((posA.x + colliderA.x) >= 500.0f) {
-                return false;
-            } else if ((b->position.x + colliderB.x) >= 500.0f) {
-                return false;
-            }
+    if ((posA.x + a->colliderBox.x) >= 500.0f) {
+        return false;
+    } else if ((b->position.x + b->colliderBox.x) >= 500.0f) {
+        return false;
+    }
 
-            if (overlapHorizontal(colliderA, colliderB, posA, b->position)) {
-                return true;
-            }
-        }
+    if (overlapHorizontal(a->colliderBox, b->colliderBox, posA, b->position)) {
+        return true;
     }
 
     return false;

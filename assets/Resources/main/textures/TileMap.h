@@ -65,7 +65,7 @@ private:
 
     float position;
 
-    Collision *collision;
+    vector<Collision*> colliders;
     CollisionSystem *collisionSystem;
 
 };

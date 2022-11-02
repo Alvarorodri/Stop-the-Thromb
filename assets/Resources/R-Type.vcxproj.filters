@@ -227,6 +227,9 @@
     <ClCompile Include="main\TextureManager.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
+    <ClCompile Include="main\collisions\SpatialHashmap.cpp">
+      <Filter>Archivos de código fuente\Collisions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\Game.h">
@@ -342,6 +345,9 @@
     </ClInclude>
     <ClInclude Include="main\TextureManager.h">
       <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="main\collisions\SpatialHashmap.h">
+      <Filter>Archivos de encabezado\Collisions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

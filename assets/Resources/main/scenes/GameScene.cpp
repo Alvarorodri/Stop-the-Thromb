@@ -13,12 +13,11 @@ GameScene::GameScene() {
 }
 
 GameScene::~GameScene() {
-    if(map != NULL)
+    if (map != NULL)
         delete map;
-	//if (cFactory != NULL) delete cFactory;
+    //if (cFactory != NULL) delete cFactory;
 
 }
-
 
 void GameScene::init() {
     // 256.0f is the amount of pixel that has the map as height, it may need a rework to get that value directly from level.txt

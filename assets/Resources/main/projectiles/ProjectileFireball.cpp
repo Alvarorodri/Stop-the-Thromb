@@ -8,7 +8,6 @@ ProjectileFireball::ProjectileFireball(glm::mat4 *project, int id) {
     collider = new Collision(id, project, Collision::PlayerProjectiles);
 
     collisionSystem = CollisionSystem::getInstance();
-    collisionSystem->addColliderIntoGroup(collider);
 }
 
 void ProjectileFireball::init(Texture *spritesheet, int type) {
@@ -30,11 +29,6 @@ void ProjectileFireball::init(Texture *spritesheet, int type) {
 }
 
 void ProjectileFireball::update(int deltaTime) {
-    if (posProjectile.x >= 500.0f || posProjectile.y >= 256.0f || posProjectile.y < 0.0f || posProjectile.x < -50.0f) {
-        ProjectileFactory::getInstance()->destroyProjectile(idProjectile);
-        return;
-    }
-
     collisionRoutine();
 
     if (!followMapShape()) return;
@@ -66,22 +60,16 @@ void ProjectileFireball::projectileConfigurator(ProjectileType type, const glm::
         collider->addCollider(glm::ivec4(0, 0, 12, 13));
         break;
     }
+
+    collisionSystem->addColliderIntoGroup(collider);
+    collisionSystem->updateCollider(collider, glm::vec2(0.0f, 0.0f));
 }
 
 void ProjectileFireball::collisionRoutine() {
-    // RECORDER: it only destroy it self with gets out the scene
-    /*
-    collisionWait--;
-    if (collisionWait == 0) {
-        collisionWait = 3;
-        CollisionSystem::CollisionInfo info = collisionSystem->isColliding(collider, projVelocity);
-
-        if (info.colliding) {
-            if (info.collider->collisionGroup == Collision::Map) {
-                ProjectileFactory::getInstance()->destroyProjectile(idProjectile);
-            }
-        }
-    }*/
+    if (posProjectile.x >= 500.0f || posProjectile.y >= 256.0f || posProjectile.y < 0.0f || posProjectile.x < -50.0f) {
+        ProjectileFactory::getInstance()->destroyProjectile(idProjectile);
+        return;
+    }
 }
 
 bool ProjectileFireball::followMapShape() {
@@ -100,7 +88,8 @@ bool ProjectileFireball::followMapShape() {
 
                 if (!info.colliding) {
                     posProjectile += glm::vec2(0.0f, float(sign) * projVelocity.y);
-                    collider->changePositionRelative(glm::vec2(0.0f, float(sign) * projVelocity.y));
+                    collisionSystem->updateCollider(collider, posProjectile);
+                    collider->changePositionAbsolute(posProjectile);
                     movementFound = true;
 
                     updateMovement = (sign == 1) ? 0 : +1;
@@ -112,7 +101,8 @@ bool ProjectileFireball::followMapShape() {
 
                 if (!info.colliding) {
                     posProjectile += glm::vec2(projVelocity.x, 0.0f);
-                    collider->changePositionRelative(glm::vec2(projVelocity.x, 0.0f));
+                    collisionSystem->updateCollider(collider, posProjectile);
+                    collider->changePositionAbsolute(posProjectile);
                     movementFound = true;
 
                     updateMovement = (sign == 1) ? -1 : +1;
@@ -124,7 +114,8 @@ bool ProjectileFireball::followMapShape() {
 
                 if (!info.colliding) {
                     posProjectile += glm::vec2(0.0f, float(sign) * -projVelocity.y);
-                    collider->changePositionRelative(glm::vec2(0.0f, float(sign) * -projVelocity.y));
+                    collisionSystem->updateCollider(collider, posProjectile);
+                    collider->changePositionAbsolute(posProjectile);
                     movementFound = true;
 
                     updateMovement = (sign == 1) ? -1 : 0;
@@ -136,7 +127,8 @@ bool ProjectileFireball::followMapShape() {
 
                 if (!info.colliding) {
                     posProjectile += glm::vec2(-projVelocity.x, 0.0f);
-                    collider->changePositionRelative(glm::vec2(-projVelocity.x, 0.0f));
+                    collisionSystem->updateCollider(collider, posProjectile);
+                    collider->changePositionAbsolute(posProjectile);
                     movementFound = true;
 
                     updateMovement = (sign == 1) ? -1 : +1;

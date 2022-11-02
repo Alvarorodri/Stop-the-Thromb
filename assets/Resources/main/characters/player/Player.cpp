@@ -52,6 +52,8 @@ void Player::init(const glm::ivec2 &tileMapPos) {
     tileMapDispl = tileMapPos;
 
     collider->addCollider(glm::ivec4(3, 3, 30, 14));
+	collisionSystem->addColliderIntoGroup(collider);
+	collisionSystem->updateCollider(collider, glm::vec2(tileMapDispl.x + pos.x, tileMapDispl.y + pos.y));
     collider->changePositionAbsolute(glm::vec2(tileMapDispl.x + pos.x, tileMapDispl.y + pos.y));
 
 #ifdef SHOW_HIT_BOXES
@@ -79,6 +81,7 @@ void Player::update(int deltaTime)
         }
         else {
             pos.x -= 3;
+			collisionSystem->updateCollider(collider, pos);
             collider->changePositionRelative(glm::vec2(-3, 0));
         }
 	}
@@ -91,6 +94,7 @@ void Player::update(int deltaTime)
         }
         else {
             pos.x += 3;
+			collisionSystem->updateCollider(collider, pos);
             collider->changePositionRelative(glm::vec2(3, 0));
         }
     }
@@ -111,6 +115,7 @@ void Player::update(int deltaTime)
 
         if (!(info.colliding || (forceDevice->isAttached() && info2.colliding))) {
             pos.y += 2;
+			collisionSystem->updateCollider(collider, pos);
             collider->changePositionRelative(glm::vec2(0, 2));
         }
     } else if (Game::instance().getSpecialKey(GLUT_KEY_UP)) {
@@ -129,6 +134,7 @@ void Player::update(int deltaTime)
 
         if (!(info.colliding || (forceDevice->isAttached() && info2.colliding))) {
             pos.y -= 2;
+			collisionSystem->updateCollider(collider, pos);
             collider->changePositionRelative(glm::vec2(0, -2));
         }
     }

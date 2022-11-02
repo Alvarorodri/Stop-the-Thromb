@@ -41,6 +41,7 @@
     <ClCompile Include="main\characters\player\Player.cpp" />
     <ClCompile Include="main\collisions\Collision.cpp" />
     <ClCompile Include="main\collisions\CollisionSystem.cpp" />
+    <ClCompile Include="main\collisions\SpatialHashmap.cpp" />
     <ClCompile Include="main\debug\TrianglesRenderer.cpp" />
     <ClCompile Include="main\Game.cpp" />
     <ClCompile Include="main\main.cpp" />
@@ -80,6 +81,7 @@
     <ClInclude Include="main\characters\player\Player.h" />
     <ClInclude Include="main\collisions\Collision.h" />
     <ClInclude Include="main\collisions\CollisionSystem.h" />
+    <ClInclude Include="main\collisions\SpatialHashmap.h" />
     <ClInclude Include="main\debug\TrianglesRenderer.h" />
     <ClInclude Include="main\Game.h" />
     <ClInclude Include="main\GeneralDefines.h" />
@@ -111,7 +113,7 @@
     <ProjectGuid>{5BE6CA2A-E5A8-40CC-9015-047CE0C78036}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>My01window</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

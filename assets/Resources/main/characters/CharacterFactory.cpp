@@ -116,7 +116,7 @@ void CharacterFactory::update(int deltaTime) {
 		it->second->update(deltaTime);
 	}
 
-	//spawnRoutine();
+	spawnRoutine();
 	lateDestroyCharacter();
 }
 

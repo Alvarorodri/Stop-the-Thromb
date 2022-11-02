@@ -27,6 +27,8 @@ void Enemy2::init(const glm::ivec2 &tileMapPos) {
 	tileMapDispl = tileMapPos;
 
 	collider->addCollider(glm::ivec4(2, 7, 15, 17));
+    collisionSystem->addColliderIntoGroup(collider);
+    collisionSystem->updateCollider(collider, glm::vec2(tileMapDispl.x + pos.x, tileMapDispl.y + pos.y));
 	collider->changePositionAbsolute(glm::vec2(tileMapDispl.x + pos.x, tileMapDispl.y + pos.y));
 
 #ifdef SHOW_HIT_BOXES
@@ -45,7 +47,8 @@ void Enemy2::update(int deltaTime)
 
 	if (!info.colliding) {
         pos.x -= 0.5;
-        collider->changePositionRelative(glm::vec2(-0.5, 0));
+        collisionSystem->updateCollider(collider, pos);
+        collider->changePositionAbsolute(pos);
 	}
 
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
@@ -62,8 +65,9 @@ void Enemy2::update(int deltaTime)
 		}
 
 		else {
-			collider->changePositionRelative(glm::vec2(0, (startY - 50.0f * sin(3.14159f * jumpAngle / 180.f)) - pos.y));
-			pos.y = startY - 50.0f * sin(3.14159f * jumpAngle / 180.f);
+            pos.y = startY - 50.0f * sin(3.14159f * jumpAngle / 180.f);
+            collisionSystem->updateCollider(collider, pos);
+            collider->changePositionAbsolute(pos);
 		}
 	}
 	shoot();
@@ -82,7 +86,7 @@ void Enemy2::shoot() {
 		dir *= velocity;
 		
 		ProjectileFactory::getInstance()->spawnProjectile(pos + glm::vec2(6.0f, 9.0f), dir, false, Projectile::EnemyProjectile);
-		shootDelay = 240;
+		shootDelay = 60;
 	}
 	else shootDelay -= 1;
 }

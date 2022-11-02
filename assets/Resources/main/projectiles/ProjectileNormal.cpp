@@ -8,7 +8,6 @@ ProjectileNormal::ProjectileNormal(glm::mat4 *project, int id, int type) {
     collider = new Collision(id, project, (ProjectileType)type == ProjectileType::EnemyProjectile ? Collision::EnemyProjectiles : Collision::PlayerProjectiles);
 
     collisionSystem = CollisionSystem::getInstance();
-    collisionSystem->addColliderIntoGroup(collider);
 }
 
 void ProjectileNormal::init(Texture *spritesheet, int type) {
@@ -29,6 +28,7 @@ void ProjectileNormal::init(Texture *spritesheet, int type) {
 
 void ProjectileNormal::update(int deltaTime) {
     posProjectile += projVelocity;
+    collisionSystem->updateCollider(collider, posProjectile);
     collider->changePositionRelative(projVelocity);
 
 	collisionRoutine();
@@ -82,12 +82,15 @@ void ProjectileNormal::projectileConfigurator(ProjectileType type, const glm::ve
         collider->addCollider(glm::ivec4(1, 1, 7, 7));
         break;
     }
+
+    collisionSystem->addColliderIntoGroup(collider);
+    collisionSystem->updateCollider(collider, glm::vec2(0.0f, 0.0f));
 }
 
 void ProjectileNormal::collisionRoutine() {
     collisionWait--;
     if (collisionWait <= 0) {
-        collisionWait = 5;
+        collisionWait = 0;
         CollisionSystem::CollisionInfo info = collisionSystem->isColliding(collider, projVelocity);
 
         if (info.colliding) {
