@@ -217,7 +217,7 @@
     </ClCompile>
     <ClCompile Include="main\characters\enemies\Worm.cpp">
       <Filter>Archivos de código fuente\Characters\Enemies</Filter>
-     </ClCompile>
+    </ClCompile>
     <ClCompile Include="main\projectiles\ProjectileWaves.cpp">
       <Filter>Archivos de código fuente\Projectiles</Filter>
     </ClCompile>
@@ -229,6 +229,12 @@
     </ClCompile>
     <ClCompile Include="main\collisions\SpatialHashmap.cpp">
       <Filter>Archivos de código fuente\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="main\characters\ExplosionFactory.cpp">
+      <Filter>Archivos de código fuente\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="main\characters\Explosion.cpp">
+      <Filter>Archivos de código fuente\Characters</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -348,6 +354,12 @@
     </ClInclude>
     <ClInclude Include="main\collisions\SpatialHashmap.h">
       <Filter>Archivos de encabezado\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="main\characters\ExplosionFactory.h">
+      <Filter>Archivos de encabezado\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="main\characters\Explosion.h">
+      <Filter>Archivos de encabezado\Characters</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

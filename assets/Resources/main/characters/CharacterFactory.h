@@ -11,6 +11,7 @@
 #include "enemies\Boss.h"
 #include "enemies\Worm.h"
 #include "player\Player.h"
+#include "ExplosionFactory.h"
 
 class CharacterFactory {
 
@@ -40,6 +41,11 @@ public:
 	void spawnRoutine();
 
 	void destroyCharacter(const int &id);
+	void killCharacter(const int &id);
+	void damageEnemy(const int &id);
+	void damagePlayer();
+	void killPlayer();
+
 
 
 private:
@@ -53,6 +59,7 @@ private:
 	int last_id = 10;
 
 	set<int> pendingToBeDestroyed;
+	set<int> pendingToBeKilled;
 
 	vector<pair<CharacterAvailable, glm::vec2>> enemies;
 

@@ -23,6 +23,7 @@ void Character::update(int deltaTime)
 		CharacterFactory::getInstance()->destroyCharacter(id);
 		return;
 	}
+	if(live <= 0)CharacterFactory::getInstance()->killCharacter(id);
 }
 
 void Character::render() {
@@ -32,6 +33,11 @@ void Character::render() {
 	collider->render();
 #endif // SHOW_HIT_BOXES
 
+}
+
+void Character::damage() {
+	live -= 1;
+	if(live<=0)CharacterFactory::getInstance()->killCharacter(id);
 }
 
 void Character::setTileMap(TileMap *tileMap) {
@@ -46,6 +52,9 @@ void Character::setPosition(const glm::vec2 &pos) {
 	collider->changePositionAbsolute(glm::vec2(tileMapDispl.x + pos.x, tileMapDispl.y + pos.y));
 }
 
+glm::vec4 Character::getBoundingBox() {
+	return collider->getBoundingBox();
+}
 
 void Character::rotate(const float &angleX, const float &angleY, const float &angleZ) {
 	sprite->setRotation(glm::vec3(angleX, angleY, angleZ));

@@ -55,11 +55,10 @@ void SpatialHashmap::removeObject(Collision* a) {
 		for (int j = a->cells.y; j <= a->cells.w; ++j) {
 
 			Hashmap[i][j][a->collisionGroup].erase(a);
-
-            a->cells.z = -1;
-            a->cells.w = -1;
+   
 		}
 	}
+	a->cells = glm::ivec4(-1);
 }
 
 void SpatialHashmap::updateObject(Collision* a, const glm::vec2 &newPos) {

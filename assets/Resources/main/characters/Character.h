@@ -6,6 +6,7 @@
 #include "collisions\Collision.h"
 #include "collisions\CollisionSystem.h"
 #include "TextureManager.h"
+#include "projectiles\ProjectileFactory.h"
 
 
 #include "GeneralDefines.h"
@@ -22,10 +23,12 @@ public:
 	
 	virtual void update(int deltaTime);
 	virtual void render();
+	virtual void damage();
 
 	virtual void setTileMap(TileMap *tileMap);
 	virtual void setPosition(const glm::vec2 &pos);
 	glm::vec2 getPosition() { return pos; };
+	glm::vec4 getBoundingBox();
 	void deleteRoutine();
 
 protected:
@@ -46,6 +49,7 @@ protected:
 	Sprite *sprite;
 	TileMap *tmap;
 	int shootDelay;
+	int live = 1;
 
 	glm::mat4 *projection;
 

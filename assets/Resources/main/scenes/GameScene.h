@@ -8,6 +8,7 @@
 #include "textures\TileMap.h"
 #include "characters\player\Player.h"
 #include "characters\CharacterFactory.h"
+#include "characters\ExplosionFactory.h"
 
 #include "projectiles\ProjectileFactory.h"
 
@@ -37,6 +38,8 @@ private:
 
     TileMap *map;
 	CharacterFactory *cFactory;
+	ExplosionFactory *cExplosion;
+
 
     ShaderProgram texProgram;
     float currentTime;

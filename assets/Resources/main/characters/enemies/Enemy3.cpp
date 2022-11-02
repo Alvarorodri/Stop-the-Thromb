@@ -54,12 +54,19 @@ void Enemy3::init(const glm::ivec2 &tileMapPos) {
 void Enemy3::update(int deltaTime) {
 	sprite->update(deltaTime);
 
-    CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Enemy3::collider, glm::vec2(0, FALL_STEP));
+    
 
 	if(!landed){
+		CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Enemy3::collider, glm::vec2(0, FALL_STEP));
 		if (info.colliding) {
+			if (info.colliding) {
+				if (info.collider->collisionGroup != Collision::CollisionGroups::Map) {
+					live -= 1;
+					if (info.collider->collisionGroup == Collision::CollisionGroups::PlayerProjectiles)ProjectileFactory::getInstance()->destroyProjectile(info.collider->getId());
+					if (info.collider->collisionGroup == Collision::CollisionGroups::Player)CharacterFactory::getInstance()->damagePlayer();
+				}
+			}
 			landed = true;
-			jumpAngle = 0;
 			startY = pos.y;
         } else {
             pos.y += FALL_STEP;

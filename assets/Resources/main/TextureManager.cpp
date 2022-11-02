@@ -51,6 +51,12 @@ Texture TextureManager::getSpriteSheet(Textures type) {
 		case TextureManager::PoweUp:
 			image = "images/misc/power-ups.png";
 			break;
+		case TextureManager::ExplosionPlayer:
+			image = "images/misc/explosion1.png";
+			break;
+		case TextureManager::Explosion:
+			image = "images/misc/explosion2.png";
+			break;
 		default:
 			image = "images/player/force-pit-beam.png";
 			break;

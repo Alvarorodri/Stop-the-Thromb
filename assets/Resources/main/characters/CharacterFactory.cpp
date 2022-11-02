@@ -1,5 +1,6 @@
 #include "CharacterFactory.h"
 
+
 CharacterFactory* CharacterFactory::instance_ = nullptr;
 
 CharacterFactory *CharacterFactory::getInstance() {
@@ -17,6 +18,15 @@ CharacterFactory::~CharacterFactory() {
 void CharacterFactory::destroyCharacter(const int &id) {
 	pendingToBeDestroyed.insert(id);
 }
+
+void CharacterFactory::killCharacter(const int &id) {
+	pendingToBeKilled.insert(id);
+	auto it = characters.find(id);
+	if (it != characters.end()) {
+		ExplosionFactory::getInstance()->spawnExplosion(Explosion::Explosions::ExplosionNormal,projection,it->second->getPosition(),it->second->getBoundingBox());
+	}
+}
+
 void CharacterFactory::lateDestroyCharacter() {
 	for (auto it = pendingToBeDestroyed.begin(); it != pendingToBeDestroyed.end(); ++it) {
 		characters[*it]->deleteRoutine();
@@ -24,6 +34,14 @@ void CharacterFactory::lateDestroyCharacter() {
 		characters.erase(*it);
 	}
 	pendingToBeDestroyed.clear();
+	for (auto it = pendingToBeKilled.begin(); it != pendingToBeKilled.end(); ++it) {
+		if (characters.find(*it) != characters.end()) {
+			characters[*it]->deleteRoutine();
+			delete characters[*it];
+			characters.erase(*it);
+		}
+	}
+	pendingToBeKilled.clear();
 }
 
 void CharacterFactory::init() {
@@ -125,6 +143,20 @@ void CharacterFactory::render() {
 	for (auto it = characters.begin(); it != characters.end(); it++) {
 		it->second->render();
 	}
+}
+
+void CharacterFactory::damageEnemy(const int &id) {
+	auto search = characters.find(id);
+	if (search != characters.end()) search->second->damage();
+}
+
+void CharacterFactory::damagePlayer() {
+	if(player != nullptr)player->damage();
+}
+
+void CharacterFactory::killPlayer() {
+	delete player;
+	player = nullptr;
 }
 
 void CharacterFactory::setTileMapPos(const glm::vec2 &pos){

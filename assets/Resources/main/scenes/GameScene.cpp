@@ -10,6 +10,7 @@ GameScene *GameScene::getGame() {
 GameScene::GameScene() {
     map = NULL;
 	cFactory = NULL;
+	cExplosion = NULL;
 }
 
 GameScene::~GameScene() {
@@ -30,6 +31,7 @@ void GameScene::init() {
     ProjectileFactory::getInstance()->setProjection(&projection);
     ProjectileFactory::getInstance()->init();
     
+	cExplosion = ExplosionFactory::getInstance();
 	cFactory = CharacterFactory::getInstance();
 	cFactory->setProjection(&projection);
 	cFactory->setTileMapPos(glm::ivec2(SCREEN_X, SCREEN_Y));
@@ -37,10 +39,8 @@ void GameScene::init() {
 	cFactory->setMap(map);
 
 	cFactory->spawnCharacter(CharacterFactory::CharacterAvailable::cPlayer, glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
-	cFactory->spawnCharacter(CharacterFactory::CharacterAvailable::cEnemy1, glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize()+50, INIT_PLAYER_Y_TILES * map->getTileSize()));
-	cFactory->spawnCharacter(CharacterFactory::CharacterAvailable::cEnemy4, glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize()+80, INIT_PLAYER_Y_TILES * map->getTileSize()));
-
-
+	cFactory->spawnCharacter(CharacterFactory::CharacterAvailable::cEnemy4, glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize()+100, INIT_PLAYER_Y_TILES * map->getTileSize()));
+	//cFactory->spawnCharacter(CharacterFactory::CharacterAvailable::cEnemy4, glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize()+80, INIT_PLAYER_Y_TILES * map->getTileSize()));
 
 }
 
@@ -50,6 +50,7 @@ void GameScene::update(int deltaTime) {
 
     cFactory->update(deltaTime);
     ProjectileFactory::getInstance()->update(deltaTime);
+	cExplosion->update(deltaTime);
 }
 
 void GameScene::render() {
@@ -57,6 +58,7 @@ void GameScene::render() {
 
     cFactory->render();
     ProjectileFactory::getInstance()->render();
+	cExplosion->render();
 }
 
 void GameScene::initShaders() {

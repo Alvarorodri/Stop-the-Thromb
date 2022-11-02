@@ -186,5 +186,11 @@ void Player::setPosition(const glm::vec2 &pos) {
 void Player::render() {
 	Character::render();
 	forceDevice->render();
+}
 
+void Player::damage() {
+	if (!godmode) {
+		live -= 1;
+		if (live <= 0)CharacterFactory::getInstance()->killPlayer();
+	}
 }

@@ -1,5 +1,5 @@
 #include "Enemy1.h"
-
+#include "characters/CharacterFactory.h"
 
  
 Enemy1::Enemy1(glm::mat4 *project,int id, const glm::ivec2 &tileMapPos):Character(project,id, Collision::Enemy){
@@ -64,9 +64,17 @@ void Enemy1::update(int deltaTime)
 		else info = collisionSystem->isColliding(Enemy1::collider, glm::vec2(0.5, 0));
 		if (info.colliding) {
 			//if(sprite->animation() == MOVE_LEFT)sprite->changeAnimation(STAND_LEFT, false);
-			rot = !rot;
-			if (rot)rotate(0.f, 180.f, 0.f);
-			else rotate(0.f, 0.f, 0.f);
+			
+			if (info.collider->collisionGroup == Collision::CollisionGroups::Map) {
+				rot = !rot;
+				if (rot)rotate(0.f, 180.f, 0.f);
+				else rotate(0.f, 0.f, 0.f);
+			}
+			else { 
+				live -= 1; 
+				if (info.collider->collisionGroup == Collision::CollisionGroups::PlayerProjectiles)ProjectileFactory::getInstance()->destroyProjectile(info.collider->getId());
+				if (info.collider->collisionGroup == Collision::CollisionGroups::Player)CharacterFactory::getInstance()->damagePlayer();
+			}
 		}
 		else {
 			if (landed && sprite->animation() != MOVE_LEFT && sprite->animation() != FLY_LEFT && sprite->animation() != JUMP_LEFT) sprite->changeAnimation(MOVE_LEFT, false);
@@ -98,8 +106,12 @@ void Enemy1::update(int deltaTime)
             CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Enemy1::collider, glm::vec2(0, (startY - 96.0f * sin(3.14159f * jumpAngle / 180.f)) - pos.y));
 
 			if (info.colliding) {
-				bJumping = false;
-				
+				if (info.collider->collisionGroup == Collision::CollisionGroups::Map)bJumping = false;
+				else {
+					live -= 1;
+					if (info.collider->collisionGroup == Collision::CollisionGroups::PlayerProjectiles)ProjectileFactory::getInstance()->destroyProjectile(info.collider->getId());
+					if (info.collider->collisionGroup == Collision::CollisionGroups::Player)CharacterFactory::getInstance()->damagePlayer();
+				}
             } else {
                 collider->changePositionRelative(glm::vec2(0, (startY - 96.0f * sin(3.14159f * jumpAngle / 180.f)) - pos.y));
                 pos.y = startY - 96.0f * sin(3.14159f * jumpAngle / 180.f);
@@ -110,11 +122,20 @@ void Enemy1::update(int deltaTime)
 
 		if (info.colliding) {
 			//sprite->changeAnimation(FLY_LEFT, false);
-			if(sprite->animation() == FLY_LEFT)sprite->changeAnimation(LANDING_LEFT, false);
+			if (info.collider->collisionGroup == Collision::CollisionGroups::Map) {
+				if (sprite->animation() == FLY_LEFT)sprite->changeAnimation(LANDING_LEFT, false);
 				bJumping = false;
 				landed = true;
 				jumpAngle = 0;
 				startY = pos.y;
+			}
+				
+			else {
+				live -= 1;
+				if (info.collider->collisionGroup == Collision::CollisionGroups::PlayerProjectiles)ProjectileFactory::getInstance()->destroyProjectile(info.collider->getId());
+				if (info.collider->collisionGroup == Collision::CollisionGroups::Player)CharacterFactory::getInstance()->damagePlayer();
+			}
+			
         } else {
 			sprite->changeAnimation(FLY_LEFT, false);
             landed = false;

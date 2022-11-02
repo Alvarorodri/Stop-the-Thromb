@@ -19,7 +19,7 @@ public:
     glm::vec2 getPosition() { return pos; };
     void inputController();
 	void render();
-
+	void damage();
 private:
 
 	void init(const glm::ivec2 &tileMapPos);
@@ -28,6 +28,7 @@ private:
 private:
 
     ForceDevice *forceDevice;
+	bool godmode = false;
 
     bool latchKeys[256];
 
