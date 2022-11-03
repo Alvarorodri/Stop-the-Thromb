@@ -53,24 +53,34 @@ void ProjectileWaves::update(int deltaTime) {
 
     if (sprite == NULL) {
         if (auxSprite1->isHalfFinidhedAnimation()) {
-            posProjectile.x += 24.0f;
+            posProjectile.x += 12.0f;
             collisionSystem->updateCollider(collider, posProjectile);
             collider->changePositionAbsolute(posProjectile);
+			posProjectile.x += 12.0f;
 
             auxSprite2->changeAnimation(SpawningSections, false);
             auxSprite2->setPosition(posProjectile);
         }
         if (auxSprite2->isHalfFinidhedAnimation()) {
-            posProjectile.x += 24.0f;
+			posProjectile.x += 12.0f;
             collisionSystem->updateCollider(collider, posProjectile);
             collider->changePositionAbsolute(posProjectile);
+			posProjectile.x += 12.0f;
 
             auxSprite1->changeAnimation(SpawningSections, false);
             auxSprite1->setPosition(posProjectile);
         }
 
-        if (auxSprite1->isFinidhedAnimation()) auxSprite1->changeAnimation(0, false);
-        if (auxSprite2->isFinidhedAnimation()) auxSprite2->changeAnimation(0, false);
+		if (auxSprite1->isFinidhedAnimation()) {
+			auxSprite1->changeAnimation(0, false);
+			collisionSystem->updateCollider(collider, posProjectile);
+			collider->changePositionAbsolute(posProjectile);
+		}
+		if (auxSprite2->isFinidhedAnimation()) {
+			auxSprite2->changeAnimation(0, false);
+			collisionSystem->updateCollider(collider, posProjectile);
+			collider->changePositionAbsolute(posProjectile);
+		}
     }
 
 
@@ -92,6 +102,14 @@ void ProjectileWaves::render() {
 #ifdef SHOW_HIT_BOXES
     collider->render();
 #endif // SHOW_HIT_BOXES
+}
+
+void ProjectileWaves::setPosition(const glm::vec2 &pos) {
+	posProjectile = pos;
+	posProjectile.y -= 28.0f;
+	sprite->setPosition(posProjectile);
+	collisionSystem->updateCollider(collider, posProjectile);
+	collider->changePositionAbsolute(posProjectile);
 }
 
 void ProjectileWaves::projectileConfigurator(ProjectileType type, const glm::vec2 &xy) {
@@ -133,7 +151,7 @@ void ProjectileWaves::projectileConfigurator(ProjectileType type, const glm::vec
 void ProjectileWaves::collisionRoutine() {
     collisionWait--;
     if (collisionWait == 0) {
-        collisionWait = 3;
+        collisionWait = 0;
         CollisionSystem::CollisionInfo info = collisionSystem->isColliding(collider, projVelocity);
 
         if (info.colliding) {

@@ -50,7 +50,7 @@ private:
     int forceLevel;
 
     glm::vec2 posForce;
-    Texture spritesheet;
+    Texture *spritesheet;
     Sprite *sprite;
     TileMap *map;
 
@@ -66,7 +66,7 @@ private:
     bool isLeft = false;
     float shipOffset = 32.0f; // TODO: hacerlo de alguna manera dinamica
     float leftLimit = 30;
-    float rightLimit = 250;
+    float rightLimit = 400;
     glm::vec2 targetPosition;
 
     glm::vec2 forceVelocity = glm::vec2(3.0f,1.0f);

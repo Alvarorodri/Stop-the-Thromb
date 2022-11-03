@@ -19,6 +19,8 @@ public:
     void update(int deltaTime);
     void render();
 
+	void setPosition(const glm::vec2 &pos) override;
+
     void projectileConfigurator(ProjectileType type, const glm::vec2 &xy);
 
     void collisionRoutine();

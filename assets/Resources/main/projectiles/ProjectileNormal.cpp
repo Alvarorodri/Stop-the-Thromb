@@ -23,13 +23,14 @@ void ProjectileNormal::init(Texture *spritesheet, int type) {
     collider->showHitBox();
 #endif // SHOW_HIT_BOXES
 
+	posProjectile = glm::vec2(0.0f);
     sprite->setPosition(glm::vec2(0.0f,0.0f));
 }
 
 void ProjectileNormal::update(int deltaTime) {
     posProjectile += projVelocity;
     collisionSystem->updateCollider(collider, posProjectile);
-    collider->changePositionRelative(projVelocity);
+    collider->changePositionAbsolute(posProjectile);
 
 	collisionRoutine();
 
@@ -89,6 +90,12 @@ void ProjectileNormal::projectileConfigurator(ProjectileType type, const glm::ve
 
 void ProjectileNormal::collisionRoutine() {
     collisionWait--;
+
+	if (posProjectile.x >= 500.0f || posProjectile.y >= 300.0f || posProjectile.y < 0.0f || posProjectile.x <= -50.0f) {
+		ProjectileFactory::getInstance()->destroyProjectile(idProjectile);
+		return;
+	}
+
     if (collisionWait <= 0) {
         collisionWait = 0;
         CollisionSystem::CollisionInfo info = collisionSystem->isColliding(collider, projVelocity);
@@ -99,9 +106,4 @@ void ProjectileNormal::collisionRoutine() {
             }
         }
     }
-
-	if (posProjectile.x >= 500.0f || posProjectile.y >= 300.0f || posProjectile.y < 0.0f || posProjectile.x < -50.0f) {
-		ProjectileFactory::getInstance()->destroyProjectile(idProjectile);
-		return;
-	}
 }

@@ -30,6 +30,7 @@ void GameScene::init() {
 
     ProjectileFactory::getInstance()->setProjection(&projection);
     ProjectileFactory::getInstance()->init();
+	ProjectileFactory::getInstance()->mapSpeed = map->getSpeed();
     
 	cExplosion = ExplosionFactory::getInstance();
 	cFactory = CharacterFactory::getInstance();
@@ -39,14 +40,15 @@ void GameScene::init() {
 	cFactory->setMap(map);
 
 	cFactory->spawnCharacter(CharacterFactory::CharacterAvailable::cPlayer, glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
-	cFactory->spawnCharacter(CharacterFactory::CharacterAvailable::cEnemy4, glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize()+100, INIT_PLAYER_Y_TILES * map->getTileSize()));
-	//cFactory->spawnCharacter(CharacterFactory::CharacterAvailable::cEnemy4, glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize()+80, INIT_PLAYER_Y_TILES * map->getTileSize()));
 
 }
 
 void GameScene::update(int deltaTime) {
     currentTime += deltaTime;
-	map->moveMap(-2.0);
+	map->moveMap(map->getSpeed());
+	
+	//if (Game::instance().getKey('w')) map->moveMap(-5.0);
+	//else if (Game::instance().getKey('q')) map->moveMap(5.0);
 
     cFactory->update(deltaTime);
     ProjectileFactory::getInstance()->update(deltaTime);

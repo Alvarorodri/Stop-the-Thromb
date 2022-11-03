@@ -24,7 +24,7 @@ private:
 	bool ended;
 	glm::mat4 *projection;
 	glm::vec2 pos;
-	Texture spritesheet;
+	Texture *spritesheet;
 	Sprite *sprite;
 };
 #endif // _EXPLOSIONFACTORY_INCLUDE

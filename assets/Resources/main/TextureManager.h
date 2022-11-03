@@ -14,7 +14,7 @@ private:
 public:
 	enum Textures { Map, Stars, Planets, Player, Force, Projectiles, Waves, Enemies, Boss, PoweUp, ExplosionPlayer, Explosion};
 	static TextureManager *getInstance();
-	Texture getSpriteSheet(Textures type);
+	Texture* getSpriteSheet(Textures type);
 
 private:
 	map<Textures, Texture> textures;

@@ -15,9 +15,6 @@ ProjectileFactory::~ProjectileFactory() {
 
 void ProjectileFactory::init() {
     last_id = 0;
-    
-	spritesheet1 = TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::Projectiles);
-
 }
 
 void ProjectileFactory::setProjection(glm::mat4 *project) {
@@ -35,21 +32,21 @@ void ProjectileFactory::spawnProjectile(const glm::vec2 &pos, const glm::vec2 &v
         case Projectile::R9mk3:
         case Projectile::EnemyProjectile:
             projectile = new ProjectileNormal(projection, last_id, type);
-            projectile->init(&spritesheet1, type);
+            projectile->init(TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::Projectiles), type);
             projectile->setPosition(pos);
             projectile->setVelocity(vel);
             projectile->setBounciness(bounce);
             break;
         case Projectile::Fireball:
             projectile = new ProjectileFireball(projection, last_id);
-            projectile->init(&spritesheet1, type);
+            projectile->init(TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::Projectiles), type);
             projectile->setPosition(pos);
             projectile->setVelocity(vel);
             projectile->setBounciness(bounce);
             break;
-        case Projectile::Lasers:
+        case Projectile::Waves:
             projectile = new ProjectileWaves(projection, last_id);
-            projectile->init(&spritesheet1, type);
+            projectile->init(TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::Waves), type);
             projectile->setPosition(pos);
             projectile->setVelocity(vel);
             projectile->setBounciness(bounce);

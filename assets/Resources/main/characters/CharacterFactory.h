@@ -62,6 +62,7 @@ private:
 	set<int> pendingToBeKilled;
 
 	vector<pair<CharacterAvailable, glm::vec2>> enemies;
+	int nextSpawn = 0;
 
 };
 

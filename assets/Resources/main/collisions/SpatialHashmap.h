@@ -27,6 +27,10 @@ public:
 
 private:
 
+	void computeCells(glm::ivec4 &cells, const glm::vec2 &pos);
+
+private:
+
     set<Collision*> Hashmap[1300][25][10] = {};
 
 	int hashSize;

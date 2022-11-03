@@ -11,13 +11,9 @@ void Worm::init(const glm::ivec2 &tileMapPos) {
 		parts.push_back(new Part(projection,id,i,tileMapPos));
 	}
 
+	spritesheet = TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::Boss);
 
-	spritesheet.loadFromFile("images/enemies/Boss.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	spritesheet.setWrapS(GL_CLAMP_TO_EDGE);
-	spritesheet.setWrapT(GL_CLAMP_TO_EDGE);
-	spritesheet.setMinFilter(GL_NEAREST);
-	spritesheet.setMagFilter(GL_NEAREST);
-	sprite = Sprite::createSprite(glm::ivec2(26, 22), glm::vec2(1 / 2.0, 1 / 2.0), &spritesheet, projection);
+	sprite = Sprite::createSprite(glm::ivec2(26, 22), glm::vec2(1 / 2.0, 1 / 2.0), spritesheet, projection);
 	sprite->setNumberAnimations(1);
 
 	sprite->setAnimationSpeed(STAND_RIGHT, 8);
@@ -83,13 +79,11 @@ Part::Part(glm::mat4 *project, int id, int idBody, const glm::ivec2 &tileMapPos)
 
 void Part::init(const glm::ivec2 &tileMapPos) {
 	bJumping = false;
-	spritesheet.loadFromFile("images/enemies/Boss.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	spritesheet.setWrapS(GL_CLAMP_TO_EDGE);
-	spritesheet.setWrapT(GL_CLAMP_TO_EDGE);
-	spritesheet.setMinFilter(GL_NEAREST);
-	spritesheet.setMagFilter(GL_NEAREST);
+
+	spritesheet = TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::Boss);
+
 	if (idBody == 8) {
-		sprite = Sprite::createSprite(glm::ivec2(26, 22), glm::vec2(1.f / 9.34f, 1.f / 11.f), &spritesheet, projection);
+		sprite = Sprite::createSprite(glm::ivec2(26, 22), glm::vec2(1.f / 9.34f, 1.f / 11.f), spritesheet, projection);
 		sprite->setNumberAnimations(1);
 
 		sprite->setAnimationSpeed(0, 8);
@@ -99,7 +93,7 @@ void Part::init(const glm::ivec2 &tileMapPos) {
 		collider->changePositionAbsolute(glm::vec2(tileMapDispl.x + pos.x, tileMapDispl.y + pos.y));
 	}
 	else if (idBody == 0) {
-		sprite = Sprite::createSprite(glm::ivec2(26, 22), glm::vec2(1.f / 9.34f, 1.f / 11.f), &spritesheet, projection);
+		sprite = Sprite::createSprite(glm::ivec2(26, 22), glm::vec2(1.f / 9.34f, 1.f / 11.f), spritesheet, projection);
 		sprite->setNumberAnimations(1);
 
 		sprite->setAnimationSpeed(0, 8);
@@ -110,7 +104,7 @@ void Part::init(const glm::ivec2 &tileMapPos) {
 		collider->changePositionAbsolute(glm::vec2(tileMapDispl.x + pos.x, tileMapDispl.y + pos.y));
 	}
 	else {
-		sprite = Sprite::createSprite(glm::ivec2(16, 16), glm::vec2(1.f / 16.f, 1 / 16.0), &spritesheet, projection);
+		sprite = Sprite::createSprite(glm::ivec2(16, 16), glm::vec2(1.f / 16.f, 1 / 16.0), spritesheet, projection);
 		sprite->setNumberAnimations(2);
 
 		sprite->setAnimationSpeed(0, 8);

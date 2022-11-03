@@ -8,7 +8,7 @@ void Boss::init(const glm::ivec2 &tileMapPos) {
     bJumping = false;
 	spritesheet = TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::Boss);
 	//Body
-    sprite = Sprite::createSprite(glm::ivec2(110, 92), glm::vec2(1.f/2.209090909f, 1/ 2.630434782608696f), &spritesheet, projection);
+    sprite = Sprite::createSprite(glm::ivec2(110, 92), glm::vec2(1.f/2.209090909f, 1/ 2.630434782608696f), spritesheet, projection);
     sprite->setNumberAnimations(1);
     sprite->setAnimationSpeed(STAND_RIGHT, 8);
     sprite->addKeyframe(STAND_RIGHT, glm::vec2(0.f, 0.f));
@@ -16,7 +16,7 @@ void Boss::init(const glm::ivec2 &tileMapPos) {
     tileMapDispl = tileMapPos;
 
 	//Head
-	spriteHead = Sprite::createSprite(glm::ivec2(32, 34), glm::vec2(1.f / 7.59375f, 1 / 7.5625f), &spritesheet, projection);
+	spriteHead = Sprite::createSprite(glm::ivec2(32, 34), glm::vec2(1.f / 7.59375f, 1 / 7.5625f), spritesheet, projection);
 	spriteHead->setNumberAnimations(2);
 	spriteHead->setAnimationSpeed(0, 8);
 	spriteHead->addKeyframe(0, glm::vec2(1.f / 7.59375f*3.f, 1 / 7.5625f*6.f));
@@ -29,7 +29,7 @@ void Boss::init(const glm::ivec2 &tileMapPos) {
 	spriteHead->changeAnimation(0, false);
 //Parts
 	//Right
-	spriteRightPart = Sprite::createSprite(glm::ivec2(26, 30), glm::vec2(1.f / 9.3461538461f, 1 / 7.5625f), &spritesheet, projection);
+	spriteRightPart = Sprite::createSprite(glm::ivec2(26, 30), glm::vec2(1.f / 9.3461538461f, 1 / 7.5625f), spritesheet, projection);
 	spriteRightPart->setNumberAnimations(3);
 	spriteRightPart->setAnimationSpeed(0, 8);
 	spriteRightPart->addKeyframe(0, glm::vec2(1.f / 9.3461538461f*0.f, 1 / 7.5625f*5.f));
@@ -46,7 +46,7 @@ void Boss::init(const glm::ivec2 &tileMapPos) {
 
 	spriteRightPart->changeAnimation(1, false);
 	//Left
-	spriteLeftPart = Sprite::createSprite(glm::ivec2(26, 30), glm::vec2(1.f / 9.3461538461f, 1 / 7.5625f), &spritesheet, projection);
+	spriteLeftPart = Sprite::createSprite(glm::ivec2(26, 30), glm::vec2(1.f / 9.3461538461f, 1 / 7.5625f), spritesheet, projection);
 	spriteLeftPart->setNumberAnimations(3);
 	spriteLeftPart->setAnimationSpeed(0, 8);
 	spriteLeftPart->addKeyframe(0, glm::vec2(1.f / 9.3461538461f*0.f, 1 / 7.5625f*5.f));
@@ -63,7 +63,7 @@ void Boss::init(const glm::ivec2 &tileMapPos) {
 	spriteLeftPart->setRotation(glm::vec3(0.f,180.f,0.f));
 
 //Tail
-	spriteTail = Sprite::createSprite(glm::ivec2(32, 30), glm::vec2(1.f / 7.59375f, 1 / 7.5625f), &spritesheet, projection);
+	spriteTail = Sprite::createSprite(glm::ivec2(32, 30), glm::vec2(1.f / 7.59375f, 1 / 7.5625f), spritesheet, projection);
 	spriteTail->setNumberAnimations(2);
 	spriteTail->setAnimationSpeed(0, 8);
 	spriteTail->addKeyframe(0, glm::vec2(1.f / 7.59375f*0.f, 1 / 7.5625f*6.f));

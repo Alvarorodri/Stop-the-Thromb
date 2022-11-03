@@ -13,7 +13,7 @@ PowerUp::PowerUp(glm::mat4 *project) {
 void PowerUp::init(const PowerUp::PowerUpType type) {
 	spritesheet = TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::PoweUp);
 
-    sprite = Sprite::createSprite(glm::ivec2(PowerUp::size, PowerUp::size), glm::vec2(1.0/8.0, 1.0), &spritesheet, projection);
+    sprite = Sprite::createSprite(glm::ivec2(PowerUp::size, PowerUp::size), glm::vec2(1.0/8.0, 1.0), spritesheet, projection);
     sprite->setNumberAnimations(8);
 
         for (int i = 0; i < 8; ++i) {

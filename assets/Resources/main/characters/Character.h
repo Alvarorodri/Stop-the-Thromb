@@ -45,7 +45,7 @@ protected:
 	glm::vec2 pos;
 	float jumpAngle;
 	float startY;
-	Texture spritesheet;
+	Texture *spritesheet;
 	Sprite *sprite;
 	TileMap *tmap;
 	int shootDelay;

@@ -9,7 +9,7 @@ Explosion::Explosion(Explosions type, glm::mat4 &project, const glm::vec2 &pos, 
 	else {
 		spritesheet = TextureManager::getInstance()->getSpriteSheet(TextureManager::ExplosionPlayer);
 	}
-	sprite = Sprite::createSprite(glm::ivec2(16, 16), glm::vec2(1 / 8.f, 1.f), &spritesheet, &project);
+	sprite = Sprite::createSprite(glm::ivec2(16, 16), glm::vec2(1 / 8.f, 1.f), spritesheet, &project);
 	sprite->setNumberAnimations(5);
 
 	sprite->setAnimationSpeed(0, 8);

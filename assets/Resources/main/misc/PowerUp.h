@@ -33,7 +33,7 @@ private:
     int size = 10;
 
     glm::vec2 posPowerUp;
-    Texture spritesheet;
+    Texture *spritesheet;
     Sprite *sprite;
 
     glm::mat4 *projection;

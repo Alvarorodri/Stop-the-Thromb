@@ -34,6 +34,7 @@ public:
 
     int getTileSize() const { return blockSize; }
 	float getPosition() { return position; }
+	float getSpeed() { return speed; };
 
 private:
 
@@ -64,6 +65,7 @@ private:
     int *map;
 
     float position;
+	float speed = -2.0;
 
     vector<Collision*> colliders;
     CollisionSystem *collisionSystem;

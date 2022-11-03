@@ -14,13 +14,7 @@ class ProjectileFactory {
 
 private:
 
-    static ProjectileFactory *instance_;
-
-public:
-
-    static ProjectileFactory *getInstance();
-
-private:
+	static ProjectileFactory *instance_;
 
     ProjectileFactory();
     ~ProjectileFactory();
@@ -28,6 +22,8 @@ private:
     void lateDestroyProjectile();
 
 public:
+
+	static ProjectileFactory *getInstance();
 
     void init();
     void update(int deltaTime);
@@ -38,10 +34,13 @@ public:
     void spawnProjectile(const glm::vec2 &pos, const glm::vec2 &vel, bool bounce, Projectile::ProjectileType type);
     void destroyProjectile(const int &id);
 
+public:
+
+	float mapSpeed;
+
 private:
 
     glm::mat4 *projection;
-    Texture spritesheet1;
 
     map<int, Projectile *> projectiles;
     int last_id = 0;

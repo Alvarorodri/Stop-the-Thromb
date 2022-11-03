@@ -14,7 +14,7 @@ TextureManager::TextureManager() {
 TextureManager::~TextureManager() {
 }
 
-Texture TextureManager::getSpriteSheet(Textures type) {
+Texture* TextureManager::getSpriteSheet(Textures type) {
 	map<Textures, Texture>::iterator it = textures.find(type);
 	if (it == textures.end()) {
 		Texture spritesheet;
@@ -72,6 +72,6 @@ Texture TextureManager::getSpriteSheet(Textures type) {
 		it = textures.find(type);
 		
 	}
-	return it->second;
+	return &(it->second);
 	
 }

@@ -67,6 +67,9 @@ CollisionSystem::CollisionInfo CollisionSystem::isTriggering(Collision* a, const
 	glm::vec2 pos = glm::vec2((box.x + box.z) / 2.0f, (box.y + box.w) / 2.0f);
 	int radius = (int)glm::distance(pos, glm::vec2(box.x, box.y)) + 1;
 
+	pos.x += a->position.x;
+	pos.y += a->position.y;
+
 	int coll = a->collisionGroup;
 
     bool collidersGroup[10] = { false, false, false, false, false, false, false, false, false, false };

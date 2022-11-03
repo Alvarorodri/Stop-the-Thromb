@@ -9,15 +9,7 @@ SpatialHashmap::~SpatialHashmap() {}
 void SpatialHashmap::insertObject(Collision* a) {
     glm::ivec4 cells = a->colliderBox;
 
-    cells.x += (int)(a->position.x + tileMapPos);
-    cells.y += (int)(a->position.y);
-    cells.z += (int)(a->position.x + tileMapPos);
-    cells.w += (int)(a->position.y);
-
-    cells.x /= hashSize;
-    cells.z /= hashSize;
-    cells.y /= hashSize;
-    cells.w /= hashSize;
+	computeCells(cells, a->position);
 
     a->cells = cells;
 
@@ -31,15 +23,7 @@ void SpatialHashmap::insertObject(Collision* a) {
 void SpatialHashmap::insertObject(Collision* a, const glm::vec2 &pos) {
 	glm::ivec4 cells = a->colliderBox;
 
-    cells.x += (int)(pos.x + tileMapPos);
-    cells.y += (int)(pos.y);
-    cells.z += (int)(pos.x + tileMapPos);
-    cells.w += (int)(pos.y);
-
-    cells.x /= hashSize;
-    cells.z /= hashSize;
-    cells.y /= hashSize;
-    cells.w /= hashSize;
+	computeCells(cells, a->position);
 
     a->cells = cells;
 
@@ -62,22 +46,14 @@ void SpatialHashmap::removeObject(Collision* a) {
 }
 
 void SpatialHashmap::updateObject(Collision* a, const glm::vec2 &newPos) {
-    glm::ivec4 boundingBox2 = a->colliderBox;
+    glm::ivec4 cells = a->colliderBox;
 
-    boundingBox2.x += (int)(newPos.x + tileMapPos);
-    boundingBox2.y += (int)(newPos.y);
-    boundingBox2.z += (int)(newPos.x + tileMapPos);
-    boundingBox2.w += (int)(newPos.y);
+	computeCells(cells, a->position);
 
-    boundingBox2.x /= hashSize;
-    boundingBox2.z /= hashSize;
-    boundingBox2.y /= hashSize;
-    boundingBox2.w /= hashSize;
-
-    if (a->cells.x == boundingBox2.x && 
-        a->cells.y == boundingBox2.y &&
-        a->cells.z == boundingBox2.z &&
-        a->cells.w == boundingBox2.w
+    if (a->cells.x == cells.x && 
+        a->cells.y == cells.y &&
+        a->cells.z == cells.z &&
+        a->cells.w == cells.w
         ) return;
 
 	removeObject(a);
@@ -87,15 +63,9 @@ void SpatialHashmap::updateObject(Collision* a, const glm::vec2 &newPos) {
 vector<Collision*> SpatialHashmap::getNearByObjects(const glm::vec2 &pos, const int &radius, bool *groups) {
     vector<Collision*> result;
 
-	glm::vec4 cells = glm::vec4(pos.x-radius, pos.y-radius, pos.x+radius, pos.y+radius);
+	glm::ivec4 cells = glm::ivec4(pos.x-radius*1.5f, pos.y-radius*1.5f, pos.x+radius*1.5f, pos.y+radius*1.5f);
 
-    cells.x += tileMapPos;
-    cells.z += tileMapPos;
-
-    cells.x /= hashSize;
-    cells.z /= hashSize;
-    cells.y /= hashSize;
-    cells.w /= hashSize;
+	computeCells(cells, glm::vec2(0.0f));
 
 	for (int i = (int)cells.x; i <= (int)cells.z; ++i) {
 		for (int j = (int)cells.y; j <= (int)cells.w; ++j) {
@@ -118,4 +88,18 @@ vector<Collision*> SpatialHashmap::getNearByObjects(const glm::vec2 &pos, const 
 
     for (int i = 0; i < (int)result.size(); ++i) result[i]->isSelected = false;
 	return result;
+}
+
+void SpatialHashmap::computeCells(glm::ivec4 &cells, const glm::vec2 &pos) {
+	cells.x += (int)(pos.x + tileMapPos);
+	cells.y += (int)(pos.y);
+	cells.z += (int)(pos.x + tileMapPos);
+	cells.w += (int)(pos.y);
+
+	cells.x /= hashSize;
+	cells.z /= hashSize;
+	cells.y /= hashSize;
+	cells.w /= hashSize;
+
+	for (int i = 0; i < 4; ++i) if (cells[i] < 0) cells[i] = 0;
 }

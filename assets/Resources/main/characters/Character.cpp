@@ -64,6 +64,5 @@ void Character::rotate(const float &angleX, const float &angleY, const float &an
 
 void Character::deleteRoutine() {
 	collisionSystem->removeColliderFromGroup(collider);
-	sprite->free();
 	delete collider;
 }

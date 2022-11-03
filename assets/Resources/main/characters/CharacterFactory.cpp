@@ -172,19 +172,30 @@ void CharacterFactory::spawnRoutine() {
 	float x2 = x1 + 25.0f;
 	float mapOffset = mapa->getPosition();
 
-	vector<pair<CharacterAvailable, glm::vec2>>::iterator it = enemies.begin();
-	while (it != enemies.end()) {
-		glm::vec2 tempPos = it->second;
-		tempPos.x += mapOffset;
+	if (nextSpawn >= enemies.size()) return;
 
-		if (tempPos.x >= x1 && tempPos.x <= x2) {
-			spawnCharacter(2, tempPos);
+	glm::vec2 tempPos = enemies[nextSpawn].second;
+	tempPos.x += mapOffset;
 
-			enemies.erase(it);
-			it = enemies.begin();
+	// Loop to discard all the enemies that can not spawn because its position
+	while (nextSpawn < enemies.size() && tempPos.x < x1) {
+		++nextSpawn;
+
+		if (nextSpawn < enemies.size()) {
+			tempPos = enemies[nextSpawn].second;
+			tempPos.x += mapOffset;
 		}
-		if (it != enemies.end() && it->second.x > x2) return;
+	}
 
-		if (it != enemies.end()) ++it;
+	// Actual loop that spawn the following enemy
+	while (nextSpawn < enemies.size() && tempPos.x >= x1 && tempPos.x <= x2) {
+		// TODO: Change '2' to nextSpawn->first
+		spawnCharacter(2, tempPos);
+
+		++nextSpawn;
+		if (nextSpawn < enemies.size()) {
+			tempPos = enemies[nextSpawn].second;
+			tempPos.x += mapOffset;
+		}
 	}
 }

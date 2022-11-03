@@ -13,7 +13,7 @@ void Enemy2::init(const glm::ivec2 &tileMapPos) {
 	spritesheet = TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::Enemies);
 
 
-	sprite = Sprite::createSprite(glm::ivec2(24, 24), glm::vec2(1 / 16.0, 1 / 10.0), &spritesheet, projection);
+	sprite = Sprite::createSprite(glm::ivec2(24, 24), glm::vec2(1 / 16.0, 1 / 10.0), spritesheet, projection);
 	sprite->setNumberAnimations(1);
 	sprite->setAnimationSpeed(MOVE_LEFT, 8);
 	sprite->addKeyframe(MOVE_LEFT, glm::vec2((1.0 / 16.0)*0.0, (1.0 / 10.0)*0.0));

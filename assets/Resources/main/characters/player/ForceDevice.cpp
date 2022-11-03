@@ -15,7 +15,7 @@ ForceDevice::ForceDevice(glm::mat4 *project) {
 void ForceDevice::init(Collision *sCollider) {
 	spritesheet = TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::Force);
 
-    sprite = Sprite::createSprite(glm::ivec2(20, 20), glm::vec2(1.0f/10.0f, 1.0f/16.0f), &spritesheet, projection);
+    sprite = Sprite::createSprite(glm::ivec2(20, 20), glm::vec2(1.0f/10.0f, 1.0f/16.0f), spritesheet, projection);
     sprite->setNumberAnimations(3);
 
         int offset = 1;
@@ -119,7 +119,7 @@ void ForceDevice::inputController() {
 
         isAtached = false;
 
-        rotateForce(glm::vec3(0.0f, isLeft ? 180.0f:0.0f, 0.0f));
+        rotateForce(glm::vec3(0.0f, isLeft && isAtached ? 180.0f:0.0f, 0.0f));
 
     }
     else if (Game::instance().getKey('x') && !latchKeys['x']) {
@@ -157,7 +157,7 @@ void ForceDevice::collisionRoutine() {
 
     if (infoAttach.triggered && infoAttach.collider->collisionGroup == Collision::Player) {
         attachToASide();
-        rotateForce(glm::vec3(0.0f, isLeft ? 180.0f : 0.0f, 0.0f));
+        rotateForce(glm::vec3(0.0f, isLeft && isAtached ? 180.0f : 0.0f, 0.0f));
     }
 
     if (isAtached && abs(targetPosition.y - posForce.y) <= 10.0f && 
@@ -210,7 +210,7 @@ void ForceDevice::spawnProjectiles() {
     glm::vec4 boundingBox = collider->getBoundingBox();
     glm::vec2 spawnOffset = glm::vec2((((boundingBox.z - boundingBox.x) * 0.2f),(boundingBox.w - boundingBox.y)/2.0f));
 
-    float sign = isLeft ? -1.0f : 1.0f;
+    float sign = isLeft && isAtached ? -1.0f : 1.0f;
 
     switch (forceLevel) {
     case ForceMK1:
@@ -236,7 +236,7 @@ void ForceDevice::spawnProjectiles() {
             ProjectileFactory::getInstance()->spawnProjectile(posForce + spawnOffset, glm::vec2(sign * 0.0f, 5.0f), true, Projectile::ForceProjectile);
         }
         else {
-            ProjectileFactory::getInstance()->spawnProjectile(posForce + spawnOffset, glm::vec2(sign * 5.0f, 0.0f), true, Projectile::BombProjectile);
+            ProjectileFactory::getInstance()->spawnProjectile(posForce + spawnOffset, glm::vec2(sign * 5.0f, 0.0f), true, Projectile::Waves);
         }
         break;
     }

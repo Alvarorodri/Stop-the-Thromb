@@ -21,6 +21,8 @@ void ProjectileFireball::init(Texture *spritesheet, int type) {
 
     lastMovement = projVelocity.y > 0.0f ? Down : Up;
 
+	mapSpeed = ProjectileFactory::getInstance()->mapSpeed;
+
 #ifdef SHOW_HIT_BOXES
     collider->showHitBox();
 #endif // SHOW_HIT_BOXES
@@ -84,10 +86,10 @@ bool ProjectileFireball::followMapShape() {
         int updateMovement = 0;
         switch ((Movements)curMovement) {
             case Down:
-                info = CollisionSystem::getInstance()->isColliding(collider, glm::vec2(0.0f, float(sign) * projVelocity.y));
+                info = CollisionSystem::getInstance()->isColliding(collider, glm::vec2(0.0f + mapSpeed, float(sign) * projVelocity.y));
 
                 if (!info.colliding) {
-                    posProjectile += glm::vec2(0.0f, float(sign) * projVelocity.y);
+                    posProjectile += glm::vec2(0.0f + mapSpeed, float(sign) * projVelocity.y);
                     collisionSystem->updateCollider(collider, posProjectile);
                     collider->changePositionAbsolute(posProjectile);
                     movementFound = true;
@@ -97,10 +99,10 @@ bool ProjectileFireball::followMapShape() {
                 }
                 break;
             case Right:
-                info = CollisionSystem::getInstance()->isColliding(collider, glm::vec2(projVelocity.x, 0.0f));
+                info = CollisionSystem::getInstance()->isColliding(collider, glm::vec2(projVelocity.x + mapSpeed, 0.0f));
 
                 if (!info.colliding) {
-                    posProjectile += glm::vec2(projVelocity.x, 0.0f);
+                    posProjectile += glm::vec2(projVelocity.x + mapSpeed, 0.0f);
                     collisionSystem->updateCollider(collider, posProjectile);
                     collider->changePositionAbsolute(posProjectile);
                     movementFound = true;
@@ -110,10 +112,10 @@ bool ProjectileFireball::followMapShape() {
                 }
                 break;
             case Up:
-                info = CollisionSystem::getInstance()->isColliding(collider, glm::vec2(0.0f, float(sign) * -projVelocity.y));
+                info = CollisionSystem::getInstance()->isColliding(collider, glm::vec2(0.0f + mapSpeed, float(sign) * -projVelocity.y));
 
                 if (!info.colliding) {
-                    posProjectile += glm::vec2(0.0f, float(sign) * -projVelocity.y);
+                    posProjectile += glm::vec2(0.0f + mapSpeed, float(sign) * -projVelocity.y);
                     collisionSystem->updateCollider(collider, posProjectile);
                     collider->changePositionAbsolute(posProjectile);
                     movementFound = true;
@@ -123,10 +125,10 @@ bool ProjectileFireball::followMapShape() {
                 }
                 break;
             case Left:
-                info = CollisionSystem::getInstance()->isColliding(collider, glm::vec2(-projVelocity.x, 0.0f));
+                info = CollisionSystem::getInstance()->isColliding(collider, glm::vec2(-projVelocity.x + mapSpeed, 0.0f));
 
                 if (!info.colliding) {
-                    posProjectile += glm::vec2(-projVelocity.x, 0.0f);
+                    posProjectile += glm::vec2(-projVelocity.x + mapSpeed, 0.0f);
                     collisionSystem->updateCollider(collider, posProjectile);
                     collider->changePositionAbsolute(posProjectile);
                     movementFound = true;

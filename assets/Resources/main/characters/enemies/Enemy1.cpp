@@ -11,7 +11,7 @@ void Enemy1::init(const glm::ivec2 &tileMapPos) {
 	jumpDelay = 250;
 	spritesheet = TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::Enemies);
 
-    sprite = Sprite::createSprite(glm::ivec2(24,24), glm::vec2(1/16.0, 1/10.0), &spritesheet, projection);
+    sprite = Sprite::createSprite(glm::ivec2(24,24), glm::vec2(1/16.0, 1/10.0), spritesheet, projection);
     sprite->setNumberAnimations(5);
 
 	sprite->setAnimationSpeed(STAND_LEFT, 8);

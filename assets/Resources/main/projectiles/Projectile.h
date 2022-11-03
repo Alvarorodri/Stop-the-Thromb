@@ -15,7 +15,7 @@ public:
 
 	enum ProjectileType {   BombProjectile, ForceProjectile, R9mk0, R9mk1, R9mk2, R9mk3, EnemyProjectile, 
                             Fireball,
-                            Lasers,
+                            Waves,
     };
 
 public:

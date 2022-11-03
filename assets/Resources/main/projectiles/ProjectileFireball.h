@@ -32,6 +32,7 @@ public:
 private:
 
     int lastMovement;
+	float mapSpeed;
 
 };
 
