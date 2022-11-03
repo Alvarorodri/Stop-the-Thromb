@@ -160,6 +160,7 @@ void Player::update(int deltaTime)
 
     sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
     forceDevice->update(deltaTime);
+	Character::update(deltaTime);
 }
 
 void Player::inputController() {

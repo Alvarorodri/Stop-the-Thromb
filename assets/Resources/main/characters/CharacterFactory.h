@@ -46,10 +46,11 @@ public:
 	void damagePlayer();
 	void killPlayer();
 
+public:
 
+	float mapSpeed;
 
 private:
-
 	
 	glm::mat4 *projection;
 	glm::vec2 tileMapPos;

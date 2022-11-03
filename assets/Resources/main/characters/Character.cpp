@@ -19,10 +19,13 @@ void Character::init(const glm::ivec2 &tileMapPos) {
 
 void Character::update(int deltaTime)
 {
-	if (pos.x <= -50.0f || pos.x >= 500.0f || pos.y >= 300.0f || pos.y < 0.0f) {
+	if (pos.x <= -50.0f || pos.x >= 500.0f || pos.y >= 300.0f || pos.y < -50.0f) {
 		CharacterFactory::getInstance()->destroyCharacter(id);
 		return;
 	}
+
+	clippingAvoidance();
+
 	if(live <= 0)CharacterFactory::getInstance()->killCharacter(id);
 }
 
@@ -65,4 +68,12 @@ void Character::rotate(const float &angleX, const float &angleY, const float &an
 void Character::deleteRoutine() {
 	collisionSystem->removeColliderFromGroup(collider);
 	delete collider;
+}
+
+void Character::clippingAvoidance() {
+	CollisionSystem::CollisionInfo info = collisionSystem->isColliding(collider, glm::vec2(0.0f));
+
+	if (info.colliding && info.collider->collisionGroup == Collision::Map) {
+		CharacterFactory::getInstance()->destroyCharacter(id);
+	}
 }

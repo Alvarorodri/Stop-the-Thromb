@@ -91,6 +91,7 @@ void CharacterFactory::spawnCharacter(int type, const glm::vec2 &pos) {
 			if (player==nullptr) {
 				player = new Player(projection, last_id, tileMapPos);
 				player->setPosition(pos);
+				character = player;
 			}
 			break;
 		case cEnemy1:

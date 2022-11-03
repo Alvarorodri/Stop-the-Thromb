@@ -31,6 +31,8 @@ public:
 	glm::vec4 getBoundingBox();
 	void deleteRoutine();
 
+	void clippingAvoidance();
+
 protected:
 
 	virtual void init(const glm::ivec2 &tileMapPos);
