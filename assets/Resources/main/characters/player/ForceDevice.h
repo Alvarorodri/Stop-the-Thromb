@@ -38,6 +38,7 @@ private:
     void inputController();
 
     void collisionRoutine();
+	bool collisionHelper(const CollisionSystem::CollisionInfo &info);
 
     glm::vec2 getOffsetofColliders(bool left);
     void attachToASide();

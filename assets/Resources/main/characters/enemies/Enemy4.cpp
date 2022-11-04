@@ -26,6 +26,7 @@ void Enemy4::init(const glm::ivec2 &tileMapPos) {
     tileMapDispl = tileMapPos;
 
     collider->addCollider(glm::ivec4(5, 3, 25, 30));
+	collisionSystem->updateCollider(collider, glm::vec2(tileMapDispl.x + pos.x, tileMapDispl.y + pos.y));
     collider->changePositionAbsolute(glm::vec2(tileMapDispl.x + pos.x, tileMapDispl.y + pos.y));
 
 #ifdef SHOW_HIT_BOXES
@@ -36,37 +37,38 @@ void Enemy4::init(const glm::ivec2 &tileMapPos) {
 	startY = pos.y;
 }
 
-void Enemy4::update(int deltaTime)
-{
+void Enemy4::update(int deltaTime) {
     sprite->update(deltaTime);
-	glm::vec2 playerpos = CharacterFactory::getInstance()->player->getPosition();
-	if (bJumping && (playerpos.x - pos.x) <= 100.f && (playerpos.x - pos.x) >= -100.f) {
+
+	glm::vec2 playerpos;
+	bool existsPlayer = CharacterFactory::getInstance()->getPlayerPos(playerpos);
+
+	if (bJumping && existsPlayer && (playerpos.x - pos.x) <= 100.f && (playerpos.x - pos.x) >= -100.f) {
 		bJumping = false;
 		jumpAngle2 = 0;
 		startY2 = pos.y;
 
 	}
-	else if(!bJumping && ((playerpos.x - pos.x) > 100.f || (playerpos.x - pos.x) < -100.f)) bJumping = true;
-	if (bJumping)
-	{
+	else if(!bJumping && existsPlayer && ((playerpos.x - pos.x) > 100.f || (playerpos.x - pos.x) < -100.f)) bJumping = true;
+
+	if (bJumping) {
 		jumpAngle += JUMP_ANGLE_STEP/2.0;
+
 		if (jumpAngle >= 180) {
 			collider->changePositionRelative(glm::vec2(0, startY - pos.y));
 			pos.y = startY;
 			jumpAngle = 0;
-		} else {
+		}
+		else {
             CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Enemy4::collider, glm::vec2(0, (startY - 96.0f * sin(3.14159f * jumpAngle / 180.f) / 2) - pos.y));
 
 			if (info.colliding) {
 				if (info.collider->collisionGroup == Collision::CollisionGroups::Map) {
 					jumpAngle -= JUMP_ANGLE_STEP / 2.0;
+				} else if (info.collider->collisionGroup == Collision::CollisionGroups::Player){
+					CharacterFactory::getInstance()->damageCharacter(info.collider->getId(),1);
 				}
 
-				else {
-					live -= 1;
-					if (info.collider->collisionGroup == Collision::CollisionGroups::PlayerProjectiles)ProjectileFactory::getInstance()->destroyProjectile(info.collider->getId());
-					if (info.collider->collisionGroup == Collision::CollisionGroups::Player)CharacterFactory::getInstance()->damagePlayer();
-				}
 			}
 			else {
                 collider->changePositionRelative(glm::vec2(0, (startY - 96.0f * sin(3.14159f * jumpAngle / 180.f) / 2) - pos.y));
@@ -88,12 +90,9 @@ void Enemy4::update(int deltaTime)
 			if (info.colliding) {
 					if (info.collider->collisionGroup == Collision::CollisionGroups::Map) {
 						jumpAngle2 -= JUMP_ANGLE_STEP / 30.f*PI / 180.f;
-					}
-
-					else {
-						live -= 1;
-						if (info.collider->collisionGroup == Collision::CollisionGroups::PlayerProjectiles)ProjectileFactory::getInstance()->destroyProjectile(info.collider->getId());
-						if (info.collider->collisionGroup == Collision::CollisionGroups::Player)CharacterFactory::getInstance()->damagePlayer();
+					} 
+					else if (info.collider->collisionGroup == Collision::CollisionGroups::Player){
+						CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
 					}
 			}
 			else {
@@ -101,20 +100,18 @@ void Enemy4::update(int deltaTime)
 				pos.y = cos(jumpAngle2) / 8.f +pos.y;
 			}
 		}
-		if ((playerpos.y - pos.y > 20.f) || (playerpos.y - pos.y < -0.f)) {
+		if (existsPlayer && (playerpos.y - pos.y > 20.f) || (playerpos.y - pos.y < -0.f)) {
 			float pas = -0.5f;
 			if (playerpos.y > pos.y) pas = 0.5;
-			CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Enemy4::collider, glm::vec2(0.f,pas));
+			CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Enemy4::collider, glm::vec2(0.f, pas));
 
 			if (!info.colliding) {
 				collider->changePositionRelative(glm::vec2(0, pas));
 				pos.y = pas + pos.y;
 			}
 			else {
-				if (info.collider->collisionGroup != Collision::CollisionGroups::Map) {
-					live -= 1;
-					if (info.collider->collisionGroup == Collision::CollisionGroups::PlayerProjectiles)ProjectileFactory::getInstance()->destroyProjectile(info.collider->getId());
-					if (info.collider->collisionGroup == Collision::CollisionGroups::Player)CharacterFactory::getInstance()->damagePlayer();
+				if (info.collider->collisionGroup == Collision::CollisionGroups::Player) {
+					CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
 				}
 			}
 		}
@@ -127,9 +124,16 @@ void Enemy4::update(int deltaTime)
 
 void Enemy4::shoot() {
 		if (shootDelay == 0) {
+			shootDelay = 60;
+
 			int aux = 0;
 			if (rot)aux = -5;
-			glm::vec2 playerpos = CharacterFactory::getInstance()->player->getPosition();
+
+			glm::vec2 playerpos;
+			bool existsPlayer = CharacterFactory::getInstance()->getPlayerPos(playerpos);
+
+			if (!existsPlayer) return;
+
 			glm::vec2 dir = (playerpos + glm::vec2(16.f, 7.f)) - (pos + glm::vec2(0.f, 0.f));
 
 			float angle = atan2(dir.y, dir.x);
@@ -139,7 +143,6 @@ void Enemy4::shoot() {
 			dir *= velocity;
 
 			ProjectileFactory::getInstance()->spawnProjectile(pos + glm::vec2(0.f, 0.f), dir, false, Projectile::EnemyProjectile);
-			shootDelay = 60;
 		}
 		else shootDelay -= 1;
 }

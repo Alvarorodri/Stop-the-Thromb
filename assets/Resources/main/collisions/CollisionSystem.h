@@ -34,8 +34,8 @@ private:
         /*                          Player Force  Map    Enemy  PlProj EnProj Uknown ---    ---    ---                             */
         /* Player               */ {  0   , false, true , true , false, true , false, false, false, false }, /* Player             */
         /* Force                */ { false,  0   , true , true , false, true , false, false, false, false }, /* Force              */
-        /* Map                  */ { true , true ,  0   , true , true , true , false, false, false, false }, /* Map                */
-        /* Enemy                */ { true , true , true ,  0   , true , false, false, false, false, false }, /* Enemy              */
+        /* Map                  */ { true , true ,  0   , true , true , true , true , false, false, false }, /* Map                */
+        /* Enemy                */ { true , false, true ,  0   , false, false, false, false, false, false }, /* Enemy              */
         /* PlayerProjectiles    */ { false, false, true , true ,  0   , false, false, false, false, false }, /* PlayerProjectiles  */
         /* EnemyProjectiles     */ { true , true , true , false, false ,  0   , false, false, false, false }, /* EnemyProjectiles   */
         /* Uknown               */ { false, false, false, false, false, false,  0   , false, false, false }, /* Uknown             */

@@ -23,7 +23,7 @@ public:
 	
 	virtual void update(int deltaTime);
 	virtual void render();
-	virtual void damage();
+	virtual void damage(int dmg);
 
 	virtual void setTileMap(TileMap *tileMap);
 	virtual void setPosition(const glm::vec2 &pos);

@@ -44,15 +44,11 @@ void Enemy2::update(int deltaTime)
 	shoot();
 	CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Enemy2::collider, glm::vec2(-0.5, 0));
 	if (info.colliding) {
-		if (info.collider->collisionGroup != Collision::CollisionGroups::Map) {
-			live -= 1;
-			if (info.collider->collisionGroup == Collision::CollisionGroups::PlayerProjectiles)ProjectileFactory::getInstance()->destroyProjectile(info.collider->getId());
-			if (info.collider->collisionGroup == Collision::CollisionGroups::Player)CharacterFactory::getInstance()->damagePlayer();
+		if (info.collider->collisionGroup == Collision::CollisionGroups::Player) {
+				CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
 		}
-	}
-	if (!info.colliding) {
+	}else {
         pos.x -= 0.5;
-        collisionSystem->updateCollider(collider, pos);
         collider->changePositionAbsolute(pos);
 	}
 
@@ -68,18 +64,13 @@ void Enemy2::update(int deltaTime)
 			if (info.collider->collisionGroup == Collision::CollisionGroups::Map) {
 				if (jumpAngle < 180)jumpAngle = 180 - jumpAngle;
 				if (jumpAngle > 180)jumpAngle = 360 - (jumpAngle - 180);
-			}
-
-			else {
-				live -= 1;
-				if (info.collider->collisionGroup == Collision::CollisionGroups::PlayerProjectiles)ProjectileFactory::getInstance()->destroyProjectile(info.collider->getId());
-				if (info.collider->collisionGroup == Collision::CollisionGroups::Player)CharacterFactory::getInstance()->damagePlayer();
+			} else if (info.collider->collisionGroup == Collision::CollisionGroups::Player) {
+				CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
 			}
 		}
 
 		else {
             pos.y = startY - 50.0f * sin(3.14159f * jumpAngle / 180.f);
-            collisionSystem->updateCollider(collider, pos);
             collider->changePositionAbsolute(pos);
 		}
 	}
@@ -89,7 +80,13 @@ void Enemy2::update(int deltaTime)
 
 void Enemy2::shoot() {
 	if (shootDelay == 0) {
-		glm::vec2 playerpos = CharacterFactory::getInstance()->player->getPosition();
+		shootDelay = 60;
+
+		glm::vec2 playerpos;
+		bool existsPlayer = CharacterFactory::getInstance()->getPlayerPos(playerpos);
+
+		if (!existsPlayer) return;
+
 		glm::vec2 dir = (playerpos+glm::vec2(16.f,7.f))-(pos + glm::vec2(6.0f, 9.0f));
 
 		float angle = atan2(dir.y, dir.x);
@@ -99,7 +96,6 @@ void Enemy2::shoot() {
 		dir *= velocity;
 		
 		ProjectileFactory::getInstance()->spawnProjectile(pos + glm::vec2(6.0f, 9.0f), dir, false, Projectile::EnemyProjectile);
-		shootDelay = 60;
 	}
 	else shootDelay -= 1;
 }

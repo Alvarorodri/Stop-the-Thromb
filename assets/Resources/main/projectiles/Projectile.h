@@ -33,7 +33,7 @@ public:
 
     virtual int getId() { return idProjectile; };
 
-    virtual void collisionRoutine();
+    virtual bool collisionRoutine();
     virtual void deleteRoutine();
 
 protected:

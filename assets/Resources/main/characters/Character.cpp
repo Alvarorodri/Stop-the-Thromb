@@ -24,9 +24,8 @@ void Character::update(int deltaTime)
 		return;
 	}
 
+	collisionSystem->updateCollider(collider, pos);
 	clippingAvoidance();
-
-	if(live <= 0)CharacterFactory::getInstance()->killCharacter(id);
 }
 
 void Character::render() {
@@ -38,8 +37,8 @@ void Character::render() {
 
 }
 
-void Character::damage() {
-	live -= 1;
+void Character::damage(int dmg) {
+	live -= dmg;
 	if(live<=0)CharacterFactory::getInstance()->killCharacter(id);
 }
 

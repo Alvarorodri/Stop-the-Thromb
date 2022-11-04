@@ -81,7 +81,6 @@ void Player::update(int deltaTime)
         }
         else {
             pos.x -= 3;
-			collisionSystem->updateCollider(collider, pos);
             collider->changePositionAbsolute(pos);
         }
 	}
@@ -94,7 +93,6 @@ void Player::update(int deltaTime)
         }
         else {
             pos.x += 3;
-			collisionSystem->updateCollider(collider, pos);
 			collider->changePositionAbsolute(pos);
         }
     }
@@ -115,7 +113,6 @@ void Player::update(int deltaTime)
 
         if (!(info.colliding || (forceDevice->isAttached() && info2.colliding))) {
             pos.y += 2;
-			collisionSystem->updateCollider(collider, pos);
 			collider->changePositionAbsolute(pos);
         }
     } else if (Game::instance().getSpecialKey(GLUT_KEY_UP)) {
@@ -134,7 +131,6 @@ void Player::update(int deltaTime)
 
         if (!(info.colliding || (forceDevice->isAttached() && info2.colliding))) {
             pos.y -= 2;
-			collisionSystem->updateCollider(collider, pos);
 			collider->changePositionAbsolute(pos);
         }
     }
@@ -189,9 +185,8 @@ void Player::render() {
 	forceDevice->render();
 }
 
-void Player::damage() {
+void Player::damage(int dmg) {
 	if (!godmode) {
-		live -= 1;
-		if (live <= 0)CharacterFactory::getInstance()->killPlayer();
+		Character::damage(dmg);
 	}
 }

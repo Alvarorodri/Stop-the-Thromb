@@ -20,11 +20,11 @@ private:
 	static CharacterFactory *instance_;
 	CharacterFactory();
 	~CharacterFactory();
+
 	void lateDestroyCharacter();
 
 public:
 	enum CharacterAvailable{cPlayer, cEnemy1, cEnemy2, cEnemy3, cEnemy4, cBoss, cWorm};
-	Player *player = nullptr;
 
 	static CharacterFactory *getInstance();
 
@@ -34,17 +34,17 @@ public:
 
 	void setProjection(glm::mat4 *project);
 	void setSpawnFiles(string file);
-	void spawnCharacter(int type, const glm::vec2 &pos);
 	void setTileMapPos(const glm::vec2 &pos);
 	void setMap(TileMap *map);
 
+	bool getPlayerPos(glm::vec2 &pos);
+
+	void spawnCharacter(int type, const glm::vec2 &pos);
 	void spawnRoutine();
 
 	void destroyCharacter(const int &id);
 	void killCharacter(const int &id);
-	void damageEnemy(const int &id);
-	void damagePlayer();
-	void killPlayer();
+	void damageCharacter(const int &id, int dmg);
 
 public:
 
@@ -56,6 +56,7 @@ private:
 	glm::vec2 tileMapPos;
 	TileMap *mapa;
 
+	Player *player = nullptr;
 	map<int, Character *> characters;
 	int last_id = 10;
 

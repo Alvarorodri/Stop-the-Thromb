@@ -15,28 +15,23 @@ CharacterFactory::CharacterFactory() {
 CharacterFactory::~CharacterFactory() {
 }
 
-void CharacterFactory::destroyCharacter(const int &id) {
-	pendingToBeDestroyed.insert(id);
-}
-
-void CharacterFactory::killCharacter(const int &id) {
-	pendingToBeKilled.insert(id);
-	auto it = characters.find(id);
-	if (it != characters.end()) {
-		ExplosionFactory::getInstance()->spawnExplosion(Explosion::Explosions::ExplosionNormal,projection,it->second->getPosition(),it->second->getBoundingBox());
-	}
-}
-
 void CharacterFactory::lateDestroyCharacter() {
 	for (auto it = pendingToBeDestroyed.begin(); it != pendingToBeDestroyed.end(); ++it) {
 		characters[*it]->deleteRoutine();
+
+		if (characters[*it] == player) player = nullptr;
+
 		delete characters[*it];
 		characters.erase(*it);
 	}
 	pendingToBeDestroyed.clear();
+
 	for (auto it = pendingToBeKilled.begin(); it != pendingToBeKilled.end(); ++it) {
 		if (characters.find(*it) != characters.end()) {
 			characters[*it]->deleteRoutine();
+
+			if (characters[*it] == player) player = nullptr;
+
 			delete characters[*it];
 			characters.erase(*it);
 		}
@@ -46,6 +41,21 @@ void CharacterFactory::lateDestroyCharacter() {
 
 void CharacterFactory::init() {
 
+}
+
+void CharacterFactory::update(int deltaTime) {
+	for (auto it = characters.begin(); it != characters.end(); it++) {
+		it->second->update(deltaTime);
+	}
+
+	spawnRoutine();
+	lateDestroyCharacter();
+}
+
+void CharacterFactory::render() {
+	for (auto it = characters.begin(); it != characters.end(); it++) {
+		it->second->render();
+	}
 }
 
 void CharacterFactory::setProjection(glm::mat4 *project) {
@@ -83,84 +93,7 @@ void CharacterFactory::setSpawnFiles(string file) {
 	fin.close();
 }
 
-void CharacterFactory::spawnCharacter(int type, const glm::vec2 &pos) {
-
-	Character *character = nullptr;
-	switch (type) {
-		case cPlayer:
-			if (player==nullptr) {
-				player = new Player(projection, last_id, tileMapPos);
-				player->setPosition(pos);
-				character = player;
-			}
-			break;
-		case cEnemy1:
-			character = new Enemy1(projection, last_id, tileMapPos);
-			character->setPosition(pos);
-			break;
-		case cEnemy2:
-			character = new Enemy2(projection, last_id, tileMapPos);
-			character->setPosition(pos);
-			break;
-		case cEnemy3:
-			character = new Enemy3(projection, last_id, tileMapPos);
-			character->setPosition(pos);
-			break;
-		case cEnemy4:
-			character = new Enemy4(projection, last_id, tileMapPos);
-			character->setPosition(pos);
-			break;
-		case cBoss:
-			character = new Boss(projection, last_id, tileMapPos);
-			character->setPosition(pos);
-			break;
-		case cWorm:
-			character = new Worm(projection, last_id, tileMapPos);
-			character->setPosition(pos);
-			break;
-		default:
-			character = new Enemy1(projection, last_id, tileMapPos);
-			character->setPosition(pos);
-			break;
-	}
-	if(character!=nullptr)characters[last_id] = character;
-	++last_id;
-
-
-}
-
-void CharacterFactory::update(int deltaTime) {
-	if(player != nullptr)player->update(deltaTime);
-	for (auto it = characters.begin(); it != characters.end(); it++) {
-		it->second->update(deltaTime);
-	}
-
-	spawnRoutine();
-	lateDestroyCharacter();
-}
-
-void CharacterFactory::render() {
-	if (player != nullptr)player->render();
-	for (auto it = characters.begin(); it != characters.end(); it++) {
-		it->second->render();
-	}
-}
-
-void CharacterFactory::damageEnemy(const int &id) {
-	auto search = characters.find(id);
-	if (search != characters.end()) search->second->damage();
-}
-
-void CharacterFactory::damagePlayer() {
-	if(player != nullptr)player->damage();
-}
-
-void CharacterFactory::killPlayer() {
-	delete player;
-	player = nullptr;
-}
-
-void CharacterFactory::setTileMapPos(const glm::vec2 &pos){
+void CharacterFactory::setTileMapPos(const glm::vec2 &pos) {
 	tileMapPos = pos;
 }
 
@@ -168,35 +101,105 @@ void CharacterFactory::setMap(TileMap *map) {
 	mapa = map;
 }
 
+bool CharacterFactory::getPlayerPos(glm::vec2 &pos) {
+	if (player == nullptr) return false;
+
+	pos = player->getPosition();
+	return true;
+}
+
+void CharacterFactory::spawnCharacter(int type, const glm::vec2 &pos) {
+
+	Character *character = nullptr;
+	switch (type) {
+	case cPlayer:
+		if (player == nullptr) {
+			player = new Player(projection, last_id, tileMapPos);
+			player->setPosition(pos);
+			character = player;
+		}
+		break;
+	case cEnemy1:
+		character = new Enemy1(projection, last_id, tileMapPos);
+		character->setPosition(pos);
+		break;
+	case cEnemy2:
+		character = new Enemy2(projection, last_id, tileMapPos);
+		character->setPosition(pos);
+		break;
+	case cEnemy3:
+		character = new Enemy3(projection, last_id, tileMapPos);
+		character->setPosition(pos);
+		break;
+	case cEnemy4:
+		character = new Enemy4(projection, last_id, tileMapPos);
+		character->setPosition(pos);
+		break;
+	case cBoss:
+		character = new Boss(projection, last_id, tileMapPos);
+		character->setPosition(pos);
+		break;
+	case cWorm:
+		character = new Worm(projection, last_id, tileMapPos);
+		character->setPosition(pos);
+		break;
+	default:
+		character = new Enemy1(projection, last_id, tileMapPos);
+		character->setPosition(pos);
+		break;
+	}
+	if (character != nullptr)characters[last_id] = character;
+	++last_id;
+
+
+}
+
 void CharacterFactory::spawnRoutine() {
 	float x1 = COORD_VIEW_LIMIT_X;
 	float x2 = x1 + 25.0f;
 	float mapOffset = mapa->getPosition();
 
-	if (nextSpawn >= enemies.size()) return;
+	if (nextSpawn >= (int)enemies.size()) return;
 
 	glm::vec2 tempPos = enemies[nextSpawn].second;
 	tempPos.x += mapOffset;
 
 	// Loop to discard all the enemies that can not spawn because its position
-	while (nextSpawn < enemies.size() && tempPos.x < x1) {
+	while (nextSpawn < (int)enemies.size() && tempPos.x < x1) {
 		++nextSpawn;
 
-		if (nextSpawn < enemies.size()) {
+		if (nextSpawn < (int)enemies.size()) {
 			tempPos = enemies[nextSpawn].second;
 			tempPos.x += mapOffset;
 		}
 	}
 
 	// Actual loop that spawn the following enemy
-	while (nextSpawn < enemies.size() && tempPos.x >= x1 && tempPos.x <= x2) {
+	while (nextSpawn < (int)enemies.size() && tempPos.x >= x1 && tempPos.x <= x2) {
 		// TODO: Change '2' to nextSpawn->first
 		spawnCharacter(2, tempPos);
 
 		++nextSpawn;
-		if (nextSpawn < enemies.size()) {
+		if (nextSpawn < (int)enemies.size()) {
 			tempPos = enemies[nextSpawn].second;
 			tempPos.x += mapOffset;
 		}
 	}
+}
+
+void CharacterFactory::destroyCharacter(const int &id) {
+	pendingToBeDestroyed.insert(id);
+}
+
+void CharacterFactory::killCharacter(const int &id) {
+	pendingToBeKilled.insert(id);
+	auto it = characters.find(id);
+	if (it != characters.end()) {
+		ExplosionFactory::getInstance()->spawnExplosion(Explosion::Explosions::ExplosionNormal,projection,it->second->getPosition(),it->second->getBoundingBox());
+	}
+}
+
+void CharacterFactory::damageCharacter(const int &id, int dmg) {
+	auto search = characters.find(id);
+	if (search != characters.end()) search->second->damage(dmg);
 }

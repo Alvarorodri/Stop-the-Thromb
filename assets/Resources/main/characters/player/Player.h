@@ -15,11 +15,15 @@ public:
 
     Player(glm::mat4 *project, int id, const glm::ivec2 &tileMapPos);
     void update(int deltaTime);
-	void setPosition(const glm::vec2 &pos);
-    glm::vec2 getPosition() { return pos; };
-    void inputController();
 	void render();
-	void damage();
+
+	void setPosition(const glm::vec2 &pos);
+	glm::vec2 getPosition() { return pos; };
+
+	void inputController();
+
+	void damage(int dmg) override;
+
 private:
 
 	void init(const glm::ivec2 &tileMapPos);

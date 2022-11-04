@@ -48,7 +48,7 @@ void SpatialHashmap::removeObject(Collision* a) {
 void SpatialHashmap::updateObject(Collision* a, const glm::vec2 &newPos) {
     glm::ivec4 cells = a->colliderBox;
 
-	computeCells(cells, a->position);
+	computeCells(cells, newPos);
 
     if (a->cells.x == cells.x && 
         a->cells.y == cells.y &&

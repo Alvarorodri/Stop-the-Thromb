@@ -67,6 +67,7 @@ void ForceDevice::init(Collision *sCollider) {
 void ForceDevice::update(int deltaTime) {
     inputController();
     collisionRoutine();
+	collisionSystem->updateCollider(collider, posForce);
 
     sprite->setPosition(glm::vec2(posForce.x, posForce.y));
     sprite->update(deltaTime);
@@ -83,7 +84,6 @@ void ForceDevice::render() {
 void ForceDevice::setPosition(const glm::vec2 &pos) {
     posForce = pos;
     sprite->setPosition(posForce);
-    collisionSystem->updateCollider(collider, posForce);
     collider->changePositionAbsolute(posForce);
 }
 
@@ -139,19 +139,36 @@ void ForceDevice::collisionRoutine() {
     if (isAtached) targetPosition = shipCollider->position + getOffsetofColliders(isLeft);
     else targetPosition.y = shipCollider->position.y + getOffsetofColliders(isLeft).y;
 
+	bool moved = false;
+
     if (abs(targetPosition.x - posForce.x) >= forceVelocity.x) {
         int sign = (targetPosition.x >= posForce.x) ? ((targetPosition.x - posForce.x > 0.0f) ? 1 : -1) : ((posForce.x - targetPosition.x > 0.0f) ? -1 : 1);
         CollisionSystem::CollisionInfo info = collisionSystem->isColliding(collider, glm::ivec2(sign * forceVelocity.x, 0));
 
-        if (!info.colliding) setPosition(posForce + glm::vec2(sign * forceVelocity.x,0.0f));
+		if (!info.colliding) {
+			setPosition(posForce + glm::vec2(sign * forceVelocity.x, 0.0f));
+			moved |= true;
+		}
+		else collisionHelper(info);
+
     }
 
     if (abs(targetPosition.y - posForce.y) >= forceVelocity.y) {
         int sign = (targetPosition.y >= posForce.y) ? ((targetPosition.y - posForce.y > 0.0f) ? 1 : -1) : ((posForce.y - targetPosition.y > 0.0f) ? -1 : 1);
         CollisionSystem::CollisionInfo info = collisionSystem->isColliding(collider, glm::ivec2(0, sign * forceVelocity.y));
 
-        if (!info.colliding) setPosition(posForce + glm::vec2(0.0f,sign * forceVelocity.y));
+		if (!info.colliding) {
+			setPosition(posForce + glm::vec2(0.0f, sign * forceVelocity.y));
+			moved |= true;
+		}
+		else collisionHelper(info);
+
     }
+
+	if (!moved) {
+		CollisionSystem::CollisionInfo info = collisionSystem->isColliding(collider, glm::ivec2(0, 0));
+		if (info.colliding) collisionHelper(info);
+	}
 
     CollisionSystem::CollisionInfo infoAttach = collisionSystem->isTriggering(collider, glm::ivec2(0, 0));
 
@@ -240,4 +257,16 @@ void ForceDevice::spawnProjectiles() {
         }
         break;
     }
+}
+
+bool ForceDevice::collisionHelper(const CollisionSystem::CollisionInfo &info) {
+	switch (info.collider->collisionGroup) {
+	case Collision::EnemyProjectiles:
+		ProjectileFactory::getInstance()->destroyProjectile(info.collider->getId());
+		break;
+	case Collision::Enemy:
+		CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
+		break;
+	}
+	return true;
 }

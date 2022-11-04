@@ -1,5 +1,6 @@
 #include "ProjectileFireball.h"
 #include "GeneralDefines.h"
+#include "Game.h"
 
 ProjectileFireball::ProjectileFireball(glm::mat4 *project, int id) {
     projection = project;
@@ -31,13 +32,13 @@ void ProjectileFireball::init(Texture *spritesheet, int type) {
 }
 
 void ProjectileFireball::update(int deltaTime) {
-    collisionRoutine();
-
-    if (!followMapShape()) return;
+    if (!collisionRoutine()) return;
 
     sprite->setPosition(posProjectile);
 
     sprite->update(deltaTime);
+
+	Projectile::update(deltaTime);
 }
 
 void ProjectileFireball::render() {
@@ -67,11 +68,10 @@ void ProjectileFireball::projectileConfigurator(ProjectileType type, const glm::
     collisionSystem->updateCollider(collider, glm::vec2(0.0f, 0.0f));
 }
 
-void ProjectileFireball::collisionRoutine() {
-    if (posProjectile.x >= 500.0f || posProjectile.y >= 256.0f || posProjectile.y < 0.0f || posProjectile.x < -50.0f) {
-        ProjectileFactory::getInstance()->destroyProjectile(idProjectile);
-        return;
-    }
+bool ProjectileFireball::collisionRoutine() {
+	if (!Projectile::collisionRoutine() || !followMapShape()) return false;
+
+	return true;
 }
 
 bool ProjectileFireball::followMapShape() {
@@ -96,7 +96,8 @@ bool ProjectileFireball::followMapShape() {
 
                     updateMovement = (sign == 1) ? 0 : +1;
                     lastMovement = curMovement + updateMovement;
-                }
+				}
+				else collisionHelper(info);
                 break;
             case Right:
                 info = CollisionSystem::getInstance()->isColliding(collider, glm::vec2(projVelocity.x + mapSpeed, 0.0f));
@@ -110,6 +111,7 @@ bool ProjectileFireball::followMapShape() {
                     updateMovement = (sign == 1) ? -1 : +1;
                     lastMovement = curMovement + updateMovement;
                 }
+				else collisionHelper(info);
                 break;
             case Up:
                 info = CollisionSystem::getInstance()->isColliding(collider, glm::vec2(0.0f + mapSpeed, float(sign) * -projVelocity.y));
@@ -123,6 +125,7 @@ bool ProjectileFireball::followMapShape() {
                     updateMovement = (sign == 1) ? -1 : 0;
                     lastMovement = curMovement + updateMovement;
                 }
+				else collisionHelper(info);
                 break;
             case Left:
                 info = CollisionSystem::getInstance()->isColliding(collider, glm::vec2(-projVelocity.x + mapSpeed, 0.0f));
@@ -136,6 +139,7 @@ bool ProjectileFireball::followMapShape() {
                     updateMovement = (sign == 1) ? -1 : +1;
                     lastMovement = curMovement + updateMovement;
                 }
+				else collisionHelper(info);
                 break;
         }
 
@@ -150,4 +154,13 @@ bool ProjectileFireball::followMapShape() {
         }
     }
     return true;
+}
+
+bool ProjectileFireball::collisionHelper(const CollisionSystem::CollisionInfo &info) {
+	switch (info.collider->collisionGroup) {
+	case Collision::Enemy:
+		CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
+		break;
+	}
+	return true;
 }

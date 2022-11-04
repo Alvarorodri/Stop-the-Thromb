@@ -23,7 +23,7 @@ public:
 
     void projectileConfigurator(ProjectileType type, const glm::vec2 &xy);
 
-    void collisionRoutine();
+    bool collisionRoutine();
 
 private:
 

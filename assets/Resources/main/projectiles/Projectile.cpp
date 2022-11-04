@@ -10,7 +10,7 @@ void Projectile::init(Texture *spritesheet, int type) {
 }
 
 void Projectile::update(int deltaTime) {
-    throw exception("Not Implemented Method");
+	collisionSystem->updateCollider(collider, posProjectile);
 }
 
 void Projectile::render() {
@@ -41,8 +41,13 @@ void Projectile::setBounciness(const bool bounce) {
     projBounce = bounce;
 }
 
-void Projectile::collisionRoutine() {
-    throw exception("Not Implemented Method");
+bool Projectile::collisionRoutine() {
+	if (posProjectile.x >= 500.0f || posProjectile.y >= 300.0f || posProjectile.y < -50.0f || posProjectile.y < -50.0f) {
+		ProjectileFactory::getInstance()->destroyProjectile(idProjectile);
+		return false;
+	}
+
+	return true;
 }
 
 void Projectile::deleteRoutine() {

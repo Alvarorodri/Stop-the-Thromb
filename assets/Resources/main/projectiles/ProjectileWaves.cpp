@@ -1,5 +1,6 @@
 #include "ProjectileWaves.h"
 #include "GeneralDefines.h"
+#include "Game.h"
 
 ProjectileWaves::ProjectileWaves(glm::mat4 *project, int id) {
     projection = project;
@@ -37,10 +38,6 @@ void ProjectileWaves::init(Texture *spritesheet, int type) {
 }
 
 void ProjectileWaves::update(int deltaTime) {
-    if (posProjectile.x >= 500.0f || posProjectile.y >= 300.0f || posProjectile.y < 0.0f) {
-        ProjectileFactory::getInstance()->destroyProjectile(idProjectile);
-        return;
-    }
 
     if (sprite != NULL && (wavesState)sprite->animation() == SpawningInitial && sprite->isHalfFinidhedAnimation()) {
         posProjectile.x += 16.0f;
@@ -89,8 +86,12 @@ void ProjectileWaves::update(int deltaTime) {
         sprite->update(deltaTime);
     }
 
+	if (!collisionRoutine()) return;
+
     auxSprite1->update(deltaTime);
     auxSprite2->update(deltaTime);
+
+	Projectile::update(deltaTime);
 }
 
 void ProjectileWaves::render() {
@@ -148,16 +149,26 @@ void ProjectileWaves::projectileConfigurator(ProjectileType type, const glm::vec
     collisionSystem->updateCollider(collider, glm::vec2(0.0f, 0.0f));
 }
 
-void ProjectileWaves::collisionRoutine() {
+bool ProjectileWaves::collisionRoutine() {
+	if (!Projectile::collisionRoutine()) return false;
+
     collisionWait--;
     if (collisionWait == 0) {
         collisionWait = 0;
         CollisionSystem::CollisionInfo info = collisionSystem->isColliding(collider, projVelocity);
 
         if (info.colliding) {
-            if (info.collider->collisionGroup == Collision::Map) {
-                ProjectileFactory::getInstance()->destroyProjectile(idProjectile);
-            }
+			switch (info.collider->collisionGroup) {
+			case Collision::Map:
+				ProjectileFactory::getInstance()->destroyProjectile(idProjectile);
+				return false;
+				break;
+			case Collision::Enemy:
+				CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
+				break;
+			}
         }
     }
+
+	return true;
 }

@@ -1,5 +1,6 @@
 #include "ProjectileNormal.h"
 #include "GeneralDefines.h"
+#include "Game.h"
 
 ProjectileNormal::ProjectileNormal(glm::mat4 *project, int id, int type) {
     projection = project;
@@ -11,12 +12,13 @@ ProjectileNormal::ProjectileNormal(glm::mat4 *project, int id, int type) {
 }
 
 void ProjectileNormal::init(Texture *spritesheet, int type) {
+	projectileType = (ProjectileType)type;
 
     glm::vec2 spriteCuts = glm::vec2(1.0 / 8.0, 1.0 / 32.0);
     sprite = Sprite::createSprite(glm::ivec2(32, 8), spriteCuts, spritesheet, projection);
     sprite->setNumberAnimations(1);
 
-    projectileConfigurator((ProjectileType)type, spriteCuts);
+    projectileConfigurator(projectileType, spriteCuts);
     sprite->changeAnimation(0, false);
 
 #ifdef SHOW_HIT_BOXES
@@ -29,14 +31,15 @@ void ProjectileNormal::init(Texture *spritesheet, int type) {
 
 void ProjectileNormal::update(int deltaTime) {
     posProjectile += projVelocity;
-    collisionSystem->updateCollider(collider, posProjectile);
     collider->changePositionAbsolute(posProjectile);
 
-	collisionRoutine();
+	if (!collisionRoutine()) return;
 
     sprite->setPosition(posProjectile);
 
     sprite->update(deltaTime);
+
+	Projectile::update(deltaTime);
 }
 
 void ProjectileNormal::render() {
@@ -88,22 +91,33 @@ void ProjectileNormal::projectileConfigurator(ProjectileType type, const glm::ve
     collisionSystem->updateCollider(collider, glm::vec2(0.0f, 0.0f));
 }
 
-void ProjectileNormal::collisionRoutine() {
-    collisionWait--;
+bool ProjectileNormal::collisionRoutine() {
+	if (!Projectile::collisionRoutine()) return false;
 
-	if (posProjectile.x >= 500.0f || posProjectile.y >= 300.0f || posProjectile.y < 0.0f || posProjectile.x <= -50.0f) {
-		ProjectileFactory::getInstance()->destroyProjectile(idProjectile);
-		return;
-	}
-
+	collisionWait--;
     if (collisionWait <= 0) {
         collisionWait = 0;
         CollisionSystem::CollisionInfo info = collisionSystem->isColliding(collider, projVelocity);
-
+		
         if (info.colliding) {
-            if (info.collider->collisionGroup == Collision::Map) {
-                ProjectileFactory::getInstance()->destroyProjectile(idProjectile);
-            }
+			switch (info.collider->collisionGroup) {
+			case Collision::Map:
+				ProjectileFactory::getInstance()->destroyProjectile(idProjectile);
+				return false;
+				break;
+			case Collision::Enemy:
+				if (projectileType != ProjectileType::EnemyProjectile) {
+					CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
+				}
+				break;
+			case Collision::Player:
+				if (projectileType == ProjectileType::EnemyProjectile) {
+					CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
+					
+				}
+				break;
+			}
         }
     }
+	return true;
 }
