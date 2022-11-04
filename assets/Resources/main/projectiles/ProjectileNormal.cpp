@@ -108,12 +108,16 @@ bool ProjectileNormal::collisionRoutine() {
 			case Collision::Enemy:
 				if (projectileType != ProjectileType::EnemyProjectile) {
 					CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
+
+					if (projectileType != ProjectileType::R9mk1 && projectileType != ProjectileType::R9mk2 && projectileType != ProjectileType::R9mk3) {
+						ProjectileFactory::getInstance()->destroyProjectile(this->getId());
+					}
 				}
 				break;
 			case Collision::Player:
 				if (projectileType == ProjectileType::EnemyProjectile) {
 					CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
-					
+					ProjectileFactory::getInstance()->destroyProjectile(this->getId());
 				}
 				break;
 			}

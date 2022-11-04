@@ -17,6 +17,8 @@ public:
     void update(int deltaTime);
 	void render();
 
+	bool isPlayer() { return true; };
+
 	void setPosition(const glm::vec2 &pos);
 	glm::vec2 getPosition() { return pos; };
 
