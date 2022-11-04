@@ -58,6 +58,10 @@ glm::vec4 Character::getBoundingBox() {
 	return collider->getBoundingBox();
 }
 
+int Character::getId() {
+	return this->id;
+}
+
 void Character::rotate(const float &angleX, const float &angleY, const float &angleZ) {
 	sprite->setRotation(glm::vec3(angleX, angleY, angleZ));
 	collider->setBox(sprite->getQuadsize());

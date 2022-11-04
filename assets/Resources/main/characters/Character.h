@@ -27,6 +27,7 @@ public:
 
 	virtual void setTileMap(TileMap *tileMap);
 	virtual void setPosition(const glm::vec2 &pos);
+	int getId();
 	glm::vec2 getPosition() { return pos; };
 	glm::vec4 getBoundingBox();
 	void deleteRoutine();

@@ -195,7 +195,10 @@ void CharacterFactory::killCharacter(const int &id) {
 	pendingToBeKilled.insert(id);
 	auto it = characters.find(id);
 	if (it != characters.end()) {
-		ExplosionFactory::getInstance()->spawnExplosion(Explosion::Explosions::ExplosionNormal,projection,it->second->getPosition(),it->second->getBoundingBox());
+		if(player != nullptr && player->getId() == id){
+			ExplosionFactory::getInstance()->spawnExplosion(Explosion::Explosions::ExplosionPlayer, projection, it->second->getPosition(), it->second->getBoundingBox());
+		}
+		else ExplosionFactory::getInstance()->spawnExplosion(Explosion::Explosions::ExplosionNormal,projection,it->second->getPosition(),it->second->getBoundingBox());
 	}
 }
 
