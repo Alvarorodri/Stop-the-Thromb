@@ -25,7 +25,16 @@ void TileMap::moveMap(float increment) {
     render();
 }
 
+void TileMap::update(int deltaTime) {
+	if (renderBackground) {
+		background->update(speed, position, deltaTime);
+	}
+}
+
 void TileMap::render() {
+	if (renderBackground) {
+		background->render(position);
+	}
 
     shaderProgram.use();
     shaderProgram.setUniformMatrix4f("projection", *projection);
@@ -120,6 +129,14 @@ bool TileMap::loadGame(ifstream &fin, const glm::vec2 &minCoords) {
     tileTexSize = glm::vec2(1.f / blocksheetSize.x, 1.f / blocksheetSize.y);
 
     map = new int[mapSize.x * mapSize.y];
+
+	// background settings
+	string backgroundFile;
+	getline(fin, line);
+	sstream.str(line);
+	sstream >> backgroundFile;
+	background = Background::createBackground(backgroundFile, glm::vec2(0.0f,0.0f), projection);
+	renderBackground = true;
 
     fin.close();
 

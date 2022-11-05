@@ -24,8 +24,8 @@ Texture* TextureManager::getSpriteSheet(Textures type) {
 		case TextureManager::Map:
 			image = "images/background/testing-long-map.png";
 			break;
-		case TextureManager::Stars:
-
+		case TextureManager::Background:
+			image = "images/background/background.png";
 			break;
 		case TextureManager::Planets:
 			image = "images/background/planets.png";

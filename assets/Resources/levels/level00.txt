@@ -5,4 +5,4 @@ BOX_COLLISION
 images/background/testing-long-map.png				-- Map
 images/background/testing-long-map_collisions-computed.txt	-- Collisions boxes
 80 64								-- Number of block in Map
-0 255 0								-- Discart pixels
+levels/Background00.txt						-- Background settings

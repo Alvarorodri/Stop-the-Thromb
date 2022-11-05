@@ -47,6 +47,7 @@ void GameScene::init() {
 void GameScene::update(int deltaTime) {
     currentTime += deltaTime;
 	map->moveMap(map->getSpeed());
+	map->update(deltaTime);
 	
 	//if (Game::instance().getKey('w')) map->moveMap(-5.0);
 	//else if (Game::instance().getKey('q')) map->moveMap(5.0);

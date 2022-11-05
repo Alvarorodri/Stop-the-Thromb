@@ -8,6 +8,7 @@
 #include "collisions\CollisionSystem.h"
 #include "utilities\Texture.h"
 #include "utilities\ShaderProgram.h"
+#include "Background.h"
 
 #include "GeneralDefines.h"
 
@@ -29,6 +30,7 @@ public:
     ~TileMap();
 
     void moveMap(float increment);
+	void update(int deltaTime);
     void render();
     void free();
 
@@ -63,6 +65,9 @@ private:
     Texture tilesheet;
     glm::vec2 tileTexSize;
     int *map;
+
+	Background *background = nullptr;
+	bool renderBackground = false;
 
     float position;
 	float speed = -2.0;

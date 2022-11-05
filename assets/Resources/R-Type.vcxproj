@@ -61,6 +61,7 @@
     <ClCompile Include="main\scenes\Scene.cpp" />
     <ClCompile Include="main\sound\AudioManager.cpp" />
     <ClCompile Include="main\TextureManager.cpp" />
+    <ClCompile Include="main\textures\Background.cpp" />
     <ClCompile Include="main\textures\Sprite.cpp" />
     <ClCompile Include="main\textures\SpriteOptimized.cpp" />
     <ClCompile Include="main\textures\TexturedQuad.cpp" />
@@ -105,6 +106,7 @@
     <ClInclude Include="main\scenes\Scene.h" />
     <ClInclude Include="main\sound\AudioManager.h" />
     <ClInclude Include="main\TextureManager.h" />
+    <ClInclude Include="main\textures\Background.h" />
     <ClInclude Include="main\textures\Sprite.h" />
     <ClInclude Include="main\textures\SpriteOptimized.h" />
     <ClInclude Include="main\textures\TexturedQuad.h" />
