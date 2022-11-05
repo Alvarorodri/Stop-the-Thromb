@@ -125,14 +125,25 @@ void ForceDevice::inputController() {
     else if (Game::instance().getKey('x') && !latchKeys['x']) {
         latchKeys['x'] = true;
 
-        spawnProjectiles();
+		int offsetAttach = isAtached ? 3 : 0;
+		int tmp = offsetAttach + (int)forceLevel;
+
+		if (currentShotCountdown < 0) {
+			spawnProjectiles();
+			currentShotCountdown = shotDelay[tmp];
+		}
     }
 
     // Release State
     if (!Game::instance().getKey('h') && latchKeys['h']) latchKeys['h'] = false;
     else if (!Game::instance().getKey('g') && latchKeys['g']) latchKeys['g'] = false;
     else if (!Game::instance().getKey('z') && latchKeys['z']) latchKeys['z'] = false;
-    else if (!Game::instance().getKey('x') && latchKeys['x']) latchKeys['x'] = false;
+	else if (!Game::instance().getKey('x') && latchKeys['x']) {
+		latchKeys['x'] = false;
+	}
+
+	currentShotCountdown -= 1;
+	if (currentShotCountdown > 10000) currentShotCountdown = 0;
 }
 
 void ForceDevice::collisionRoutine() {

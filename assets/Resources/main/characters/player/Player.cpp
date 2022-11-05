@@ -160,18 +160,29 @@ void Player::update(int deltaTime)
 }
 
 void Player::inputController() {
-    if (Game::instance().getKey('x') && !latchKeys['x']) {
-        latchKeys['x'] = true;
-
-		AudioManager::getInstance()->playSoundEffect(AudioManager::LaserGun, 128);
-        ProjectileFactory::getInstance()->spawnProjectile(pos + glm::vec2(32.0f, 6.0f), glm::vec2(3.0f,0.0f), false, Projectile::R9mk0);
+    if (Game::instance().getKey('x')) {
+		latchKeys['x'] = true;
+		currentCharge += 1.0f;
     }
     else if (Game::instance().getKey('c') && !latchKeys['c']) {
         latchKeys['c'] = true;
 		AudioManager::getInstance()->playSoundEffect(AudioManager::RunningInThe90s, 42);
     }
 
-    if (!Game::instance().getKey('x') && latchKeys['x']) latchKeys['x'] = false;
+	if (!Game::instance().getKey('x') && latchKeys['x']) {
+		latchKeys['x'] = false;
+
+		AudioManager::getInstance()->playSoundEffect(AudioManager::LaserGun, 128);
+
+		int mk = 0;
+		for (int i = 0; i < 4; ++i) {
+			mk = i;
+			if (timestampMks[i] > currentCharge) break;
+		}
+
+		ProjectileFactory::getInstance()->spawnProjectile(pos + glm::vec2(32.0f, 6.0f), glm::vec2(3.0f, 0.0f), false, (Projectile::ProjectileType)((int)Projectile::R9mk0 + mk));
+		currentCharge = 0.0f;
+	}
     else if (!Game::instance().getKey('c') && latchKeys['c']) latchKeys['c'] = false;
 }
 
