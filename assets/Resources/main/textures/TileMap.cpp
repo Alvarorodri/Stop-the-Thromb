@@ -67,6 +67,9 @@ bool TileMap::loadLevel(const string &levelFile, const glm::vec2 &minCoords) {
     if (line.compare(0, 13, "BOX_COLLISION") == 0) return loadGame(fin, minCoords);
     else if (line.compare(0, 9, "MAIN_MENU") == 0) return loadStaticImage(fin, minCoords);
     else if (line.compare(0, 7, "LOADING") == 0) return loadStaticImage(fin, minCoords);
+	else if (line.compare(0, 12, "INSTRUCTIONS") == 0) return loadStaticImage(fin, minCoords);
+	else if (line.compare(0, 12, "CREDITS") == 0) return loadStaticImage(fin, minCoords);
+
 
     return true;
 }

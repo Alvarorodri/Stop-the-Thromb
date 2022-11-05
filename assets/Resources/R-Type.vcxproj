@@ -53,7 +53,9 @@
     <ClCompile Include="main\projectiles\ProjectileFireball.cpp" />
     <ClCompile Include="main\projectiles\ProjectileNormal.cpp" />
     <ClCompile Include="main\projectiles\ProjectileWaves.cpp" />
+    <ClCompile Include="main\scenes\CreditsScene.cpp" />
     <ClCompile Include="main\scenes\GameScene.cpp" />
+    <ClCompile Include="main\scenes\InstructionsScene.cpp" />
     <ClCompile Include="main\scenes\LoadingScene.cpp" />
     <ClCompile Include="main\scenes\MainMenuScene.cpp" />
     <ClCompile Include="main\scenes\Scene.cpp" />
@@ -95,7 +97,9 @@
     <ClInclude Include="main\projectiles\ProjectileFireball.h" />
     <ClInclude Include="main\projectiles\ProjectileNormal.h" />
     <ClInclude Include="main\projectiles\ProjectileWaves.h" />
+    <ClInclude Include="main\scenes\CreditsScene.h" />
     <ClInclude Include="main\scenes\GameScene.h" />
+    <ClInclude Include="main\scenes\InstructionsScene.h" />
     <ClInclude Include="main\scenes\LoadingScene.h" />
     <ClInclude Include="main\scenes\MainMenuScene.h" />
     <ClInclude Include="main\scenes\Scene.h" />

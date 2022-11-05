@@ -10,7 +10,7 @@ LoadingScene *LoadingScene::getLoading() {
 LoadingScene::LoadingScene() {
     map = NULL;
     nextScreenName = "";
-    waitingTime = 50;
+	waitingTime = 50;
 }
 
 LoadingScene::~LoadingScene() {
@@ -34,7 +34,10 @@ void LoadingScene::update(int deltaTime) {
 void LoadingScene::render() {
     map->render();
 
-    if (waitingTime < 0 && nextScreenName == "GAME") Game::instance().changeToGame(false);
+	if (waitingTime < 0 && nextScreenName == "GAME") Game::instance().changeToGame(false);
+	else if (waitingTime < 0 && nextScreenName == "INSTRUCTIONS") Game::instance().changeToInstructions(false);
+	else if (waitingTime < 0 && nextScreenName == "MAIN_MENU") Game::instance().changeToMainMenu(false);
+    else if (waitingTime < 0 && nextScreenName == "CREDITS") Game::instance().changeToCredits(false);
 }
 
 void LoadingScene::buttonCallback(int id) {
@@ -43,4 +46,7 @@ void LoadingScene::buttonCallback(int id) {
 
 void LoadingScene::nextScreen(string screen) {
     nextScreenName = screen;
+	if (nextScreenName == "INSTRUCTIONS") waitingTime = 10;
+	else if (nextScreenName == "MAIN_MENU") waitingTime = 10;
+	else if (nextScreenName == "CREDITS") waitingTime = 10;
 }

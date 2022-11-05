@@ -20,13 +20,47 @@ void Game::render() {
     scene->render();
 }
 
-void Game::changeToInstruction() {
-    return;
+
+void Game::changeToMainMenu(bool lateRender) {
+	if (lateRender) {
+		scene = LoadingScene::getLoading();
+		scene->init();
+		scene->render();
+		reinterpret_cast<LoadingScene*>(scene)->nextScreen("MAIN_MENU");
+	}
+
+	if (!lateRender) {
+		scene = MainMenuScene::getMainMenu();
+		scene->init();
+	}
 }
 
-void Game::changeToCredits() {
-    scene = LoadingScene::getLoading();
-    scene->init();
+void Game::changeToInstructions(bool lateRender) {
+	if (lateRender) {
+		scene = LoadingScene::getLoading();
+		scene->init();
+		scene->render();
+		reinterpret_cast<LoadingScene*>(scene)->nextScreen("INSTRUCTIONS");
+	}
+
+	if (!lateRender) {
+		scene = InstructionsScene::getInstructions();
+		scene->init();
+	}
+}
+
+void Game::changeToCredits(bool lateRender) {
+	if (lateRender) {
+		scene = LoadingScene::getLoading();
+		scene->init();
+		scene->render();
+		reinterpret_cast<LoadingScene*>(scene)->nextScreen("CREDITS");
+	}
+
+	if (!lateRender) {
+		scene = CreditsScene::getCreditsScene();
+		scene->init();
+	}
 }
 
 void Game::changeToGame(bool lateRender) {

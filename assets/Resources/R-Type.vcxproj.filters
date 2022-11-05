@@ -236,6 +236,12 @@
     <ClCompile Include="main\characters\Explosion.cpp">
       <Filter>Archivos de código fuente\Characters</Filter>
     </ClCompile>
+    <ClCompile Include="main\scenes\InstructionsScene.cpp">
+      <Filter>Archivos de código fuente\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="main\scenes\CreditsScene.cpp">
+      <Filter>Archivos de código fuente\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\Game.h">
@@ -360,6 +366,12 @@
     </ClInclude>
     <ClInclude Include="main\characters\Explosion.h">
       <Filter>Archivos de encabezado\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="main\scenes\InstructionsScene.h">
+      <Filter>Archivos de encabezado\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="main\scenes\CreditsScene.h">
+      <Filter>Archivos de encabezado\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -8,6 +8,8 @@
 #include "scenes\GameScene.h"
 #include "scenes\MainMenuScene.h"
 #include "scenes\LoadingScene.h"
+#include "scenes\InstructionsScene.h"
+#include "scenes\CreditsScene.h"
 #include "GeneralDefines.h"
 
 // Game is a singleton (a class with a single instance) that represents our whole application
@@ -30,8 +32,9 @@ public:
     bool update(int deltaTime);
     void render();
 
-    void changeToInstruction();
-    void changeToCredits();
+	void changeToMainMenu(bool lateRender);
+    void changeToInstructions(bool lateRender);
+    void changeToCredits(bool lateRender);
     void changeToGame(bool lateRender);
     void exit();
 

@@ -93,11 +93,11 @@ void MainMenuScene::buttonCallback(int id) {
         enableControls = false;
         break;
     case 1:
-        Game::instance().changeToInstruction();
+        Game::instance().changeToInstructions(true);
         enableControls = false;
         break;
     case 2:
-        Game::instance().changeToCredits();
+        Game::instance().changeToCredits(true);
         enableControls = false;
         break;
     case 3:
