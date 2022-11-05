@@ -30,6 +30,11 @@ public:
     void update(int deltaTime);
     void render();
 
+	void setMapSpeed(float newSpeed);
+	void teleport(float newPos);
+
+	void inputManager();
+
 private:
 
     void initShaders();
@@ -44,6 +49,8 @@ private:
     ShaderProgram texProgram;
     float currentTime;
     glm::mat4 projection;
+
+	bool latchKeys[256] = { false };
 
 };
 

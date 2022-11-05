@@ -36,6 +36,7 @@ public:
 
     int getTileSize() const { return blockSize; }
 	float getPosition() { return position; }
+	void setSpeed(float newSpeed);
 	float getSpeed() { return speed; };
 
 private:

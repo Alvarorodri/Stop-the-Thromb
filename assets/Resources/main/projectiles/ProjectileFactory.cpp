@@ -71,6 +71,16 @@ void ProjectileFactory::destroyProjectile(const int &id) {
 	}
 }
 
+void ProjectileFactory::destroyAllProjectiles() {
+	map<int, Projectile *>::iterator it = projectiles.begin();
+
+	while (it != projectiles.end()) {
+		pendingToBeDestroyed.insert(it->first);
+		++it;
+	}
+	last_id = 0;
+}
+
 void ProjectileFactory::lateDestroyProjectile() {
     for (auto it = pendingToBeDestroyed.begin(); it != pendingToBeDestroyed.end(); ++it) {
         projectiles[*it]->deleteRoutine();

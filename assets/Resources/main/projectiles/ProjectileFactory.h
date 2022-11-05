@@ -34,6 +34,7 @@ public:
 
     void spawnProjectile(const glm::vec2 &pos, const glm::vec2 &vel, bool bounce, Projectile::ProjectileType type);
     void destroyProjectile(const int &id);
+	void destroyAllProjectiles();
 
 public:
 

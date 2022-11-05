@@ -48,7 +48,7 @@ void CharacterFactory::update(int deltaTime) {
 		it->second->update(deltaTime);
 	}
 
-	//spawnRoutine();
+	spawnRoutine();
 	lateDestroyCharacter();
 }
 
@@ -189,6 +189,16 @@ void CharacterFactory::spawnRoutine() {
 
 void CharacterFactory::destroyCharacter(const int &id) {
 	pendingToBeDestroyed.insert(id);
+}
+
+void CharacterFactory::destroyAllCharacters() {
+	map<int, Character *>::iterator it = characters.begin();
+
+	while (it != characters.end()) {
+		if (player != nullptr && it->first == player->getId()) pendingToBeDestroyed.insert(it->first);
+		++it;
+	}
+	nextSpawn = 0;
 }
 
 void CharacterFactory::killCharacter(const int &id) {

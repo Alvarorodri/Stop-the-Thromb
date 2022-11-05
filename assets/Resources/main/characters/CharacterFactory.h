@@ -43,6 +43,7 @@ public:
 	void spawnRoutine();
 
 	void destroyCharacter(const int &id);
+	void destroyAllCharacters();
 	void killCharacter(const int &id);
 	void damageCharacter(const int &id, int dmg);
 
@@ -58,7 +59,7 @@ private:
 
 	Player *player = nullptr;
 	map<int, Character *> characters;
-	int last_id = 10;
+	int last_id = 0;
 
 	set<int> pendingToBeDestroyed;
 	set<int> pendingToBeKilled;

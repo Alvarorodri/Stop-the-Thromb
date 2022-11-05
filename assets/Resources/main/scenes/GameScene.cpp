@@ -49,12 +49,12 @@ void GameScene::init() {
 }
 
 void GameScene::update(int deltaTime) {
+
+	inputManager();
+
     currentTime += deltaTime;
 	map->moveMap(map->getSpeed());
 	map->update(deltaTime);
-	
-	//if (Game::instance().getKey('w')) map->moveMap(-5.0);
-	//else if (Game::instance().getKey('q')) map->moveMap(5.0);
 
     cFactory->update(deltaTime);
     ProjectileFactory::getInstance()->update(deltaTime);
@@ -67,6 +67,48 @@ void GameScene::render() {
     cFactory->render();
     ProjectileFactory::getInstance()->render();
 	cExplosion->render();
+}
+
+void GameScene::setMapSpeed(float newSpeed) {
+	map->setSpeed(newSpeed);
+	CharacterFactory::getInstance()->mapSpeed = newSpeed;
+	ProjectileFactory::getInstance()->mapSpeed = newSpeed;
+}
+
+void GameScene::teleport(float newPos) {
+	map->moveMap(abs(map->getPosition()) - newPos);
+
+	CharacterFactory::getInstance()->destroyAllCharacters();
+	ProjectileFactory::getInstance()->destroyAllProjectiles();
+}
+
+void GameScene::inputManager() {
+	if (Game::instance().getKey('1') && !latchKeys['1']) {
+		latchKeys['1'] = true;
+		teleport(0);
+	}
+	else if (Game::instance().getKey('2') && !latchKeys['2']) {
+		latchKeys['2'] = true;
+		teleport(1000);
+	}
+	else if (Game::instance().getKey('3') && !latchKeys['3']) {
+		latchKeys['3'] = true;
+		teleport(2000);
+	}
+	else if (Game::instance().getKey('4') && !latchKeys['4']) {
+		latchKeys['4'] = true;
+		teleport(3000);
+	}
+	else if (Game::instance().getKey('5') && !latchKeys['5']) {
+		latchKeys['5'] = true;
+		teleport(4000);
+	}
+
+	if (!Game::instance().getKey('1') && latchKeys['1']) latchKeys['1'] = false;
+	else if (!Game::instance().getKey('2') && latchKeys['2']) latchKeys['2'] = false;
+	else if (!Game::instance().getKey('3') && latchKeys['3']) latchKeys['3'] = false;
+	else if (!Game::instance().getKey('4') && latchKeys['4']) latchKeys['4'] = false;
+	else if (!Game::instance().getKey('5') && latchKeys['5']) latchKeys['5'] = false;
 }
 
 void GameScene::initShaders() {

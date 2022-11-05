@@ -64,6 +64,10 @@ void TileMap::free() {
     glDeleteBuffers(1, &vbo);
 }
 
+void TileMap::setSpeed(float newSpeed) {
+	speed = newSpeed;
+}
+
 bool TileMap::loadLevel(const string &levelFile, const glm::vec2 &minCoords) {
     ifstream fin;
     string line, tilesheetFile, collisionFile;
