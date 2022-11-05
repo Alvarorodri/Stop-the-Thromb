@@ -27,6 +27,9 @@ public:
 
 	void damage(int dmg) override;
 
+	void spawnForce();
+	void destroyForce();
+
 private:
 
 	void init(const glm::ivec2 &tileMapPos);
@@ -35,6 +38,8 @@ private:
 private:
 
     ForceDevice *forceDevice;
+	bool forceSpawned = false;
+
 	Text text;
 	bool godmode = false;
 

@@ -53,6 +53,7 @@ void ForceDevice::init(Collision *sCollider) {
     sprite->setBox(glm::vec2(collider->getBoundingBox().z, collider->getBoundingBox().w));
     collider->setBox(glm::vec2(collider->getBoundingBox().z, collider->getBoundingBox().w));
 
+	isAtached = false;
     targetPosition = glm::vec2(isAtached ? posForce.x : rightLimit, posForce.y);
 
 #ifdef SHOW_HIT_BOXES
@@ -106,6 +107,11 @@ Collision* ForceDevice::getCollider() {
 
 void ForceDevice::setForceLevel(int level) {
     sprite->changeAnimation(level,false);
+}
+
+void ForceDevice::deleteRoutine() {
+	collisionSystem->removeColliderFromGroup(collider);
+	delete collider;
 }
 
 void ForceDevice::inputController() {

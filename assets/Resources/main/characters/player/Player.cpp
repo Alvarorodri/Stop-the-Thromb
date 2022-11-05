@@ -62,10 +62,6 @@ void Player::init(const glm::ivec2 &tileMapPos) {
 
     sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
 
-    forceDevice = new ForceDevice(projection);
-    forceDevice->init(collider);
-    forceDevice->setPosition(glm::vec2(float(tileMapDispl.x + pos.x + 32.0f), float(tileMapDispl.y + pos.y)));
-
 	if (!text.init("fonts/OpenSans-Bold.ttf"))
 		cout << "Could not load font!!!" << endl;
 }
@@ -77,9 +73,10 @@ void Player::update(int deltaTime)
 
     if(Game::instance().getSpecialKey(GLUT_KEY_LEFT)) {
         CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Player::collider, glm::ivec2(-3, 0));
-        CollisionSystem::CollisionInfo info2 = collisionSystem->isColliding(forceDevice->getCollider(), glm::ivec2(-3, 0));
+		CollisionSystem::CollisionInfo info2;
+		if (forceSpawned) info2 = collisionSystem->isColliding(forceDevice->getCollider(), glm::ivec2(-3, 0));
 
-        if (info.colliding || (forceDevice->isAttached() && info2.colliding)) {
+        if (info.colliding || (forceSpawned && forceDevice->isAttached() && info2.colliding)) {
             sprite->changeAnimation(STAND_RIGHT, false);
         }
         else {
@@ -89,9 +86,10 @@ void Player::update(int deltaTime)
 	}
     else if(Game::instance().getSpecialKey(GLUT_KEY_RIGHT)) {
         CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Player::collider, glm::ivec2(3, 0));
-        CollisionSystem::CollisionInfo info2 = collisionSystem->isColliding(forceDevice->getCollider(), glm::ivec2(3, 0));
+		CollisionSystem::CollisionInfo info2;
+		if (forceSpawned) info2 = collisionSystem->isColliding(forceDevice->getCollider(), glm::ivec2(3, 0));
 
-        if (info.colliding || (forceDevice->isAttached() && info2.colliding)) {
+        if (info.colliding || (forceSpawned && forceDevice->isAttached() && info2.colliding)) {
             sprite->changeAnimation(STAND_RIGHT, false);
         }
         else {
@@ -112,9 +110,10 @@ void Player::update(int deltaTime)
         }
 
         CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Player::collider, glm::ivec2(0, 2));
-        CollisionSystem::CollisionInfo info2 = collisionSystem->isColliding(forceDevice->getCollider(), glm::ivec2(0, 2));
+		CollisionSystem::CollisionInfo info2;
+		if (forceSpawned) info2 = collisionSystem->isColliding(forceDevice->getCollider(), glm::ivec2(0, 2));
 
-        if (!(info.colliding || (forceDevice->isAttached() && info2.colliding))) {
+        if (!(info.colliding || (forceSpawned && forceDevice->isAttached() && info2.colliding))) {
             pos.y += 2;
 			collider->changePositionAbsolute(pos);
         }
@@ -130,9 +129,10 @@ void Player::update(int deltaTime)
         }
 
         CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Player::collider, glm::ivec2(0, -2));
-        CollisionSystem::CollisionInfo info2 = collisionSystem->isColliding(forceDevice->getCollider(), glm::ivec2(0, -2));
+		CollisionSystem::CollisionInfo info2;
+		if (forceSpawned) info2 = collisionSystem->isColliding(forceDevice->getCollider(), glm::ivec2(0, -2));
 
-        if (!(info.colliding || (forceDevice->isAttached() && info2.colliding))) {
+        if (!(info.colliding || (forceSpawned && forceDevice->isAttached() && info2.colliding))) {
             pos.y -= 2;
 			collider->changePositionAbsolute(pos);
         }
@@ -158,7 +158,7 @@ void Player::update(int deltaTime)
     }
 
     sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
-    forceDevice->update(deltaTime);
+    if (forceSpawned) forceDevice->update(deltaTime);
 	Character::update(deltaTime);
 }
 
@@ -177,6 +177,12 @@ void Player::inputController() {
 		godmode = !godmode;
 		contGod = 60;
 	}
+	else if (Game::instance().getKey('f') && !latchKeys['f']) {
+		if (!forceSpawned) spawnForce();
+		else destroyForce();
+	}
+
+
 
 	if (!Game::instance().getKey('x') && latchKeys['x']) {
 		latchKeys['x'] = false;
@@ -192,13 +198,14 @@ void Player::inputController() {
 		ProjectileFactory::getInstance()->spawnProjectile(pos + glm::vec2(32.0f, 6.0f), glm::vec2(3.0f, 0.0f), false, (Projectile::ProjectileType)((int)Projectile::R9mk0 + mk));
 		currentCharge = 0.0f;
 	}
-    else if (!Game::instance().getKey('c') && latchKeys['c']) latchKeys['c'] = false;
+	else if (!Game::instance().getKey('c') && latchKeys['c']) latchKeys['c'] = false;
 	else if (!Game::instance().getKey('g') && latchKeys['g']) latchKeys['g'] = false;
+	else if (!Game::instance().getKey('f') && latchKeys['f']) latchKeys['f'] = false;
 }
 
 void Player::setPosition(const glm::vec2 &pos) {
 	Character::setPosition(pos);
-    forceDevice->setPosition(glm::vec2(float(tileMapDispl.x + pos.x + 32.0f), float(tileMapDispl.y + pos.y)));
+	if (forceSpawned) forceDevice->setPosition(glm::vec2(float(tileMapDispl.x + pos.x + 32.0f), float(tileMapDispl.y + pos.y)));
 }
 
 void Player::render() {
@@ -210,11 +217,28 @@ void Player::render() {
 		contGod-=1;
 	}
 	Character::render();
-	forceDevice->render();
+	if (forceSpawned) forceDevice->render();
 }
 
 void Player::damage(int dmg) {
 	if (!godmode) {
 		Character::damage(dmg);
+	}
+}
+
+void Player::spawnForce() {
+	if (!forceSpawned) {
+		forceDevice = new ForceDevice(projection);
+		forceDevice->init(collider);
+		forceDevice->setPosition(glm::vec2(-20.0f, 256.0f / 2.0f));
+		forceSpawned = true;
+	}
+}
+
+void Player::destroyForce() {
+	if (forceSpawned) {
+		forceDevice->deleteRoutine();
+		delete forceDevice;
+		forceSpawned = false;
 	}
 }

@@ -36,6 +36,8 @@ public:
 
     void setForceLevel(int level);
 
+	void deleteRoutine();
+
 private:
 
     void inputController();
