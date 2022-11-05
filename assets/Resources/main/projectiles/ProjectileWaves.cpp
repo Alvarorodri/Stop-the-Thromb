@@ -154,7 +154,7 @@ bool ProjectileWaves::collisionRoutine() {
 
     collisionWait--;
     if (collisionWait == 0) {
-        collisionWait = 0;
+        collisionWait = 4;
         CollisionSystem::CollisionInfo info = collisionSystem->isColliding(collider, projVelocity);
 
         if (info.colliding) {

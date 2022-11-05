@@ -195,7 +195,7 @@ void CharacterFactory::destroyAllCharacters() {
 	map<int, Character *>::iterator it = characters.begin();
 
 	while (it != characters.end()) {
-		if (player != nullptr && it->first == player->getId()) pendingToBeDestroyed.insert(it->first);
+		if (player != nullptr && it->first != player->getId()) pendingToBeDestroyed.insert(it->first);
 		++it;
 	}
 	nextSpawn = 0;
