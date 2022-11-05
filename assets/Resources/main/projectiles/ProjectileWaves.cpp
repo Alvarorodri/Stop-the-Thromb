@@ -12,7 +12,7 @@ ProjectileWaves::ProjectileWaves(glm::mat4 *project, int id) {
 }
 
 void ProjectileWaves::init(Texture *spritesheet, int type) {
-
+	projType = (ProjectileType)type;
     glm::vec2 spriteCuts = glm::vec2(1.0 / 9.0, 1.0 / 5.0);
     sprite = Sprite::createSprite(glm::ivec2(64, 64), spriteCuts, spritesheet, projection);
     sprite->setNumberAnimations(2);

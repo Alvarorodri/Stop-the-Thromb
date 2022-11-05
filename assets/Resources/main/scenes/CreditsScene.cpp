@@ -40,7 +40,7 @@ void CreditsScene::init() {
 	content.push_back("");
 	content.push_back("SPITES");
 	content.push_back("");
-	content.push_back("Belong to IREM");
+	content.push_back("Belongs to IREM");
 
 	
 	if (!text.init("fonts/OpenSans-Bold.ttf"))

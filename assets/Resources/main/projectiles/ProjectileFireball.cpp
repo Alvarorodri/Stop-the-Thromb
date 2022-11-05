@@ -12,7 +12,7 @@ ProjectileFireball::ProjectileFireball(glm::mat4 *project, int id) {
 }
 
 void ProjectileFireball::init(Texture *spritesheet, int type) {
-
+	projType = (ProjectileType)type;
     glm::vec2 spriteCuts = glm::vec2(1.0 / 8.0, 1.0 / 8.0);
     sprite = Sprite::createSprite(glm::ivec2(32, 32), spriteCuts, spritesheet, projection);
     sprite->setNumberAnimations(1);

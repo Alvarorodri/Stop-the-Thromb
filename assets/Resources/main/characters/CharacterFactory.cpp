@@ -198,7 +198,7 @@ void CharacterFactory::killCharacter(const int &id) {
 		if(player != nullptr && player->getId() == id){
 			ExplosionFactory::getInstance()->spawnExplosion(Explosion::Explosions::ExplosionPlayer, projection, it->second->getPosition(), it->second->getBoundingBox());
 		}
-		else ExplosionFactory::getInstance()->spawnExplosion(Explosion::Explosions::ExplosionNormal,projection,it->second->getPosition(),it->second->getBoundingBox());
+		else ExplosionFactory::getInstance()->spawnExplosion(Explosion::Explosions::ExplosionEnemy,projection,it->second->getPosition(),it->second->getBoundingBox());
 	}
 }
 

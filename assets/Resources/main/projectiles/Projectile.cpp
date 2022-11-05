@@ -17,6 +17,18 @@ void Projectile::render() {
     throw exception("Not Implemented Method");
 }
 
+Projectile::ProjectileType Projectile::getType() {
+	return projType;
+}
+
+glm::vec2  Projectile::getPos() {
+	return posProjectile;
+}
+
+glm::vec4  Projectile::getBox(){
+	return collider->getBoundingBox();
+}
+
 void Projectile::setPosition(const glm::vec2 &pos) {
     posProjectile = pos;
     sprite->setPosition(posProjectile);

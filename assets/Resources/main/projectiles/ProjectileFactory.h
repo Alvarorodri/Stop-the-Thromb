@@ -5,6 +5,7 @@
 #include <set>
 
 #include "Projectile.h"
+#include "characters\ExplosionFactory.h"
 #include "ProjectileNormal.h"
 #include "ProjectileFireball.h"
 #include "ProjectileWaves.h"

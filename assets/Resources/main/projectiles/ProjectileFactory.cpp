@@ -33,6 +33,7 @@ void ProjectileFactory::spawnProjectile(const glm::vec2 &pos, const glm::vec2 &v
         case Projectile::EnemyProjectile:
             projectile = new ProjectileNormal(projection, last_id, type);
             projectile->init(TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::Projectiles), type);
+			projectile->setType(type);
             projectile->setPosition(pos);
             projectile->setVelocity(vel);
             projectile->setBounciness(bounce);
@@ -40,6 +41,7 @@ void ProjectileFactory::spawnProjectile(const glm::vec2 &pos, const glm::vec2 &v
         case Projectile::Fireball:
             projectile = new ProjectileFireball(projection, last_id);
             projectile->init(TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::Projectiles), type);
+			projectile->setType(type);
             projectile->setPosition(pos);
             projectile->setVelocity(vel);
             projectile->setBounciness(bounce);
@@ -47,6 +49,7 @@ void ProjectileFactory::spawnProjectile(const glm::vec2 &pos, const glm::vec2 &v
         case Projectile::Waves:
             projectile = new ProjectileWaves(projection, last_id);
             projectile->init(TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::Waves), type);
+			projectile->setType(type);
             projectile->setPosition(pos);
             projectile->setVelocity(vel);
             projectile->setBounciness(bounce);
@@ -59,6 +62,13 @@ void ProjectileFactory::spawnProjectile(const glm::vec2 &pos, const glm::vec2 &v
 
 void ProjectileFactory::destroyProjectile(const int &id) {
     pendingToBeDestroyed.insert(id);
+	if(projectiles[id]->getType()== Projectile::EnemyProjectile){
+		ExplosionFactory::getInstance()->spawnExplosion(Explosion::Explosions::ExplosionProyectileEnemy, projection, projectiles[id]->getPos(), projectiles[id]->getBox());
+
+	}
+	else {
+		ExplosionFactory::getInstance()->spawnExplosion(Explosion::Explosions::ExplosionProyectilePlayer, projection, projectiles[id]->getPos(), projectiles[id]->getBox());
+	}
 }
 
 void ProjectileFactory::lateDestroyProjectile() {

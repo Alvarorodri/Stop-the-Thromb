@@ -61,7 +61,10 @@ void ForceDevice::init(Collision *sCollider) {
 
     sprite->setPosition(glm::vec2(posForce.x, posForce.y));
 
-    shipCollider = sCollider;
+	shipCollider = sCollider;
+
+	if (!text.init("fonts/OpenSans-Bold.ttf"))
+		cout << "Could not load font!!!" << endl;
 }
 
 void ForceDevice::update(int deltaTime) {
@@ -76,9 +79,19 @@ void ForceDevice::update(int deltaTime) {
 void ForceDevice::render() {
     sprite->render();
 
+
 #ifdef SHOW_HIT_BOXES
     collider->render();
 #endif // SHOW_HIT_BOXES
+
+	string word = "";
+	if (cont > 0) {
+		if (levelup) word = "Increased";
+		else word = "Decreased";
+		word += " the level of the Force, actual level: " + to_string(forceLevel);
+		text.render(word, glm::vec2(0, 64), 32, glm::vec4(1, 1, 1, 1), Text::Left);
+		cont -= 1;
+	}
 }
 
 void ForceDevice::setPosition(const glm::vec2 &pos) {
@@ -97,15 +110,23 @@ void ForceDevice::setForceLevel(int level) {
 
 void ForceDevice::inputController() {
     // Press State
-    if (Game::instance().getKey('h') && !latchKeys['h']) {
-        latchKeys['h'] = true;
-        if (forceLevel < 2) forceLevel++;
-        setForceLevel(forceLevel);
+    if (Game::instance().getKey('j') && !latchKeys['j']) {
+        latchKeys['j'] = true;
+		if (forceLevel < 2) {
+			forceLevel++;
+			setForceLevel(forceLevel);
+			cont = 60;
+			levelup = true;
+		}
     }
-    else if (Game::instance().getKey('g') && !latchKeys['g']) {
-        latchKeys['g'] = true;
-        if (forceLevel > 0) forceLevel--;
-        setForceLevel(forceLevel);
+    else if (Game::instance().getKey('h') && !latchKeys['h']) {
+        latchKeys['h'] = true;
+		if (forceLevel > 0) {
+			forceLevel--;
+			setForceLevel(forceLevel);
+			cont = 60;
+			levelup = false;
+		}
     }
     else if (Game::instance().getKey('z') && !latchKeys['z']) {
         latchKeys['z'] = true;
@@ -135,8 +156,8 @@ void ForceDevice::inputController() {
     }
 
     // Release State
-    if (!Game::instance().getKey('h') && latchKeys['h']) latchKeys['h'] = false;
-    else if (!Game::instance().getKey('g') && latchKeys['g']) latchKeys['g'] = false;
+    if (!Game::instance().getKey('j') && latchKeys['j']) latchKeys['j'] = false;
+    else if (!Game::instance().getKey('h') && latchKeys['h']) latchKeys['h'] = false;
     else if (!Game::instance().getKey('z') && latchKeys['z']) latchKeys['z'] = false;
 	else if (!Game::instance().getKey('x') && latchKeys['x']) {
 		latchKeys['x'] = false;

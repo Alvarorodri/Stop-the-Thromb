@@ -4,6 +4,7 @@
 #include "sound\AudioManager.h"
 #include "characters\Character.h"
 #include "ForceDevice.h"
+#include "ui\Text.h"
 
 class Player : public Character {
 
@@ -34,7 +35,10 @@ private:
 private:
 
     ForceDevice *forceDevice;
+	Text text;
 	bool godmode = false;
+
+	int contGod = 0;
 						   /*  0,  1,  2,  3  mkLevels*/
 	float timestampMks[4] = { 15, 30, 45, 60 };
 	float currentCharge = 0;

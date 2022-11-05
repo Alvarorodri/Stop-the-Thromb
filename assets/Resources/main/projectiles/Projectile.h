@@ -26,12 +26,16 @@ public:
     virtual void update(int deltaTime);
     virtual void render();
 
+	
     virtual void setPosition(const glm::vec2 &pos);
     virtual void setVelocity(const glm::vec2 &vel);
     virtual void setType(const ProjectileType type);
     virtual void setBounciness(const bool bounce);
 
     virtual int getId() { return idProjectile; };
+	ProjectileType getType();
+	glm::vec2 getPos();
+	glm::vec4 getBox();
 
     virtual bool collisionRoutine();
     virtual void deleteRoutine();
