@@ -22,7 +22,7 @@ private :
 
 public:
 
-	enum soundNames {RunningInThe90s, LaserGun, Explode, ButtonPressed, ButtonSelected};
+	enum soundNames {RunningInThe90s, LaserGun, Explode, ButtonPressed, ButtonSelected, Boost, ChargeAttack, PowerUp};
 
 	static AudioManager *getInstance();
 
