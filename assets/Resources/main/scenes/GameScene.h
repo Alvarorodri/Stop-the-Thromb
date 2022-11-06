@@ -9,6 +9,7 @@
 #include "characters\player\Player.h"
 #include "characters\CharacterFactory.h"
 #include "characters\ExplosionFactory.h"
+#include "sound\SDL2Music.h"
 
 #include "projectiles\ProjectileFactory.h"
 

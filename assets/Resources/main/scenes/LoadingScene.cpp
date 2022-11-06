@@ -46,7 +46,5 @@ void LoadingScene::buttonCallback(int id) {
 
 void LoadingScene::nextScreen(string screen) {
     nextScreenName = screen;
-	if (nextScreenName == "INSTRUCTIONS") waitingTime = 10;
-	else if (nextScreenName == "MAIN_MENU") waitingTime = 10;
-	else if (nextScreenName == "CREDITS") waitingTime = 10;
+
 }

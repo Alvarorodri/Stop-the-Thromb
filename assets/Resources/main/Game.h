@@ -11,6 +11,7 @@
 #include "scenes\InstructionsScene.h"
 #include "scenes\CreditsScene.h"
 #include "GeneralDefines.h"
+#include "sound\SDL2Music.h"
 
 // Game is a singleton (a class with a single instance) that represents our whole application
 class Game {
@@ -18,8 +19,9 @@ class Game {
 private:
 
     Game() {}
-
+	
 public:
+	enum Songs {Menu, GameSong, Alert, BossBattle};
 
     static Game &instance()
     {
@@ -51,7 +53,8 @@ public:
     bool getSpecialKey(int key) const;
 
 private:
-
+	SDL2Music music;
+	bool playedMusic = false;
     bool bPlay;                       // Continue to play game?
     Scene *scene;                     // Scene to render
     bool keys[256], specialKeys[256]; // Store key states so that

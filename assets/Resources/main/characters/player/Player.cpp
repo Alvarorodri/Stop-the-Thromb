@@ -182,8 +182,6 @@ void Player::inputController() {
 		else destroyForce();
 	}
 
-
-
 	if (!Game::instance().getKey('x') && latchKeys['x']) {
 		latchKeys['x'] = false;
 

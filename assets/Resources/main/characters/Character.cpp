@@ -77,6 +77,6 @@ void Character::clippingAvoidance() {
 	CollisionSystem::CollisionInfo info = collisionSystem->isColliding(collider, glm::vec2(0.0f));
 
 	if (info.colliding && info.collider->collisionGroup == Collision::Map) {
-		CharacterFactory::getInstance()->destroyCharacter(id);
+		CharacterFactory::getInstance()->damageCharacter(id,100);
 	}
 }

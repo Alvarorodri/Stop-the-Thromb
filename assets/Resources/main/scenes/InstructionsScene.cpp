@@ -3,6 +3,7 @@
 #include "ui\UI_Button.h"
 #include "sound\AudioManager.h"
 #include "GeneralDefines.h"
+#include "sound\SDL2Music.h"
 
 InstructionsScene *InstructionsScene::getInstructions() {
 	InstructionsScene *scene = new InstructionsScene();
@@ -57,7 +58,6 @@ void InstructionsScene::init() {
 	buttons[selectedButton].setState(UI_Button::Selected);
 	enableControls = true;
 
-	AudioManager::getInstance()->init("sounds/sounds.txt");
 }
 
 void InstructionsScene::update(int deltaTime) {

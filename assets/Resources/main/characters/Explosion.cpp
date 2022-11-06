@@ -29,8 +29,6 @@ Explosion::Explosion(Explosions type, glm::mat4 &project, const glm::vec2 &pos, 
 		sprite->addKeyframe(0, glm::vec2(1.0f / 10.0f*1.f, 1.0f / 16.0f*10.f));
 		sprite->addKeyframe(0, glm::vec2(1.0f / 10.0f*2.f, 1.0f / 16.0f*10.f));
 		sprite->addKeyframe(0, glm::vec2(1.0f / 10.0f*3.f, 1.0f / 16.0f*10.f));
-
-
 	}
 	else if (Explosions::ExplosionProyectilePlayer == type) {
 		
@@ -46,8 +44,6 @@ Explosion::Explosion(Explosions type, glm::mat4 &project, const glm::vec2 &pos, 
 		sprite->addKeyframe(0, glm::vec2(1 / 16.0f*5.f, 1 / 16.0f*5.f));
 		this->pos.y -= 8;
 		this->pos.x -= 8;
-		
-
 	}
 	sprite->changeAnimation(0, false);
 

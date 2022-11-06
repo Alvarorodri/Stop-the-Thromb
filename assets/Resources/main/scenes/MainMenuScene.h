@@ -9,6 +9,7 @@
 #include "utilities\ShaderProgram.h"
 #include "textures\TileMap.h"
 #include "ui\UI_Button.h"
+#include "sound\SDL2Music.h"
 
 // Scene contains all the entities of our game.
 // It is responsible for updating and render them.
@@ -36,6 +37,7 @@ private:
 
     vector<UI_Button> buttons;
     int selectedButton;
+	bool playedMusic = false;
 
     float currentTime;
     glm::mat4 projection;

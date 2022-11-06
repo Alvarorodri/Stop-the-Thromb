@@ -6,10 +6,21 @@ void Game::init() {
 
     scene = MainMenuScene::getMainMenu();
 
+
     scene->init();
 }
 
 bool Game::update(int deltaTime) {
+
+	if (!playedMusic) {
+		AudioManager::getInstance()->init("sounds/sounds.txt");
+		music.addMusicTrack("sounds/Menu.mp3");
+		music.addMusicTrack("sounds/Game.mp3");
+		music.addMusicTrack("sounds/RedAlert.mp3");
+		music.addMusicTrack("sounds/BossBattle.mp3");
+		music.playMusicTrack(Songs::Menu);
+		playedMusic = true;
+	}
     scene->update(deltaTime);
 
     return bPlay;
@@ -72,6 +83,7 @@ void Game::changeToGame(bool lateRender) {
     }
 
     if (!lateRender) {
+		music.playMusicTrack(Songs::GameSong);
         scene = GameScene::getGame();
         scene->init();
     }

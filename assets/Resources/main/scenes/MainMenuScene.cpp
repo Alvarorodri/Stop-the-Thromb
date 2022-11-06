@@ -21,6 +21,7 @@ MainMenuScene::~MainMenuScene() {
 }
 
 void MainMenuScene::init() {
+
     // 256.0f is the amount of pixel that has the map as height, it may need a rework to get that value directly from level.txt
     projection = glm::ortho(0.f, float((SCREEN_WIDTH / float(SCREEN_HEIGHT / 255.0f))-2), float((SCREEN_HEIGHT / float(SCREEN_HEIGHT / 255.0f))-2), 0.f);
     currentTime = 0.0f;
@@ -35,11 +36,17 @@ void MainMenuScene::init() {
     buttons[selectedButton].setState(UI_Button::Selected);
     enableControls = true;
 
-	AudioManager::getInstance()->init("sounds/sounds.txt");
 }
 
 void MainMenuScene::update(int deltaTime) {
-    currentTime += deltaTime;
+
+	/*if (!playedMusic) {
+		SDL2Music music;
+		music.addMusicTrack("sounds/Menu.mp3");
+		music.playMusicTrack(0);
+		currentTime += deltaTime;
+		playedMusic = true;
+	}*/
 
     for (int i = 0; i < 4; i++) buttons[i].update(deltaTime);
 
@@ -91,6 +98,7 @@ void MainMenuScene::buttonCallback(int id) {
     case 0:
         Game::instance().changeToGame(true);
         enableControls = false;
+		playedMusic = false;
         break;
     case 1:
         Game::instance().changeToInstructions(true);

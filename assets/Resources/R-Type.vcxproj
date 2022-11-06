@@ -60,6 +60,8 @@
     <ClCompile Include="main\scenes\MainMenuScene.cpp" />
     <ClCompile Include="main\scenes\Scene.cpp" />
     <ClCompile Include="main\sound\AudioManager.cpp" />
+    <ClCompile Include="main\sound\SDL2Music.cpp" />
+    <ClCompile Include="main\sound\SDLInit.cpp" />
     <ClCompile Include="main\TextureManager.cpp" />
     <ClCompile Include="main\textures\Background.cpp" />
     <ClCompile Include="main\textures\Sprite.cpp" />
@@ -105,6 +107,8 @@
     <ClInclude Include="main\scenes\MainMenuScene.h" />
     <ClInclude Include="main\scenes\Scene.h" />
     <ClInclude Include="main\sound\AudioManager.h" />
+    <ClInclude Include="main\sound\SDL2Music.h" />
+    <ClInclude Include="main\sound\SDLInit.h" />
     <ClInclude Include="main\TextureManager.h" />
     <ClInclude Include="main\textures\Background.h" />
     <ClInclude Include="main\textures\Sprite.h" />
@@ -123,7 +127,7 @@
     <ProjectGuid>{5BE6CA2A-E5A8-40CC-9015-047CE0C78036}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>My01window</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

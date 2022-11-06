@@ -57,7 +57,6 @@ void CreditsScene::init() {
 	buttons[selectedButton].setState(UI_Button::Selected);
 	enableControls = true;
 
-	AudioManager::getInstance()->init("sounds/sounds.txt");
 }
 
 void CreditsScene::update(int deltaTime) {

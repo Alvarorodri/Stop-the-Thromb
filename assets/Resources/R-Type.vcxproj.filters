@@ -245,6 +245,12 @@
     <ClCompile Include="main\textures\Background.cpp">
       <Filter>Archivos de código fuente\Textures</Filter>
     </ClCompile>
+    <ClCompile Include="main\sound\SDL2Music.cpp">
+      <Filter>Archivos de código fuente\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="main\sound\SDLInit.cpp">
+      <Filter>Archivos de código fuente\Sound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\Game.h">
@@ -378,6 +384,12 @@
     </ClInclude>
     <ClInclude Include="main\textures\Background.h">
       <Filter>Archivos de encabezado\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="main\sound\SDL2Music.h">
+      <Filter>Archivos de encabezado\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="main\sound\SDLInit.h">
+      <Filter>Archivos de encabezado\Sound</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

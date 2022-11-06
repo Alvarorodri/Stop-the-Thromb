@@ -6,6 +6,7 @@
 #include "textures\Sprite.h"
 #include "textures\TileMap.h"
 #include "GeneralDefines.h"
+#include "sound\AudioManager.h"
 
 
 class Explosion {
