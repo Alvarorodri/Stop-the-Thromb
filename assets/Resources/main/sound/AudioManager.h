@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <map>
 // https://youtu.be/q06uSmkiqec
 
 #include <sstream>
@@ -38,9 +39,14 @@ public:
 	int addSoundEffect(const char* soundFile);
 	void playSoundEffect(int sound, int volume);
 
+	void playSoundEffectLooped(int sound, int volume);
+	void stopSoundEffectLooped(int sound);
+
 private:
 
 	std::vector<Mix_Chunk*> mSoundEffectBank;
+
+	map<soundNames, int> loops;
 
 };
 

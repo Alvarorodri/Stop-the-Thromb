@@ -63,6 +63,28 @@ int AudioManager::addSoundEffect(const char* soundFile) {
 	return mSoundEffectBank.size() - 1;
 }
 
+void AudioManager::stopSoundEffectLooped(int sound) {
+	map<soundNames, int>::iterator it = loops.find((soundNames)sound);
+
+	if (it != loops.end()) {
+		Mix_HaltChannel(it->second);
+		loops.erase(it);
+	}
+}
+
+void AudioManager::playSoundEffectLooped(int sound, int volume = 128) {
+
+	map<soundNames, int>::iterator it = loops.find((soundNames)sound);
+
+	if (it == loops.end()) {
+		int channel = Mix_PlayChannel(-1, mSoundEffectBank[sound], -1);
+
+		Mix_Volume(channel, volume);
+
+		loops.insert({ (soundNames)sound, channel });
+	}
+}
+
 void AudioManager::playSoundEffect(int sound, int volume = 128) {
 	int channel = Mix_PlayChannel(-1, mSoundEffectBank[sound], 0);
 
