@@ -43,6 +43,8 @@ private:
 	Sprite *chargeProjectile;
 	Sprite *boost;
 	bool isInitAnimation = false;
+	bool soundcharge = false;
+	bool soundBoost = false;
 
     ForceDevice *forceDevice;
 	bool forceSpawned = false;

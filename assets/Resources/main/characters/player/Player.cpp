@@ -226,7 +226,10 @@ void Player::update(int deltaTime)
 
 void Player::inputController() {
     if (Game::instance().getKey('x')) {
-		AudioManager::getInstance()->playSoundEffect(AudioManager::ChargeAttack, 128);
+		if (!soundcharge) {
+			AudioManager::getInstance()->playSoundEffectLooped(AudioManager::ChargeAttack, 128);
+			soundcharge = true;
+		}
 		latchKeys['x'] = true;
 		currentCharge += 1.0f;
     }
@@ -255,6 +258,10 @@ void Player::inputController() {
 		for (int i = 0; i < 4; ++i) {
 			mk = i;
 			if (timestampMks[i] > currentCharge) break;
+		}
+		if (soundcharge) {
+			AudioManager::getInstance()->stopSoundEffectLooped(AudioManager::ChargeAttack);
+			soundcharge = false;
 		}
 
 		ProjectileFactory::getInstance()->spawnProjectile(pos + glm::vec2(32.0f, 6.0f), glm::vec2(3.0f, 0.0f), false, (Projectile::ProjectileType)((int)Projectile::R9mk0 + mk));
@@ -317,5 +324,6 @@ void Player::increaseForce() {
 
 void Player::initAnimation() {
 	isInitAnimation = true;
+	AudioManager::getInstance()->playSoundEffect(AudioManager::Boost, 128);
 	godmode = true;
 }
