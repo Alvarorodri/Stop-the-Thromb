@@ -68,6 +68,7 @@ void InstructionsScene::update(int deltaTime) {
 	if (enableControls) {
 		if (Game::instance().getSpecialKey(GLUT_KEY_LEFT) && !latchKeys[GLUT_KEY_LEFT]) {
 			latchKeys[GLUT_KEY_LEFT] = true;
+			AudioManager::getInstance()->playSoundEffect(AudioManager::ButtonPressed, 128);
 			buttons[selectedButton].setState(UI_Button::Clicked);
 
 		}

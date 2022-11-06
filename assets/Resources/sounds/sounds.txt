@@ -1,4 +1,6 @@
-3
+5
 sounds/Running-in-the-90s.mp3
 sounds/laser-gun.mp3
 sounds/Explode.mp3
+sounds/boton.mp3
+sounds/pickupCoin.wav

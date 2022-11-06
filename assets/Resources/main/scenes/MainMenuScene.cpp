@@ -54,7 +54,7 @@ void MainMenuScene::update(int deltaTime) {
         if (Game::instance().getSpecialKey(GLUT_KEY_UP) && !latchKeys[GLUT_KEY_UP]) {
             latchKeys[GLUT_KEY_UP] = true;
             buttons[selectedButton].setState(UI_Button::Unselected);
-
+			AudioManager::getInstance()->playSoundEffect(AudioManager::ButtonSelected, 128);
             selectedButton--;
             if (selectedButton < 0) selectedButton = buttons.size() - 1;
 
@@ -64,7 +64,7 @@ void MainMenuScene::update(int deltaTime) {
         else if (Game::instance().getSpecialKey(GLUT_KEY_DOWN) && !latchKeys[GLUT_KEY_DOWN]) {
             latchKeys[GLUT_KEY_DOWN] = true;
             buttons[selectedButton].setState(UI_Button::Unselected);
-
+			AudioManager::getInstance()->playSoundEffect(AudioManager::ButtonSelected,128);
             selectedButton++;
             if (selectedButton >= (int)buttons.size()) selectedButton = 0;
 
@@ -72,7 +72,7 @@ void MainMenuScene::update(int deltaTime) {
         }
         else if (Game::instance().getSpecialKey(GLUT_KEY_LEFT) && !latchKeys[GLUT_KEY_LEFT]) {
             latchKeys[GLUT_KEY_LEFT] = true;
-
+			AudioManager::getInstance()->playSoundEffect(AudioManager::ButtonPressed, 128);
             buttons[selectedButton].setState(UI_Button::Clicked);
         }
 		else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT) && !latchKeys[GLUT_KEY_RIGHT]) {
