@@ -33,9 +33,15 @@ public:
 private:
 
 	void init(const glm::ivec2 &tileMapPos);
+
+	void initAnimation();
     
 
 private:
+
+	Sprite *chargeProjectile;
+	Sprite *boost;
+	bool isInitAnimation = false;
 
     ForceDevice *forceDevice;
 	bool forceSpawned = false;
