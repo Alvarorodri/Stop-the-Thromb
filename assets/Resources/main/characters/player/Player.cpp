@@ -226,6 +226,7 @@ void Player::update(int deltaTime)
 
 void Player::inputController() {
     if (Game::instance().getKey('x')) {
+		AudioManager::getInstance()->playSoundEffect(AudioManager::ChargeAttack, 128);
 		latchKeys['x'] = true;
 		currentCharge += 1.0f;
     }
