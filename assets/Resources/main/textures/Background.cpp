@@ -15,8 +15,8 @@ Background::~Background() {
 }
 
 void Background::render(float mapPos) {
-	for (int i = 0; i < backgrounds.size(); ++i) {
-		for (int j = 0; j < backgrounds[i].size(); ++j) {
+	for (int i = 0; i < (int)backgrounds.size(); ++i) {
+		for (int j = 0; j < (int)backgrounds[i].size(); ++j) {
 			float temp = abs(mapPos) + backgrounds[i][j]->getPosition().x + backgrounds[i][j]->getQuadsize().x;
 			if ((i == 0 || i == 1) && (temp < 2048 || temp  >= 4096)) backgrounds[i][j]->render();
 			else if (i == 2 && temp >= 2048 && temp  < 4096) backgrounds[i][j]->render();
@@ -25,8 +25,8 @@ void Background::render(float mapPos) {
 }
 
 void Background::update(float speed, float mapPos, int deltaTime) {
-	for (int i = 0; i < backgrounds.size(); ++i) {
-		for (int j = 0; j < backgrounds[i].size(); ++j) {
+	for (int i = 0; i < (int)backgrounds.size(); ++i) {
+		for (int j = 0; j < (int)backgrounds[i].size(); ++j) {
 			glm::vec2 spritePos = backgrounds[i][j]->getPosition();
 			glm::vec2 spriteQuad = backgrounds[i][j]->getQuadsize();
 

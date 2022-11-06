@@ -42,6 +42,10 @@ void GameScene::init() {
 	cFactory->mapSpeed = map->getSpeed();
 
 	cFactory->spawnCharacter(CharacterFactory::CharacterAvailable::cPlayer, glm::vec2(-30.f, 128.0f));
+
+	ObjectFactory::getInstance()->setProjection(&projection);
+	ObjectFactory::getInstance()->init();
+	ObjectFactory::getInstance()->mapSpeed = map->getSpeed();
 	
 }
 
@@ -56,6 +60,9 @@ void GameScene::update(int deltaTime) {
     cFactory->update(deltaTime);
     ProjectileFactory::getInstance()->update(deltaTime);
 	cExplosion->update(deltaTime);
+
+	ObjectFactory::getInstance()->update(deltaTime);
+
 }
 
 void GameScene::render() {
@@ -64,12 +71,16 @@ void GameScene::render() {
     cFactory->render();
     ProjectileFactory::getInstance()->render();
 	cExplosion->render();
+
+	ObjectFactory::getInstance()->render();
+
 }
 
 void GameScene::setMapSpeed(float newSpeed) {
 	map->setSpeed(newSpeed);
 	CharacterFactory::getInstance()->mapSpeed = newSpeed;
 	ProjectileFactory::getInstance()->mapSpeed = newSpeed;
+	ObjectFactory::getInstance()->mapSpeed = newSpeed;
 }
 
 void GameScene::teleport(float newPos) {
@@ -77,6 +88,7 @@ void GameScene::teleport(float newPos) {
 
 	CharacterFactory::getInstance()->destroyAllCharacters();
 	ProjectileFactory::getInstance()->destroyAllProjectiles();
+	ObjectFactory::getInstance()->destroyAllObjects();
 }
 
 void GameScene::inputManager() {
@@ -100,12 +112,17 @@ void GameScene::inputManager() {
 		latchKeys['5'] = true;
 		teleport(4000);
 	}
+	else if (Game::instance().getKey('p') && !latchKeys['p']) {
+		latchKeys['p'] = true;
+		setMapSpeed(0.0f);
+	}
 
 	if (!Game::instance().getKey('1') && latchKeys['1']) latchKeys['1'] = false;
 	else if (!Game::instance().getKey('2') && latchKeys['2']) latchKeys['2'] = false;
 	else if (!Game::instance().getKey('3') && latchKeys['3']) latchKeys['3'] = false;
 	else if (!Game::instance().getKey('4') && latchKeys['4']) latchKeys['4'] = false;
 	else if (!Game::instance().getKey('5') && latchKeys['5']) latchKeys['5'] = false;
+	else if (!Game::instance().getKey('p') && latchKeys['p']) latchKeys['p'] = false;
 }
 
 void GameScene::initShaders() {

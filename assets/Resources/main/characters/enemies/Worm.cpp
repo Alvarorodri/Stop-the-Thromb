@@ -42,7 +42,7 @@ void Worm::update(int deltaTime)
 		pos.x += mov;
 		collider->changePositionRelative(glm::vec2(mov,0.f));
 		sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
-		for (int i = 0; i < (parts.size() - 1); ++i) {
+		for (int i = 0; i < ((int)parts.size() - 1); ++i) {
 			parts[i]->setPosition(parts[i + 1]->getPosition());
 		}
 		parts[(parts.size() - 1)]->setPosition(pos);
@@ -56,13 +56,13 @@ void Worm::render()
 #ifdef SHOW_HIT_BOXES
 	collider->render();
 #endif // SHOW_HIT_BOXES
-	for (int i = 0; i < parts.size(); ++i) {
+	for (int i = 0; i < (int)parts.size(); ++i) {
 		parts[i]->render();
 	}
 }
 
 void Worm::setPosition(const glm::vec2 &pos) {
-	for (int i = 0; i < parts.size(); ++i) {
+	for (int i = 0; i < (int)parts.size(); ++i) {
 		parts[i]->setPosition(pos);
 	}
 	this->pos = pos;

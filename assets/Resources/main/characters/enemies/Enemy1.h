@@ -10,6 +10,8 @@ public:
 	Enemy1(glm::mat4 *project, int id, const glm::ivec2 &tileMapPos);
     void update(int deltaTime);
 
+	void deleteRoutine();
+
 private:
 
 	enum Enemy1Anims {STAND_LEFT, MOVE_LEFT, FLY_LEFT, LANDING_LEFT, JUMP_LEFT};

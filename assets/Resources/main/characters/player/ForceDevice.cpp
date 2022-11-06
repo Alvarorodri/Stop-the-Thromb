@@ -106,6 +106,9 @@ Collision* ForceDevice::getCollider() {
 }
 
 void ForceDevice::setForceLevel(int level) {
+	if (level > 2) level = 2;
+	else if (level < 0) level = 0;
+	forceLevel = level;
     sprite->changeAnimation(level,false);
 }
 
@@ -118,21 +121,19 @@ void ForceDevice::inputController() {
     // Press State
     if (Game::instance().getKey('j') && !latchKeys['j']) {
         latchKeys['j'] = true;
-		if (forceLevel < 2) {
-			forceLevel++;
-			setForceLevel(forceLevel);
-			cont = 60;
-			levelup = true;
-		}
+
+		forceLevel++;
+		setForceLevel(forceLevel);
+		cont = 60;
+		levelup = true;
     }
     else if (Game::instance().getKey('h') && !latchKeys['h']) {
         latchKeys['h'] = true;
-		if (forceLevel > 0) {
-			forceLevel--;
-			setForceLevel(forceLevel);
-			cont = 60;
-			levelup = false;
-		}
+
+		forceLevel--;
+		setForceLevel(forceLevel);
+		cont = 60;
+		levelup = false;
     }
     else if (Game::instance().getKey('z') && !latchKeys['z']) {
         latchKeys['z'] = true;

@@ -63,7 +63,7 @@ void InstructionsScene::init() {
 void InstructionsScene::update(int deltaTime) {
 	currentTime += deltaTime;
 
-	for (int i = 0; i < buttons.size(); i++) buttons[i].update(deltaTime);
+	for (int i = 0; i < (int)buttons.size(); i++) buttons[i].update(deltaTime);
 
 	if (enableControls) {
 		if (Game::instance().getSpecialKey(GLUT_KEY_LEFT) && !latchKeys[GLUT_KEY_LEFT]) {
@@ -82,7 +82,7 @@ void InstructionsScene::render() {
 	for (int i = 0; i < (int)buttons.size(); i++) buttons[i].render();
 	bool first = true;
 	int aux = posText.y;
-	for (int i = 0; i < content.size(); ++i) {
+	for (int i = 0; i < (int)content.size(); ++i) {
 		if (first) {
 			first = false;
 			text.render(content[i], glm::ivec2(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f-100.f), 50, color, Text::Center);

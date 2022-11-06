@@ -309,6 +309,11 @@ void Player::destroyForce() {
 	}
 }
 
+void Player::increaseForce() {
+	if (!forceSpawned) spawnForce();
+	else forceDevice->setForceLevel(forceDevice->getForceLevel()+1);
+}
+
 void Player::initAnimation() {
 	isInitAnimation = true;
 	godmode = true;

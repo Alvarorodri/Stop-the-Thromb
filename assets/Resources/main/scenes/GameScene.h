@@ -10,8 +10,8 @@
 #include "characters\CharacterFactory.h"
 #include "characters\ExplosionFactory.h"
 #include "sound\SDL2Music.h"
-
 #include "projectiles\ProjectileFactory.h"
+#include "objects\ObjectFactory.h"
 
 // Scene contains all the entities of our game.
 // It is responsible for updating and render them.

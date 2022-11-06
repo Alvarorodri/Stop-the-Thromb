@@ -34,6 +34,7 @@ public:
     Collision* getCollider();
 	bool isAttached() { return isAtached; };
 
+	int getForceLevel() { return forceLevel; };
     void setForceLevel(int level);
 
 	void deleteRoutine();

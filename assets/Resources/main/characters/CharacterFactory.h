@@ -47,6 +47,8 @@ public:
 	void killCharacter(const int &id);
 	void damageCharacter(const int &id, int dmg);
 
+	void increasePlayerForce();
+
 public:
 
 	float mapSpeed;

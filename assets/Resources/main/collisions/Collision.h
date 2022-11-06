@@ -22,7 +22,8 @@ public:
         Enemy,
         PlayerProjectiles,
         EnemyProjectiles,
-        Uknown
+        Uknown,
+		Object,
     };
 
     Collision();

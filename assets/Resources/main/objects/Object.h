@@ -1,5 +1,5 @@
-#ifndef _POWER_UP_INCLUDE
-#define _POWER_UP_INCLUDE
+#ifndef _OBJECT_INCLUDE
+#define _OBJECT_INCLUDE
 
 #include "textures\Sprite.h"
 #include "textures\TileMap.h"
@@ -10,29 +10,37 @@
 
 // Player is basically a Sprite that represents the player. As such it has
 // all properties it needs to track its movement, jumping, and collisions.
-class PowerUp {
+class Object {
 
 public:
 
-    enum PowerUpType {  PowerUpBlue, PowerUpGreen, PowerUpRed,
+    enum ObjectType {   PowerUpBlue, PowerUpGreen, PowerUpRed,
                         PowerUpYellow, PowerUpBlack, 
                         ModifierS, ModifierMRed, ModifierMBlue};
 
 public:
 
-    PowerUp(glm::mat4 *project);
-    void init(const PowerUpType type);
-    void update(int deltaTime);
-    void render();
+    Object(int id, glm::mat4 *project, const Object::ObjectType type);
+    virtual void init();
+    virtual void update(int deltaTime);
+    virtual void render();
 
     void setPosition(const glm::vec2 &pos);
-    void setType(const PowerUpType type);
+    void setType(const ObjectType type);
+	void setSize(int size);
 
-private:
+	virtual bool collisionRoutine();
+	virtual void deleteRoutine();
+
+protected:
+
+	int id;
 
     int size = 10;
+	ObjectType type;
 
-    glm::vec2 posPowerUp;
+    glm::vec2 pos;
+	glm::vec2 vel;
     Texture *spritesheet;
     Sprite *sprite;
 
@@ -43,4 +51,4 @@ private:
 
 };
 
-#endif // _POWER_UP_INCLUDE
+#endif // _OBJECT_INCLUDE

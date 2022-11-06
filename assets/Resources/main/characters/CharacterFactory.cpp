@@ -217,3 +217,7 @@ void CharacterFactory::damageCharacter(const int &id, int dmg) {
 	auto search = characters.find(id);
 	if (search != characters.end()) search->second->damage(dmg);
 }
+
+void CharacterFactory::increasePlayerForce() {
+	if (player != nullptr) player->increaseForce();
+}

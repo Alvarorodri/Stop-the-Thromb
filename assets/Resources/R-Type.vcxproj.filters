@@ -25,9 +25,6 @@
     <Filter Include="Archivos de código fuente\Debug">
       <UniqueIdentifier>{48bc2cd8-8fb9-4956-aed8-9a88973167e2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Archivos de código fuente\Misc">
-      <UniqueIdentifier>{202a6ab2-b576-4c1b-aac5-6d468ae8c9d0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Archivos de código fuente\Utilities">
       <UniqueIdentifier>{dd56104b-43ce-48b7-89db-fc445eefafaf}</UniqueIdentifier>
     </Filter>
@@ -39,9 +36,6 @@
     </Filter>
     <Filter Include="Archivos de encabezado\Debug">
       <UniqueIdentifier>{8097a562-e173-46e2-85b7-591195d4dc99}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Archivos de encabezado\Misc">
-      <UniqueIdentifier>{51d98ffe-d337-4896-acd3-01a8f986b8bc}</UniqueIdentifier>
     </Filter>
     <Filter Include="Archivos de encabezado\Utilities">
       <UniqueIdentifier>{51b808c1-a6a7-4d7b-b8b7-3dc72f564f1c}</UniqueIdentifier>
@@ -87,6 +81,12 @@
     </Filter>
     <Filter Include="Archivos de código fuente\Sound">
       <UniqueIdentifier>{2972832e-1b1e-4f93-ae1c-81cfdf1ec9bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Objects">
+      <UniqueIdentifier>{202a6ab2-b576-4c1b-aac5-6d468ae8c9d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Objects">
+      <UniqueIdentifier>{51d98ffe-d337-4896-acd3-01a8f986b8bc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -176,9 +176,6 @@
     <ClCompile Include="main\projectiles\ProjectileNormal.cpp">
       <Filter>Archivos de código fuente\Projectiles</Filter>
     </ClCompile>
-    <ClCompile Include="main\misc\PowerUp.cpp">
-      <Filter>Archivos de código fuente\Misc</Filter>
-    </ClCompile>
     <ClCompile Include="main\debug\TrianglesRenderer.cpp">
       <Filter>Archivos de código fuente\Debug</Filter>
     </ClCompile>
@@ -251,6 +248,15 @@
     <ClCompile Include="main\sound\SDLInit.cpp">
       <Filter>Archivos de código fuente\Sound</Filter>
     </ClCompile>
+    <ClCompile Include="main\objects\PowerUp.cpp">
+      <Filter>Archivos de código fuente\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="main\objects\ObjectFactory.cpp">
+      <Filter>Archivos de código fuente\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="main\objects\Object.cpp">
+      <Filter>Archivos de código fuente\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\Game.h">
@@ -315,9 +321,6 @@
     </ClInclude>
     <ClInclude Include="main\projectiles\Projectile.h">
       <Filter>Archivos de encabezado\Projectiles</Filter>
-    </ClInclude>
-    <ClInclude Include="main\misc\PowerUp.h">
-      <Filter>Archivos de encabezado\Misc</Filter>
     </ClInclude>
     <ClInclude Include="main\debug\TrianglesRenderer.h">
       <Filter>Archivos de encabezado\Debug</Filter>
@@ -390,6 +393,15 @@
     </ClInclude>
     <ClInclude Include="main\sound\SDLInit.h">
       <Filter>Archivos de encabezado\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="main\objects\ObjectFactory.h">
+      <Filter>Archivos de encabezado\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="main\objects\Object.h">
+      <Filter>Archivos de encabezado\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="main\objects\PowerUp.h">
+      <Filter>Archivos de encabezado\Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

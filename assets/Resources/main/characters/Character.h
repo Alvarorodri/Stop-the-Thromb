@@ -7,7 +7,7 @@
 #include "collisions\CollisionSystem.h"
 #include "TextureManager.h"
 #include "projectiles\ProjectileFactory.h"
-
+#include "objects\ObjectFactory.h"
 
 #include "GeneralDefines.h"
 
@@ -32,7 +32,7 @@ public:
 	int getId();
 	glm::vec2 getPosition() { return pos; };
 	glm::vec4 getBoundingBox();
-	void deleteRoutine();
+	virtual void deleteRoutine();
 
 	void clippingAvoidance();
 
