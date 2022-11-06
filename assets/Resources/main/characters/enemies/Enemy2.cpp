@@ -42,13 +42,13 @@ void Enemy2::update(int deltaTime)
 {
 	sprite->update(deltaTime);
 	shoot();
-	CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Enemy2::collider, glm::vec2(-0.5, 0));
+	CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Enemy2::collider, glm::vec2(-1, 0));
 	if (info.colliding) {
 		if (info.collider->collisionGroup == Collision::CollisionGroups::Player) {
 				CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
 		}
 	}else {
-        pos.x -= 0.5;
+        pos.x -= 1;
         collider->changePositionAbsolute(pos);
 	}
 
@@ -58,7 +58,7 @@ void Enemy2::update(int deltaTime)
 		jumpAngle = 0;
 	}
 	else {
-		CollisionSystem::CollisionInfo info = collisionSystem->isColliding(collider, glm::vec2(0, (startY - 50.0f * sin(3.14159f * jumpAngle / 180.f)) - pos.y));
+		CollisionSystem::CollisionInfo info = collisionSystem->isColliding(collider, glm::vec2(0, (startY - 30.0f * sin(3.14159f * jumpAngle / 180.f)) - pos.y));
 
 		if (info.colliding) {
 			if (info.collider->collisionGroup == Collision::CollisionGroups::Map) {
@@ -70,7 +70,7 @@ void Enemy2::update(int deltaTime)
 		}
 
 		else {
-            pos.y = startY - 50.0f * sin(3.14159f * jumpAngle / 180.f);
+            pos.y = startY - 30.0f * sin(3.14159f * jumpAngle / 180.f);
             collider->changePositionAbsolute(pos);
 		}
 	}
@@ -81,21 +81,23 @@ void Enemy2::update(int deltaTime)
 void Enemy2::shoot() {
 	if (shootDelay == 0) {
 		shootDelay = 60;
+		int valor = rand() % 10;
+		if (valor == 1) {
+			glm::vec2 playerpos;
+			bool existsPlayer = CharacterFactory::getInstance()->getPlayerPos(playerpos);
 
-		glm::vec2 playerpos;
-		bool existsPlayer = CharacterFactory::getInstance()->getPlayerPos(playerpos);
+			if (!existsPlayer) return;
 
-		if (!existsPlayer) return;
+			glm::vec2 dir = (playerpos + glm::vec2(16.f, 7.f)) - (pos + glm::vec2(6.0f, 9.0f));
 
-		glm::vec2 dir = (playerpos+glm::vec2(16.f,7.f))-(pos + glm::vec2(6.0f, 9.0f));
+			float angle = atan2(dir.y, dir.x);
+			dir = glm::vec2(cos(angle), sin(angle));
 
-		float angle = atan2(dir.y, dir.x);
-		dir = glm::vec2(cos(angle), sin(angle));
+			float velocity = 2.0f;
+			dir *= velocity;
 
-		float velocity = 2.0f;
-		dir *= velocity;
-		
-		ProjectileFactory::getInstance()->spawnProjectile(pos + glm::vec2(6.0f, 9.0f), dir, false, Projectile::EnemyProjectile);
+			ProjectileFactory::getInstance()->spawnProjectile(pos + glm::vec2(6.0f, 9.0f), dir, false, Projectile::EnemyProjectile);
+		}
 	}
 	else shootDelay -= 1;
 }

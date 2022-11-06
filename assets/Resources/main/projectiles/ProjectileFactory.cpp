@@ -54,6 +54,14 @@ void ProjectileFactory::spawnProjectile(const glm::vec2 &pos, const glm::vec2 &v
             projectile->setVelocity(vel);
             projectile->setBounciness(bounce);
             break;
+		case Projectile::Misil:
+			projectile = new ProjectileNormal(projection, last_id,type);
+			projectile->init(TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::Projectiles), type);
+			projectile->setType(type);
+			projectile->setPosition(pos);
+			projectile->setVelocity(vel);
+			projectile->setBounciness(bounce);
+			break;
     }
 
     projectiles.insert({ last_id, projectile });
@@ -62,12 +70,26 @@ void ProjectileFactory::spawnProjectile(const glm::vec2 &pos, const glm::vec2 &v
 
 void ProjectileFactory::destroyProjectile(const int &id) {
     pendingToBeDestroyed.insert(id);
-	if(projectiles[id]->getType()== Projectile::EnemyProjectile){
+	if(projectiles[id]->getType()== Projectile::EnemyProjectile || projectiles[id]->getType() == Projectile::Fireball){
 		ExplosionFactory::getInstance()->spawnExplosion(Explosion::Explosions::ExplosionProyectileEnemy, projection, projectiles[id]->getPos(), projectiles[id]->getBox());
-
 	}
-	else {
-		ExplosionFactory::getInstance()->spawnExplosion(Explosion::Explosions::ExplosionProyectilePlayer, projection, projectiles[id]->getPos(), projectiles[id]->getBox());
+	else if (projectiles[id]->getType() == Projectile::R9mk0) {
+		ExplosionFactory::getInstance()->spawnExplosion(Explosion::Explosions::ExplosionProyectileR9mk0, projection, projectiles[id]->getPos(), projectiles[id]->getBox());
+	}
+	else if (projectiles[id]->getType() == Projectile::R9mk1) {
+		ExplosionFactory::getInstance()->spawnExplosion(Explosion::Explosions::ExplosionProyectileR9mk1, projection, projectiles[id]->getPos(), projectiles[id]->getBox());
+	}
+	else if (projectiles[id]->getType() == Projectile::R9mk2) {
+		ExplosionFactory::getInstance()->spawnExplosion(Explosion::Explosions::ExplosionProyectileR9mk2, projection, projectiles[id]->getPos(), projectiles[id]->getBox());
+	}
+	else if (projectiles[id]->getType() == Projectile::R9mk3) {
+		ExplosionFactory::getInstance()->spawnExplosion(Explosion::Explosions::ExplosionProyectileR9mk3, projection, projectiles[id]->getPos(), projectiles[id]->getBox());
+	}
+	/*else if (projectiles[id]->getType() == Projectile::Waves) {
+		ExplosionFactory::getInstance()->spawnExplosion(Explosion::Explosions::ExplosionProyectileWaves, projection, projectiles[id]->getPos(), projectiles[id]->getBox());
+	}*/
+	else if (projectiles[id]->getType() == Projectile::Misil) {
+		ExplosionFactory::getInstance()->spawnExplosion(Explosion::Explosions::ExplosionEnemy, projection, projectiles[id]->getPos(), projectiles[id]->getBox());
 	}
 }
 

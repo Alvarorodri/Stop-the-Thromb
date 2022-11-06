@@ -13,7 +13,7 @@ class Explosion {
 
 public:
 	//Trying this shit
-	enum Explosions { ExplosionPlayer, ExplosionEnemy, ExplosionProyectilePlayer, ExplosionProyectileEnemy };
+	enum Explosions { ExplosionPlayer, ExplosionEnemy, ExplosionProyectileR9mk0, ExplosionProyectileR9mk1, ExplosionProyectileR9mk2, ExplosionProyectileR9mk3, ExplosionProyectileWaves, ExplosionProyectileEnemy, ExplosionProyectileMisil};
 	Explosion(Explosions type, glm::mat4 &project, const glm::vec2 &pos, const glm::vec4 &box);
 	~Explosion();
 

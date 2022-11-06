@@ -2,6 +2,7 @@
 #define _Enemy2_INCLUDE
 
 #include "characters\Character.h"
+#include <cstdlib>
 
 class Enemy2 : public Character {
 

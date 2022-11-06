@@ -6,14 +6,15 @@ ProjectileNormal::ProjectileNormal(glm::mat4 *project, int id, int type) {
     projection = project;
     idProjectile = id;
     // TODO: the collision type must be set depending of the class that called this method
-    collider = new Collision(id, project, (ProjectileType)type == ProjectileType::EnemyProjectile ? Collision::EnemyProjectiles : Collision::PlayerProjectiles);
-
+    if((ProjectileType)type == ProjectileType::EnemyProjectile || (ProjectileType)type == ProjectileType::Misil)collider = new Collision(id, project, Collision::EnemyProjectiles);
+	else collider = new Collision(id, project, Collision::PlayerProjectiles);
     collisionSystem = CollisionSystem::getInstance();
 }
 
 void ProjectileNormal::init(Texture *spritesheet, int type) {
 	projectileType = (ProjectileType)type;
     glm::vec2 spriteCuts = glm::vec2(1.0 / 8.0, 1.0 / 32.0);
+	if((ProjectileType)type == Misil)spriteCuts = glm::vec2(1.0 / 8.0, 1.0 / 16.0);
     sprite = Sprite::createSprite(glm::ivec2(32, 8), spriteCuts, spritesheet, projection);
     sprite->setNumberAnimations(1);
 
@@ -84,6 +85,10 @@ void ProjectileNormal::projectileConfigurator(ProjectileType type, const glm::ve
         sprite->addKeyframe(0, glm::vec2(xy.x * 1.0, xy.y * 4.0));
         collider->addCollider(glm::ivec4(1, 1, 7, 7));
         break;
+	case Misil:
+		sprite->addKeyframe(0, glm::vec2(xy.x * 6.0, xy.y * 2.0));
+		collider->addCollider(glm::ivec4(0, 0, 27, 6));
+		break;
     }
 
     collisionSystem->addColliderIntoGroup(collider);
@@ -114,7 +119,7 @@ bool ProjectileNormal::collisionRoutine() {
 				}
 				break;
 			case Collision::Player:
-				if (projectileType == ProjectileType::EnemyProjectile) {
+				if (projectileType == ProjectileType::EnemyProjectile || projectileType == ProjectileType::Misil) {
 					CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
 					ProjectileFactory::getInstance()->destroyProjectile(this->getId());
 				}

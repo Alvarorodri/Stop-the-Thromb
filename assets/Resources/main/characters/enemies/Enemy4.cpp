@@ -43,13 +43,29 @@ void Enemy4::update(int deltaTime) {
 	glm::vec2 playerpos;
 	bool existsPlayer = CharacterFactory::getInstance()->getPlayerPos(playerpos);
 
-	if (bJumping && existsPlayer && (playerpos.x - pos.x) <= 100.f && (playerpos.x - pos.x) >= -100.f) {
+	CollisionSystem::CollisionInfo mov = collisionSystem->isColliding(Enemy4::collider, glm::vec2(-0.5, 0));
+
+	if (mov.colliding) {
+		if (mov.collider->collisionGroup == Collision::CollisionGroups::Map) {
+			pos.x += 1;
+			collider->changePositionRelative(glm::vec2(0.5, 0));
+		}
+		else if (mov.collider->collisionGroup == Collision::CollisionGroups::Player) {
+			CharacterFactory::getInstance()->damageCharacter(mov.collider->getId(), 1);
+		}
+	}
+	else {
+		pos.x -= 0.5;
+		collider->changePositionRelative(glm::vec2(-0.5,0));
+		}
+
+	if (bJumping && existsPlayer && (playerpos.x - pos.x) <= 200.f && (playerpos.x - pos.x) >= -200.f) {
 		bJumping = false;
 		jumpAngle2 = 0;
 		startY2 = pos.y;
 
 	}
-	else if(!bJumping && existsPlayer && ((playerpos.x - pos.x) > 100.f || (playerpos.x - pos.x) < -100.f)) bJumping = true;
+	else if(!bJumping && existsPlayer && ((playerpos.x - pos.x) > 200.f || (playerpos.x - pos.x) < -200.f)) bJumping = true;
 
 	if (bJumping) {
 		jumpAngle += JUMP_ANGLE_STEP/2.0;
@@ -134,15 +150,18 @@ void Enemy4::shoot() {
 
 			if (!existsPlayer) return;
 
-			glm::vec2 dir = (playerpos + glm::vec2(16.f, 7.f)) - (pos + glm::vec2(0.f, 0.f));
+			glm::vec2 dir = (playerpos + glm::vec2(16.f, 7.f)) - (pos + glm::vec2(0.f,8.f));
 
 			float angle = atan2(dir.y, dir.x);
-			dir = glm::vec2(cos(angle), sin(angle));
+			if ((angle <= (PI) && angle >= (5.f*PI/6.f)) || (angle >= (-PI) && angle <= (-5.f*PI / 6.f)) || (angle >= (-1.f*PI / 6.f) && angle <= (1.f*PI / 6.f))) {
+				dir = glm::vec2(cos(angle), sin(angle));
 
-			float velocity = 2.0f;
-			dir *= velocity;
+				float velocity = 2.0f;
+				dir *= velocity;
 
-			ProjectileFactory::getInstance()->spawnProjectile(pos + glm::vec2(0.f, 0.f), dir, false, Projectile::EnemyProjectile);
+				ProjectileFactory::getInstance()->spawnProjectile(pos + glm::vec2(0.f, 8.f), dir, false, Projectile::Misil);
+			}
+
 		}
 		else shootDelay -= 1;
 }
