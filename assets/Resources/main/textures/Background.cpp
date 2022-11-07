@@ -18,8 +18,8 @@ void Background::render(float mapPos) {
 	for (int i = 0; i < (int)backgrounds.size(); ++i) {
 		for (int j = 0; j < (int)backgrounds[i].size(); ++j) {
 			float temp = abs(mapPos) + backgrounds[i][j]->getPosition().x + backgrounds[i][j]->getQuadsize().x;
-			if ((i == 0 || i == 1) && (temp < 2048 || temp  >= 4096)) backgrounds[i][j]->render();
-			else if (i == 2 && temp >= 2048 && temp  < 4096) backgrounds[i][j]->render();
+			if ((i == 0 || i == 1) && (temp < 2368 || temp  >= 7488)) backgrounds[i][j]->render();
+			else if (i == 2 && temp >= 2336 && temp  < 7488) backgrounds[i][j]->render();
 		}
 	}
 }

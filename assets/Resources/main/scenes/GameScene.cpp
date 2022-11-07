@@ -39,12 +39,12 @@ void GameScene::init() {
 	cFactory = CharacterFactory::getInstance();
 	cFactory->setProjection(&projection);
 	cFactory->setTileMapPos(glm::ivec2(SCREEN_X, SCREEN_Y));
-	cFactory->setSpawnFiles("images/background/testing-long-map_entities-computed_entitiesSpawn.txt");
+	cFactory->setSpawnFiles("images/background/level00_entities-computed_entitiesSpawn.txt");
 	cFactory->setMap(map);
 	cFactory->mapSpeed = map->getSpeed();
 
 	cFactory->spawnCharacter(CharacterFactory::CharacterAvailable::cPlayer, glm::vec2(-30.f, 200.0f));
-	cFactory->spawnCharacter(CharacterFactory::CharacterAvailable::cBoss, glm::vec2(180.f, 80.0f));
+	//cFactory->spawnCharacter(CharacterFactory::CharacterAvailable::cBoss, glm::vec2(180.f, 80.0f));
 
 	ObjectFactory::getInstance()->setProjection(&projection);
 	ObjectFactory::getInstance()->init();
@@ -132,7 +132,18 @@ void GameScene::inputManager() {
 	}
 	else if (Game::instance().getKey('p') && !latchKeys['p']) {
 		latchKeys['p'] = true;
-		setMapSpeed(0.0f);
+		if (map->getSpeed() != 0.0f) setMapSpeed(0.0f);
+		else setMapSpeed(-1.0f);
+	}
+	else if (Game::instance().getKey('q') && !latchKeys['q']) {
+		//latchKeys['q'] = true;
+		map->moveMap(10.0f);
+		map->update(0);
+	}
+	else if (Game::instance().getKey('w') && !latchKeys['w']) {
+		//latchKeys['w'] = true;
+		map->moveMap(-10.0f);
+		map->update(0);
 	}
 
 	if (!Game::instance().getKey('1') && latchKeys['1']) latchKeys['1'] = false;

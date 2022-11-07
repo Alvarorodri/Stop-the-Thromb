@@ -51,7 +51,7 @@ void CharacterFactory::update(int deltaTime) {
 		it->second->update(deltaTime);
 	}
 
-	//spawnRoutine();
+	spawnRoutine();
 	lateDestroyCharacter();
 }
 
@@ -204,8 +204,7 @@ void CharacterFactory::spawnRoutine() {
 
 	// Actual loop that spawn the following enemy
 	while (nextSpawn < (int)enemies.size() && tempPos.x >= x1 && tempPos.x <= x2) {
-		// TODO: Change '2' to nextSpawn->first
-		spawnCharacter(2, tempPos);
+		spawnCharacter(enemies[nextSpawn].first, tempPos);
 
 		++nextSpawn;
 		if (nextSpawn < (int)enemies.size()) {

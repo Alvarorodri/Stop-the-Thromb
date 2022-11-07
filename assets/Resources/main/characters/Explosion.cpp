@@ -6,11 +6,11 @@ Explosion::Explosion(Explosions type, glm::mat4 &project, const glm::vec2 &pos, 
 	if (Explosions::ExplosionEnemy == type || Explosions::ExplosionPlayer == type) {
 		int size = 0;
 		if (box[2] > box[3]) { 
-			size = box[2]; 
+			size = (int)box[2]; 
 			this->pos.y -= (box[2]-box[3])/2.f;
 		}
 		else if (box[2] < box[3]) { 
-			size = box[3]; 
+			size = (int)box[3];
 			this->pos.x -= (box[3] - box[2]) / 2.f;
 		}
 		else size = box[2];

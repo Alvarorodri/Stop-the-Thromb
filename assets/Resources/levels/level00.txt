@@ -2,7 +2,7 @@ BOX_COLLISION
 640 8								-- Entire map size
 80 8								-- Section map size
 32								-- Block size
-images/background/testing-long-map.png				-- Map
-images/background/testing-long-map_collisions-computed.txt	-- Collisions boxes
+images/background/level00.png					-- Map
+images/background/level00_collisions-computed.txt		-- Collisions boxes
 80 64								-- Number of block in Map
 levels/Background00.txt						-- Background settings

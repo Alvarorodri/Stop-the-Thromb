@@ -52,7 +52,6 @@ void TileMap::render() {
     glDisable(GL_TEXTURE_2D);
 
 #ifdef SHOW_HIT_BOXES
-    //TODO: find a way to indicate if the collision boxes are loaded
 	for (auto collider : colliders) {
 		if ((collider->position.x + collider->colliderBox.z >= 0.0f || collider->position.x + collider->colliderBox.z >= 0.0f) && collider->position.x + collider->colliderBox.x <= 500.0f)
 			collider->render();
