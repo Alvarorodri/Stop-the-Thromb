@@ -48,7 +48,7 @@ void GameScene::init() {
 	ObjectFactory::getInstance()->init();
 	ObjectFactory::getInstance()->mapSpeed = map->getSpeed();
 
-	setMapSpeed(0.0f);
+	setMapSpeed(-1.0f);
 	
 }
 
