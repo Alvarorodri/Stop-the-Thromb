@@ -27,6 +27,7 @@ public:
 	enum CharacterAvailable{cPlayer, cEnemy1, cEnemy2, cEnemy3, cEnemy4, cBoss, cWormUp, cWormDown};
 
 	static CharacterFactory *getInstance();
+	static void deleteReference();
 
 	void init();
 	void update(int deltaTime);

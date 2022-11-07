@@ -7,6 +7,11 @@ ObjectFactory *ObjectFactory::getInstance() {
     return instance_;
 }
 
+void ObjectFactory::deleteReference() {
+	if (instance_ != nullptr) delete instance_;
+	instance_ = nullptr;
+}
+
 ObjectFactory::ObjectFactory() {
 }
 

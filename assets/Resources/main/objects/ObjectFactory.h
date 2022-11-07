@@ -22,6 +22,7 @@ private:
 public:
 
 	static ObjectFactory *getInstance();
+	static void deleteReference();
 
     void init();
     void update(int deltaTime);

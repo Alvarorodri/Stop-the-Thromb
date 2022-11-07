@@ -10,6 +10,7 @@ public:
     static CollisionSystem *instance_;
 
     static CollisionSystem *getInstance();
+	static void deleteReference();
 
 public:
 

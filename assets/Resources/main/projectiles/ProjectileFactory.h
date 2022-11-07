@@ -25,6 +25,7 @@ private:
 public:
 
 	static ProjectileFactory *getInstance();
+	static void deleteReference();
 
     void init();
     void update(int deltaTime);

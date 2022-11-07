@@ -24,6 +24,9 @@ void LoadingScene::init() {
     currentTime = 0.0f;
 
     map = TileMap::createTileMap("levels/Loading.txt", glm::vec2(SCREEN_X, SCREEN_Y), &projection);
+
+	if (!text.init("fonts/OpenSans-Bold.ttf"))
+		cout << "Could not load font!!!" << endl;
 }
 
 void LoadingScene::update(int deltaTime) {
@@ -38,6 +41,9 @@ void LoadingScene::render() {
 	else if (waitingTime < 0 && nextScreenName == "INSTRUCTIONS") Game::instance().changeToInstructions(false);
 	else if (waitingTime < 0 && nextScreenName == "MAIN_MENU") Game::instance().changeToMainMenu(false);
     else if (waitingTime < 0 && nextScreenName == "CREDITS") Game::instance().changeToCredits(false);
+
+	text.render("Loading...", glm::vec2(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f), 64, glm::vec4(1, 1, 1, 1), Text::Center);
+
 }
 
 void LoadingScene::buttonCallback(int id) {

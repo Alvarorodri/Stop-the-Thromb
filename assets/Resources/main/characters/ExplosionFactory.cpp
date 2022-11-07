@@ -9,6 +9,11 @@ ExplosionFactory *ExplosionFactory::getInstance() {
 	return instance_;
 }
 
+void ExplosionFactory::deleteReference() {
+	if (instance_ != nullptr) delete instance_;
+	instance_ = nullptr;
+}
+
 ExplosionFactory::ExplosionFactory() {
 
 }

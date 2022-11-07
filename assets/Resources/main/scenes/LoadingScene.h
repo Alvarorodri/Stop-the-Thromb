@@ -5,6 +5,7 @@
 
 #include "Scene.h"
 #include "textures\TileMap.h"
+#include "ui\UI_Button.h"
 
 // Scene contains all the entities of our game.
 // It is responsible for updating and render them.
@@ -30,6 +31,7 @@ public:
 private:
 
     TileMap *map;
+	Text text;
 
     float currentTime;
     glm::mat4 projection;

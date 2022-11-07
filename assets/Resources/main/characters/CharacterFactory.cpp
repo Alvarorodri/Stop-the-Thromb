@@ -8,6 +8,11 @@ CharacterFactory *CharacterFactory::getInstance() {
 	return instance_;
 }
 
+void CharacterFactory::deleteReference() {
+	if (instance_ != nullptr) delete instance_;
+	instance_ = nullptr;
+}
+
 CharacterFactory::CharacterFactory() {
 	
 }
@@ -44,7 +49,7 @@ void CharacterFactory::lateDestroyCharacter() {
 	pendingToBeKilled.clear();
 	if (player == nullptr && alive) {
 		alive = false;
-		timer = 200;
+		timer = 100;
 		nextSpawn = 0;
 	}
 }
@@ -66,6 +71,7 @@ void CharacterFactory::update(int deltaTime) {
 	if (timer == 0) {
 		timer = -1;
 		nextSpawn = 0;
+
 		Game::instance().changeToGame(true);
 	}
 }

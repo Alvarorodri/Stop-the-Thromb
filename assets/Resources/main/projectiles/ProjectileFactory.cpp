@@ -7,6 +7,11 @@ ProjectileFactory *ProjectileFactory::getInstance() {
     return instance_;
 }
 
+void ProjectileFactory::deleteReference() {
+	if (instance_ != nullptr) delete instance_;
+	instance_ = nullptr;
+}
+
 ProjectileFactory::ProjectileFactory() {
 }
 

@@ -7,6 +7,11 @@ CollisionSystem *CollisionSystem::getInstance() {
     return instance_;
 }
 
+void CollisionSystem::deleteReference() {
+	if (instance_ != nullptr) delete instance_;
+	instance_ = nullptr;
+}
+
 CollisionSystem::CollisionSystem() {
 	spatialHashmap = new SpatialHashmap(32);
 }

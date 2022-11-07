@@ -25,6 +25,11 @@ void GameScene::init() {
     projection = glm::ortho(0.f, float((SCREEN_WIDTH / float(SCREEN_HEIGHT / 255.0f)) - 2), float((SCREEN_HEIGHT / float(SCREEN_HEIGHT / 255.0f)) - 2), 0.f);
     currentTime = 0.0f;
 
+	CharacterFactory::getInstance()->deleteReference();
+	ProjectileFactory::getInstance()->deleteReference();
+	ObjectFactory::getInstance()->deleteReference();
+	CollisionSystem::getInstance()->deleteReference();
+	ExplosionFactory::getInstance()->deleteReference();
 
     initShaders();
 	contEnd = -1;
@@ -37,18 +42,12 @@ void GameScene::init() {
 	cExplosion->setMap(map);
 	cFactory = CharacterFactory::getInstance();
 	cFactory->setProjection(&projection);
-	
-	cFactory->destroyAllCharactersToEnd();
-	ProjectileFactory::getInstance()->destroyAllProjectiles();
-	ObjectFactory::getInstance()->destroyAllObjects();
-	ExplosionFactory::getInstance()->deleteAll();
 
 	cFactory->setTileMapPos(glm::ivec2(SCREEN_X, SCREEN_Y));
 	cFactory->setSpawnFiles("images/background/level00_entities-computed_entitiesSpawn.txt");
 	cFactory->setMap(map);
 	cFactory->mapSpeed = map->getSpeed();
 
-	
 	ObjectFactory::getInstance()->setProjection(&projection);
 	ObjectFactory::getInstance()->init();
 	ObjectFactory::getInstance()->mapSpeed = map->getSpeed();

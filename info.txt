@@ -35,9 +35,12 @@ FUNCIONALITATS:
 
 -Tecles per saltar contingut:
 	Invulnerabilitat: No es pot morir (tecla ‘G’).
-	Afegir el “Force” si no es té (tecla ‘F’).
+	Crear el “Force” si no es té (tecla ‘F’).
 	Poder saltar a punts concrets del nivell (tecles numèriques ‘1’, ‘2’, ‘3’, ‘4’ i ‘5’).
 	Poder pujar de nivell el “Force” o baixar-ho (tecles ‘H’ i ‘J’ respectivament).
+	Canviar entre les dues opcions de poder especial, o adquirir-ho si no ho tenies (tecla 'K')
+	Pausa, o reanudar, el moviment del mapa (tecla 'P')
+	Avançar o retrocedir el mapa (tecles 'W' i 'Q' respectivament)
 	Poder veure les colliderboxs de tots els elements (tecla ‘D’).
 
 -So: música de fons al menú principal, instruccions i crèdits i una cançó pel joc i una pel

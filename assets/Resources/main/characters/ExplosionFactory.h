@@ -25,6 +25,7 @@ public:
 	
 
 	static ExplosionFactory *getInstance();
+	static void deleteReference();
 	void spawnExplosion(Explosion::Explosions type, glm::mat4 *project, const glm::vec2 &pos, const glm::vec4 &box);
 	void update(int deltaTime);
 	void render();
