@@ -29,6 +29,7 @@ public:
 	void update(int deltaTime);
 	void render();
 	void setMap(TileMap* map);
+	void deleteAll();
 	std::map<int, Explosion*> explosions;
 	int lastId = 0;
 	set<int> explosionsToDelete;

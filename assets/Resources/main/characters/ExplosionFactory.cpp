@@ -49,3 +49,12 @@ void ExplosionFactory::setMap(TileMap* map) {
 	this->map = map;
 }
 
+void ExplosionFactory::deleteAll() {
+	std::map<int, Explosion*>::iterator it = explosions.begin();
+
+	while (it != explosions.end()) {
+		explosionsToDelete.insert(it->first);
+		++it;
+	}
+	
+}

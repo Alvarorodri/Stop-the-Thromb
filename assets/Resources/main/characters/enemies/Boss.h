@@ -28,8 +28,10 @@ private:
 	void wormReturn(int id, bool upOrDown);
 	void updateColliders();
 	void ExplosionsOfDeath();
+	void deleteRoutine();
 
 #pragma region Parameters
+
 	int delay = 100;
 	//Worms
 	int delaySpawnWorm = 600;

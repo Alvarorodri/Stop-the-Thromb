@@ -1,4 +1,4 @@
-8
+9
 sounds/Running-in-the-90s.mp3
 sounds/laser-gun.mp3
 sounds/Explode.mp3
@@ -7,3 +7,4 @@ sounds/selectButton.mp3
 sounds/boost.mp3
 sounds/charge.mp3
 sounds/powerUp.mp3
+sounds/BossRoar.mp3

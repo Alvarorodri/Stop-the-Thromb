@@ -44,9 +44,13 @@ public:
 	void spawnRoutine();
 
 	void destroyCharacter(const int &id);
-	void destroyAllCharacters();
+	void destroyAllCharactersToTeleport();
+	void destroyAllCharactersToEnd();
 	void killCharacter(const int &id);
 	void damageCharacter(const int &id, int dmg);
+	void bossIsDead(bool dead);
+	bool isBossDead();
+
 
 	void increasePlayerForce();
 
@@ -74,7 +78,7 @@ private:
 	vector<int>IdreservedBoss;
 	vector<int>IdreservedWorm1;
 	vector<int>IdreservedWorm2;
-
+	bool bossdead = false;
 
 };
 

@@ -51,9 +51,10 @@ public:
 
     bool getKey(int key) const;
     bool getSpecialKey(int key) const;
+	SDL2Music music;
 
 private:
-	SDL2Music music;
+	
 	bool playedMusic = false;
     bool bPlay;                       // Continue to play game?
     Scene *scene;                     // Scene to render

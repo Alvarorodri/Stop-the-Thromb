@@ -284,6 +284,7 @@ void Player::inputController() {
 	else if (Game::instance().getKey('f') && !latchKeys['f']) {
 		if (!forceSpawned) spawnForce();
 		else destroyForce();
+		latchKeys['f'] = !latchKeys['f'];
 	}
 
 	if (!Game::instance().getKey('x') && latchKeys['x']) {

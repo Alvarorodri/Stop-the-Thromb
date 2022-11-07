@@ -219,7 +219,7 @@ void CharacterFactory::destroyCharacter(const int &id) {
 	pendingToBeDestroyed.insert(id);
 }
 
-void CharacterFactory::destroyAllCharacters() {
+void CharacterFactory::destroyAllCharactersToTeleport() {
 	map<int, Character *>::iterator it = characters.begin();
 
 	while (it != characters.end()) {
@@ -230,6 +230,15 @@ void CharacterFactory::destroyAllCharacters() {
 	IdreservedWorm1.clear();
 	IdreservedWorm2.clear();
 	nextSpawn = 0;
+}
+
+void CharacterFactory::destroyAllCharactersToEnd() {
+	map<int, Character *>::iterator it = characters.begin();
+
+	while (it != characters.end()) {
+		pendingToBeDestroyed.insert(it->first);
+		++it;
+	}
 }
 
 void CharacterFactory::killCharacter(const int &id) {
@@ -292,4 +301,12 @@ void CharacterFactory::increasePlayerForce() {
 void CharacterFactory::wormRetun(int idSource, int idDest, bool upOrDown) {
 	auto it = characters.find(idDest);
 	if (it != characters.end()) it->second->wormReturn(idSource, upOrDown);
+}
+
+void CharacterFactory::bossIsDead(bool dead) {
+	bossdead = dead;
+}
+
+bool CharacterFactory::isBossDead() {
+	return bossdead;
 }

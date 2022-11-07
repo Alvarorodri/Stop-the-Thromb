@@ -25,7 +25,7 @@ void SDL2Music::addMusicTrack(const char* path)
 
 void SDL2Music::playMusicTrack(const int which)
 { 
-	Mix_VolumeMusic(42);
+	Mix_VolumeMusic(32);
   if (which > (int)m_Musics.size())
   {
     return;
@@ -35,6 +35,7 @@ void SDL2Music::playMusicTrack(const int which)
  
 
   m_Playing = true;
+  Mix_VolumeMusic(32);
 
 }
 

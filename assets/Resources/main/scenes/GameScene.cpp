@@ -27,6 +27,7 @@ void GameScene::init() {
 
 
     initShaders();
+	contEnd = -1;
     map = TileMap::createTileMap("levels/level00.txt", glm::vec2(SCREEN_X, SCREEN_Y), &projection);
 	map->setSpeed(0);
     ProjectileFactory::getInstance()->setProjection(&projection);
@@ -61,12 +62,24 @@ void GameScene::update(int deltaTime) {
 	map->moveMap(map->getSpeed());
 	map->update(deltaTime);
 
+	if (contEnd == 0) {
+		CharacterFactory::getInstance()->destroyAllCharactersToEnd();
+		CharacterFactory::getInstance()->bossIsDead(false);
+		ProjectileFactory::getInstance()->destroyAllProjectiles();
+		ObjectFactory::getInstance()->destroyAllObjects();
+		ExplosionFactory::getInstance()->deleteAll();
+	}
+
     cFactory->update(deltaTime);
     ProjectileFactory::getInstance()->update(deltaTime);
 	cExplosion->update(deltaTime);
-
 	ObjectFactory::getInstance()->update(deltaTime);
-
+	if (contEnd == 0) {
+		Game::instance().changeToCredits(true);
+		Game::instance().music.playMusicTrack(Game::Songs::Menu);
+	}
+	if (contEnd == -1 && cFactory->isBossDead()) contEnd = 200;
+	else if (contEnd != -1) contEnd -= 1;
 }
 
 void GameScene::render() {
@@ -90,9 +103,10 @@ void GameScene::setMapSpeed(float newSpeed) {
 void GameScene::teleport(float newPos) {
 	map->moveMap(abs(map->getPosition()) - newPos);
 
-	CharacterFactory::getInstance()->destroyAllCharacters();
+	CharacterFactory::getInstance()->destroyAllCharactersToTeleport();
 	ProjectileFactory::getInstance()->destroyAllProjectiles();
 	ObjectFactory::getInstance()->destroyAllObjects();
+	ExplosionFactory::getInstance()->deleteAll();
 }
 
 void GameScene::inputManager() {
