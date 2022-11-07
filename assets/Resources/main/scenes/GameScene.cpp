@@ -29,7 +29,6 @@ void GameScene::init() {
     initShaders();
 	contEnd = -1;
     map = TileMap::createTileMap("levels/level00.txt", glm::vec2(SCREEN_X, SCREEN_Y), &projection);
-	map->setSpeed(0);
     ProjectileFactory::getInstance()->setProjection(&projection);
     ProjectileFactory::getInstance()->init();
 	ProjectileFactory::getInstance()->mapSpeed = map->getSpeed();
@@ -44,8 +43,7 @@ void GameScene::init() {
 	cFactory->mapSpeed = map->getSpeed();
 
 	cFactory->spawnCharacter(CharacterFactory::CharacterAvailable::cPlayer, glm::vec2(-30.f, 200.0f));
-	//cFactory->spawnCharacter(CharacterFactory::CharacterAvailable::cBoss, glm::vec2(180.f, 80.0f));
-
+	spawnBoss();
 	ObjectFactory::getInstance()->setProjection(&projection);
 	ObjectFactory::getInstance()->init();
 	ObjectFactory::getInstance()->mapSpeed = map->getSpeed();
@@ -80,6 +78,14 @@ void GameScene::update(int deltaTime) {
 	}
 	if (contEnd == -1 && cFactory->isBossDead()) contEnd = 200;
 	else if (contEnd != -1) contEnd -= 1;
+
+	if(!isSpawnedBoss)spawnBoss();
+	if (contspawn > 0) contspawn -= 1;
+	else if (contspawn == 0) {
+		Game::instance().music.Play_Pause();
+		Game::instance().music.playMusicTrack(Game::BossBattle); 
+		contspawn -= 1;
+	}
 }
 
 void GameScene::render() {
@@ -128,7 +134,7 @@ void GameScene::inputManager() {
 	}
 	else if (Game::instance().getKey('5') && !latchKeys['5']) {
 		latchKeys['5'] = true;
-		teleport(4000);
+		teleport(7400);
 	}
 	else if (Game::instance().getKey('p') && !latchKeys['p']) {
 		latchKeys['p'] = true;
@@ -157,6 +163,27 @@ void GameScene::inputManager() {
 	else if (!Game::instance().getKey('5') && latchKeys['5']) latchKeys['5'] = false;
 	else if (!Game::instance().getKey('p') && latchKeys['p']) latchKeys['p'] = false;
 	else if (!Game::instance().getKey('d') && latchKeys['d']) latchKeys['d'] = false;
+}
+
+void  GameScene::spawnBoss() {
+	if (abs(map->getPosition()) >= 7680.f) {
+			map->setSpeed(0);
+		cExplosion->spawnExplosion(Explosion::Portal, &projection, glm::vec2(130.f, 30.0f), glm::vec4(0, 0, 180.f, 80.0f));
+		cFactory->spawnCharacter(CharacterFactory::CharacterAvailable::cBoss, glm::vec2(180.f, 80.0f));
+		glm::vec2 pos;
+		if (cFactory->getPlayerPos(pos)) {
+			if (pos.x > 100 || pos.y < 100 || pos.y > 200) {
+				AudioManager::getInstance()->playSoundEffect(AudioManager::BossRoar,128);
+				Game::instance().music.Play_Pause();
+				Game::instance().music.playMusicTrack(Game::Alert);
+				contspawn = 240;
+				cExplosion->spawnExplosion(Explosion::PortalPlayer, &projection, pos, cFactory->player->getBoundingBox());
+				cFactory->player->setPosition(glm::vec2(50,150));
+				cExplosion->spawnExplosion(Explosion::PortalPlayer, &projection, glm::vec2(50.f, 150.0f), cFactory->player->getBoundingBox());
+			}
+		}
+		isSpawnedBoss = true;
+	}
 }
 
 void GameScene::initShaders() {

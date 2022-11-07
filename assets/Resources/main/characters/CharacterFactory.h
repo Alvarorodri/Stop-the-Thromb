@@ -57,7 +57,7 @@ public:
 	void increasePlayerForce(int power);
 
 	void wormRetun(int idSource, int idDest, bool upOrDown);
-
+	Player *player = nullptr;
 public:
 
 	float mapSpeed;
@@ -68,7 +68,7 @@ private:
 	glm::vec2 tileMapPos;
 	TileMap *mapa;
 
-	Player *player = nullptr;
+	
 	map<int, Character *> characters;
 	int last_id = 0;
 

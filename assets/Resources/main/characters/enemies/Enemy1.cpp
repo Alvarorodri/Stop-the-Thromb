@@ -63,8 +63,8 @@ void Enemy1::update(int deltaTime)
 		
 		CollisionSystem::CollisionInfo info;
 
-		if (!rot) info = collisionSystem->isColliding(Enemy1::collider, glm::vec2(-0.5, 0));
-		else info = collisionSystem->isColliding(Enemy1::collider, glm::vec2(0.5, 0));
+		if (!rot) info = collisionSystem->isColliding(Enemy1::collider, glm::vec2(-1.5, 0));
+		else info = collisionSystem->isColliding(Enemy1::collider, glm::vec2(1.5, 0));
 
 		if (info.colliding) {
 			//if(sprite->animation() == MOVE_LEFT)sprite->changeAnimation(STAND_LEFT, false);
@@ -85,12 +85,12 @@ void Enemy1::update(int deltaTime)
 			if (landed && sprite->animation() != MOVE_LEFT && sprite->animation() != FLY_LEFT && sprite->animation() != JUMP_LEFT) sprite->changeAnimation(MOVE_LEFT, false);
 
 			if (!rot) {
-				pos.x -= 0.5;
-				collider->changePositionRelative(glm::vec2(-0.5, 0));
+				pos.x -= 1.5;
+				collider->changePositionRelative(glm::vec2(-1.5, 0));
 			}
 			else{
-				pos.x += 0.5;
-				collider->changePositionRelative(glm::vec2(+0.5, 0));
+				pos.x += 1.5;
+				collider->changePositionRelative(glm::vec2(+1.5, 0));
 			}
 				
 		}

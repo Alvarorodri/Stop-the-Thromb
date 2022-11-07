@@ -35,6 +35,7 @@ public:
 	void teleport(float newPos);
 
 	void inputManager();
+	void spawnBoss();
 private:
 
     void initShaders();
@@ -50,6 +51,8 @@ private:
     float currentTime;
     glm::mat4 projection;
 	int contEnd = -1;
+	int contspawn = -1;
+	bool isSpawnedBoss = false;
 
 	bool latchKeys[256] = { false };
 	

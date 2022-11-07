@@ -124,6 +124,44 @@ Explosion::Explosion(Explosions type, glm::mat4 &project, const glm::vec2 &pos, 
 		this->pos.y -= 8;
 		this->pos.x -= 8;
 	}
+	else if (Explosions::Portal == type) {
+
+		spritesheet = TextureManager::getInstance()->getSpriteSheet(TextureManager::ExplosionPlayer);
+		sprite = Sprite::createSprite(glm::ivec2(200, 200), glm::vec2(1 / 8.f, 1.f), spritesheet, &project);
+		sprite->setNumberAnimations(1);
+
+		sprite->setAnimationSpeed(0, 8);
+		for (int i = 0; i < 7; i++) {
+			sprite->addKeyframe(0, glm::vec2((1 / 8.f)*0.f, 0.f));
+			sprite->addKeyframe(0, glm::vec2((1 / 8.f)*1.f, 0.f));
+			sprite->addKeyframe(0, glm::vec2((1 / 8.f)*2.f, 0.f));
+		}
+
+	}
+	else if (Explosions::PortalPlayer == type) {
+
+		spritesheet = TextureManager::getInstance()->getSpriteSheet(TextureManager::ExplosionPlayer);
+		int size = 0;
+		if (box[2] > box[3]) {
+			size = (int)box[2];
+			this->pos.y -= (box[2] - box[3]) / 2.f;
+		}
+		else if (box[2] < box[3]) {
+			size = (int)box[3];
+			this->pos.x -= (box[3] - box[2]) / 2.f;
+		}
+		else size = box[2];
+		sprite = Sprite::createSprite(glm::ivec2(size,size), glm::vec2(1 / 8.f, 1.f), spritesheet, &project);
+		sprite->setNumberAnimations(1);
+
+		sprite->setAnimationSpeed(0, 8);
+		for (int i = 0; i < 7; i++) {
+			sprite->addKeyframe(0, glm::vec2((1 / 8.f)*0.f, 0.f));
+			sprite->addKeyframe(0, glm::vec2((1 / 8.f)*1.f, 0.f));
+			sprite->addKeyframe(0, glm::vec2((1 / 8.f)*2.f, 0.f));
+		}
+
+	}
 	sprite->changeAnimation(0, false);
 
 	sprite->setPosition(glm::vec2(float(pos.x), float(pos.y)));
