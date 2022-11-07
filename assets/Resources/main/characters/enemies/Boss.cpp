@@ -149,8 +149,9 @@ void Boss::update(int deltaTime)
 		spriteTail->changeAnimation(0, false);
 	}
 
-	if (live <= 0)spawnGreenBalls();
-	if (live <= 0)spawnWorm();
+
+	if (live > 0)spawnGreenBalls();
+	if (live > 0)spawnWorm();
 	updateColliders();
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
 	spriteLeftPart->setPosition(glm::vec2(float(tileMapDispl.x + pos.x - 3), float(tileMapDispl.y + pos.y + 30)));

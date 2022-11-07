@@ -351,6 +351,7 @@ void Player::render() {
 void Player::damage(int dmg, int id) {
 	if (!godmode) {
 		Character::damage(dmg, id);
+		AudioManager::getInstance()->stopSoundEffectLooped(AudioManager::ChargeAttack);
 	}
 }
 
