@@ -1,0 +1,8 @@
+MAIN_MENU
+14 8								-- Entire map size
+14 8								-- Section map size
+32								-- Block size
+images/misc/MainMenu.png					-- Map
+null								-- Collisions boxes
+14 8								-- Number of block in Map
+-1 -1 -1							-- Discart pixels

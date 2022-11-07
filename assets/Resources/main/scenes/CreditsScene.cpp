@@ -38,7 +38,7 @@ void CreditsScene::init() {
 	content.push_back("");
 	content.push_back("");
 	content.push_back("");
-	content.push_back("SPITES");
+	content.push_back("SPRITES");
 	content.push_back("");
 	content.push_back("Belongs to IREM");
 

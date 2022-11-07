@@ -9,7 +9,7 @@ Boss::Boss(glm::mat4 *project, int id, const glm::ivec2 &tileMapPos):Character(p
 
 void Boss::init(const glm::ivec2 &tileMapPos) {
     bJumping = false;
-	live = 300;
+	live = 200;
 	spritesheet = TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::Boss);
 	//Body
     sprite = Sprite::createSprite(glm::ivec2(110, 92), glm::vec2(1.f/2.209090909f, 1/ 2.630434782608696f), spritesheet, projection);
@@ -223,7 +223,6 @@ void Boss::updateBoxBalls(){
 }
 
 void Boss::damage(int dmg, int id) {
-	dmg += 10;
 	if (id > this->id) {
 
 		sprite->setFlicker();
