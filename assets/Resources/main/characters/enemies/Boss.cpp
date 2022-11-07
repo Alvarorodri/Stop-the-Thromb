@@ -8,7 +8,7 @@ Boss::Boss(glm::mat4 *project, int id, const glm::ivec2 &tileMapPos):Character(p
 
 void Boss::init(const glm::ivec2 &tileMapPos) {
     bJumping = false;
-	live = 3000;
+	live = 300;
 	spritesheet = TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::Boss);
 	//Body
     sprite = Sprite::createSprite(glm::ivec2(110, 92), glm::vec2(1.f/2.209090909f, 1/ 2.630434782608696f), spritesheet, projection);
@@ -362,6 +362,7 @@ void  Boss::wormReturn(int id, bool upOrDown) {
 void Boss::ExplosionsOfDeath() {
 	if (loop >= 0) {
 		if (delayExplosion1 == 20) {
+			CharacterFactory::getInstance()->exterminateWorms();
 			AudioManager::getInstance()->playSoundEffect(AudioManager::Explode, 80);
 			for (int i = 0; i < collidersBody.size(); i += 3) {
 				ExplosionFactory::getInstance()->spawnExplosion(Explosion::ExplosionEnemy, projection, pos + glm::vec2(boxcoordenates[i].x, boxcoordenates[i].y), glm::vec4(0, 0, boxcoordenates[i].z - boxcoordenates[i].x, boxcoordenates[i].w - boxcoordenates[i].y));

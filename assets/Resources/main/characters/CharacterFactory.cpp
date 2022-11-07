@@ -239,6 +239,10 @@ void CharacterFactory::destroyAllCharactersToEnd() {
 		pendingToBeDestroyed.insert(it->first);
 		++it;
 	}
+	IdreservedBoss.clear();
+	IdreservedWorm1.clear();
+	IdreservedWorm2.clear();
+	nextSpawn = 0;
 }
 
 void CharacterFactory::killCharacter(const int &id) {
@@ -309,4 +313,11 @@ void CharacterFactory::bossIsDead(bool dead) {
 
 bool CharacterFactory::isBossDead() {
 	return bossdead;
+}
+
+void CharacterFactory::exterminateWorms() {
+
+	if (!IdreservedWorm1.empty())destroyCharacter(IdreservedWorm1[0] - 1);
+	if (!IdreservedWorm2.empty())destroyCharacter(IdreservedWorm2[0] - 1);
+	ProjectileFactory::getInstance()->destroyAllProjectiles();
 }

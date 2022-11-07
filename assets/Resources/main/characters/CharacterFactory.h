@@ -51,6 +51,8 @@ public:
 	void bossIsDead(bool dead);
 	bool isBossDead();
 
+	void exterminateWorms();
+
 
 	void increasePlayerForce();
 
