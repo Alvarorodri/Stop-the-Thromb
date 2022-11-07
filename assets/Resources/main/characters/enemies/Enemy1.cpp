@@ -46,7 +46,8 @@ void Enemy1::init(const glm::ivec2 &tileMapPos) {
     collider->changePositionAbsolute(glm::vec2(tileMapDispl.x + pos.x, tileMapDispl.y + pos.y));
 
 #ifdef SHOW_HIT_BOXES
-    collider->showHitBox();
+	collider->showHitBox();
+    
 #endif // SHOW_HIT_BOXES
 
     sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));

@@ -14,7 +14,7 @@ Object::Object(int id, glm::mat4 *project, const Object::ObjectType type) {
 void Object::init() {
 
 #ifdef SHOW_HIT_BOXES
-    collider->showHitBox();
+	 collider->showHitBox();
 #endif // SHOW_HIT_BOXES
 
     sprite->setPosition(pos);
@@ -31,7 +31,7 @@ void Object::render() {
     sprite->render();
 
 #ifdef SHOW_HIT_BOXES
-    collider->render();
+	if (Game::instance().showHBox) collider->render();
 #endif // SHOW_HIT_BOXES
 }
 

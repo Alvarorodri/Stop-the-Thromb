@@ -32,7 +32,7 @@ void Character::render() {
 	sprite->render();
 
 #ifdef SHOW_HIT_BOXES
-	collider->render();
+	if (Game::instance().showHBox) collider->render();
 #endif // SHOW_HIT_BOXES
 
 }

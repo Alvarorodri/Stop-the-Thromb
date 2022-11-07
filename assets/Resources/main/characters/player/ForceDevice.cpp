@@ -57,7 +57,7 @@ void ForceDevice::init(Collision *sCollider) {
     targetPosition = glm::vec2(isAtached ? posForce.x : rightLimit, posForce.y);
 
 #ifdef SHOW_HIT_BOXES
-    collider->showHitBox();
+	collider->showHitBox();
 #endif // SHOW_HIT_BOXES
 
     sprite->setPosition(glm::vec2(posForce.x, posForce.y));
@@ -82,7 +82,7 @@ void ForceDevice::render() {
 
 
 #ifdef SHOW_HIT_BOXES
-    collider->render();
+	if (Game::instance().showHBox) collider->render();
 #endif // SHOW_HIT_BOXES
 
 	string word = "";

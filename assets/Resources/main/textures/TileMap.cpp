@@ -1,4 +1,5 @@
 #include "TileMap.h"
+#include "Game.h"
 
 TileMap *TileMap::createTileMap(const string &levelFile, const glm::vec2 &minCoords, glm::mat4 *project) {
     TileMap *map = new TileMap(levelFile, minCoords, project);
@@ -52,9 +53,11 @@ void TileMap::render() {
     glDisable(GL_TEXTURE_2D);
 
 #ifdef SHOW_HIT_BOXES
-	for (auto collider : colliders) {
-		if ((collider->position.x + collider->colliderBox.z >= 0.0f || collider->position.x + collider->colliderBox.z >= 0.0f) && collider->position.x + collider->colliderBox.x <= 500.0f)
-			collider->render();
+	if (Game::instance().showHBox) {
+		for (auto collider : colliders) {
+			if ((collider->position.x + collider->colliderBox.z >= 0.0f || collider->position.x + collider->colliderBox.z >= 0.0f) && collider->position.x + collider->colliderBox.x <= 500.0f)
+				collider->render();
+		}
 	}
 #endif // SHOW_HIT_BOXES
 }
@@ -200,7 +203,9 @@ bool TileMap::loadStaticImage(ifstream &fin, const glm::vec2 &minCoords) {
     colliders[0]->addCollider(glm::ivec4(-1,0,-2,1));
 
 #ifdef SHOW_HIT_BOXES
-    for (auto collider : colliders) collider->showHitBox();
+	
+		for (auto collider : colliders) collider->showHitBox();
+	
 #endif // SHOW_HIT_BOXES
 
     return true;
@@ -238,7 +243,9 @@ bool TileMap::getCollisions(const string &collisionFile) {
     }
 
 #ifdef SHOW_HIT_BOXES
-    for (auto collider : colliders) collider->showHitBox();
+	
+		for (auto collider : colliders) collider->showHitBox();
+	
 #endif // SHOW_HIT_BOXES
 
     fin.close();

@@ -1,6 +1,7 @@
 #include "Boss.h"
 #include "GeneralDefines.h"
 #include "characters/CharacterFactory.h"
+#include "Game.h"
 
 Boss::Boss(glm::mat4 *project, int id, const glm::ivec2 &tileMapPos):Character(project, id, Collision::Enemy) {
 	init(tileMapPos);
@@ -103,12 +104,15 @@ void Boss::init(const glm::ivec2 &tileMapPos) {
 
 
 #ifdef SHOW_HIT_BOXES
-	for (int i = 0; i < collidersBody.size(); i++) {
-		collidersBody[i]->showHitBox();
-	}
-	for (int i = 0; i < collidersGreenBalls.size(); i++) {
-		collidersGreenBalls[i]->showHitBox();
-	}
+		
+			for (int i = 0; i < collidersBody.size(); i++) {
+				collidersBody[i]->showHitBox();
+			}
+			for (int i = 0; i < collidersGreenBalls.size(); i++) {
+				collidersGreenBalls[i]->showHitBox();
+			
+			}
+	
 #endif // SHOW_HIT_BOXES
 
     sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
@@ -149,7 +153,6 @@ void Boss::update(int deltaTime)
 		spriteTail->changeAnimation(0, false);
 	}
 
-
 	if (live > 0)spawnGreenBalls();
 	if (live > 0)spawnWorm();
 	updateColliders();
@@ -169,12 +172,15 @@ void Boss::render() {
 	spriteLeftPart->render();
 
 #ifdef SHOW_HIT_BOXES
-	for (int i = 0; i < collidersBody.size(); i++) {
+	if(Game::instance().showHBox){
+		for (int i = 0; i < collidersBody.size(); i++) {
 		collidersBody[i]->render();
+		}
+		for (int i = 0; i < collidersGreenBalls.size(); i++) {
+			collidersGreenBalls[i]->render();
+		}
 	}
-	for (int i = 0; i < collidersGreenBalls.size(); i++) {
-		collidersGreenBalls[i]->render();
-	}
+	
 #endif // SHOW_HIT_BOXES
 }
 

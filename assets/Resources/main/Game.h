@@ -52,7 +52,7 @@ public:
     bool getKey(int key) const;
     bool getSpecialKey(int key) const;
 	SDL2Music music;
-
+	bool showHBox = false;
 private:
 	
 	bool playedMusic = false;

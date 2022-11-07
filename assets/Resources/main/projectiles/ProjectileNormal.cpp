@@ -22,7 +22,7 @@ void ProjectileNormal::init(Texture *spritesheet, int type) {
     sprite->changeAnimation(0, false);
 
 #ifdef SHOW_HIT_BOXES
-    collider->showHitBox();
+	collider->showHitBox();
 #endif // SHOW_HIT_BOXES
 
 	posProjectile = glm::vec2(0.0f);
@@ -46,7 +46,7 @@ void ProjectileNormal::render() {
     sprite->render();
 
 #ifdef SHOW_HIT_BOXES
-    collider->render();
+	if (Game::instance().showHBox)collider->render();
 #endif // SHOW_HIT_BOXES
 }
 

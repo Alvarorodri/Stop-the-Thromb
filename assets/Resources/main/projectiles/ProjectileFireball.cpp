@@ -25,7 +25,7 @@ void ProjectileFireball::init(Texture *spritesheet, int type) {
 	mapSpeed = ProjectileFactory::getInstance()->mapSpeed;
 
 #ifdef SHOW_HIT_BOXES
-    collider->showHitBox();
+	collider->showHitBox();
 #endif // SHOW_HIT_BOXES
 
     sprite->setPosition(glm::vec2(0.0f,0.0f));
@@ -45,7 +45,7 @@ void ProjectileFireball::render() {
     sprite->render();
 
 #ifdef SHOW_HIT_BOXES
-    collider->render();
+	if (Game::instance)collider->render();
 #endif // SHOW_HIT_BOXES
 }
 

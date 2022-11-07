@@ -44,8 +44,8 @@ public:
     glm::vec4 getBoundingBox();
 
 #ifdef SHOW_HIT_BOXES
-    void showHitBox();
-    void render();
+	void showHitBox();
+	void render();
 #endif // SHOW_HIT_BOXES
 
 public:
@@ -63,7 +63,7 @@ private:
 	int id;
 
 #ifdef SHOW_HIT_BOXES
-    TrianglesRenderer* trianglesRenderer;
+	TrianglesRenderer* trianglesRenderer;
 #endif // SHOW_HIT_BOXES
 
 };

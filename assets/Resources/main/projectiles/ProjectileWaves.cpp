@@ -29,7 +29,7 @@ void ProjectileWaves::init(Texture *spritesheet, int type) {
     auxSprite2->changeAnimation(0, false);
 
 #ifdef SHOW_HIT_BOXES
-    collider->showHitBox();
+	collider->showHitBox();
 #endif // SHOW_HIT_BOXES
 
     sprite->setPosition(posProjectile);
@@ -101,7 +101,7 @@ void ProjectileWaves::render() {
     auxSprite2->render();
 
 #ifdef SHOW_HIT_BOXES
-    collider->render();
+	if (Game::instance().showHBox)collider->render();
 #endif // SHOW_HIT_BOXES
 }
 

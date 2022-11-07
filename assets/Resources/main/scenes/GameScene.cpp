@@ -145,6 +145,10 @@ void GameScene::inputManager() {
 		map->moveMap(-10.0f);
 		map->update(0);
 	}
+	else if (Game::instance().getKey('d') && !latchKeys['d']) {
+		latchKeys['d'] = true;
+		Game::instance().showHBox = !Game::instance().showHBox;
+	}
 
 	if (!Game::instance().getKey('1') && latchKeys['1']) latchKeys['1'] = false;
 	else if (!Game::instance().getKey('2') && latchKeys['2']) latchKeys['2'] = false;
@@ -152,6 +156,7 @@ void GameScene::inputManager() {
 	else if (!Game::instance().getKey('4') && latchKeys['4']) latchKeys['4'] = false;
 	else if (!Game::instance().getKey('5') && latchKeys['5']) latchKeys['5'] = false;
 	else if (!Game::instance().getKey('p') && latchKeys['p']) latchKeys['p'] = false;
+	else if (!Game::instance().getKey('d') && latchKeys['d']) latchKeys['d'] = false;
 }
 
 void GameScene::initShaders() {

@@ -35,11 +35,10 @@ public:
 	void teleport(float newPos);
 
 	void inputManager();
-
 private:
 
     void initShaders();
-
+	
 private:
 
     TileMap *map;
@@ -53,6 +52,7 @@ private:
 	int contEnd = -1;
 
 	bool latchKeys[256] = { false };
+	
 
 };
 
