@@ -70,6 +70,9 @@ private:
 	vector<pair<CharacterAvailable, glm::vec2>> enemies;
 	int nextSpawn = 0;
 	vector<int>IdreservedBoss;
+	vector<int>IdreservedWorm1;
+	vector<int>IdreservedWorm2;
+
 
 };
 

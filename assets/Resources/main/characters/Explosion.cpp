@@ -13,7 +13,7 @@ Explosion::Explosion(Explosions type, glm::mat4 &project, const glm::vec2 &pos, 
 			size = box[3]; 
 			this->pos.x -= (box[3] - box[2]) / 2.f;
 		}
-		else size = box.x;
+		else size = box[2];
 		if (Explosions::ExplosionEnemy == type) {
 			spritesheet = TextureManager::getInstance()->getSpriteSheet(TextureManager::ExplosionEnemy);
 		}

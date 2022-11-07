@@ -1,16 +1,18 @@
 #include "Worm.h"
 
-Worm::Worm(glm::mat4 *project, int id, const glm::ivec2 &tileMapPos) :Character(project, id, Collision::Enemy) {
-	init(tileMapPos);
+Worm::Worm(glm::mat4 *project, int id, bool upOrDown) :Character(project, id, Collision::Enemy) {
+	this->upOrDown = upOrDown;
+	live = 7;
+	init();
 }
 
-void Worm::init(const glm::ivec2 &tileMapPos) {
-	tileMapDispl = tileMapPos;
+void Worm::init() {
 
 	for (int i = 0; i <= 8; ++i) {
-		parts.push_back(new Part(projection,id,i,tileMapPos));
+		parts.push_back(new Part(projection,id+i+1,i));
 	}
 
+#pragma region DummySprite
 	spritesheet = TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::Boss);
 
 	sprite = Sprite::createSprite(glm::ivec2(26, 22), glm::vec2(1 / 2.0, 1 / 2.0), spritesheet, projection);
@@ -20,69 +22,152 @@ void Worm::init(const glm::ivec2 &tileMapPos) {
 	sprite->addKeyframe(STAND_RIGHT, glm::vec2(0.0625*1.0, 0.f));
 
 	sprite->changeAnimation(0, false);
-	tileMapDispl = tileMapPos;
+#pragma endregion
 
-	collider->addCollider(glm::ivec4(0, 0, 26, 22));
-	collider->changePositionAbsolute(glm::vec2(tileMapDispl.x + pos.x, tileMapDispl.y + pos.y));
+	if (upOrDown) currentRute = RouteUp;
+	else currentRute = RouteDown;
 
-#ifdef SHOW_HIT_BOXES
-	collider->showHitBox();
-#endif // SHOW_HIT_BOXES
+	targetPosition = Routes[(int)currentRute][currentTarget];
 
-	sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
+	pos = spawnPoint;
+	for (int i = 0; i <= 8; ++i) {
+		parts[i]->setPosition(spawnPoint);
+	}
 
 }
 
 void Worm::update(int deltaTime)
 {
-	float mov = -1.f;
-	CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Worm::collider, glm::vec2(mov, 0));
+	if (currentRute == SpawnPoint) goingToSpawn = true;
 
-	if (!info.colliding) {
-		pos.x += mov;
-		collider->changePositionRelative(glm::vec2(mov,0.f));
-		sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
-		for (int i = 0; i < ((int)parts.size() - 1); ++i) {
-			parts[i]->setPosition(parts[i + 1]->getPosition());
+	if (!goingToSpawn) {
+		changeTarget();
+
+		glm::vec2 dir = getDir(pos, targetPosition);
+		setPosition(dir);
+	}
+	else {
+		targetPosition = spawnPoint;
+		
+		pos = parts[0]->getPosition();
+		glm::vec2 dir = getDir(pos, targetPosition);
+		setPosition(dir);
+
+		if (parts.size() > 0 && distance(parts[0]->getPosition(), spawnPoint) <= 3.0f) {
+			parts[0]->deleteRoutine();
+			parts.erase(parts.begin());
 		}
-		parts[(parts.size() - 1)]->setPosition(pos);
+
+		if (parts.size() == 0) {
+			CharacterFactory::getInstance()->destroyCharacter(id);
+		}
 	}
 	
 }
 
 void Worm::render()
 {
-	sprite->render();
-#ifdef SHOW_HIT_BOXES
-	collider->render();
-#endif // SHOW_HIT_BOXES
 	for (int i = 0; i < (int)parts.size(); ++i) {
 		parts[i]->render();
 	}
 }
 
-void Worm::setPosition(const glm::vec2 &pos) {
-	for (int i = 0; i < (int)parts.size(); ++i) {
-		parts[i]->setPosition(pos);
+void Worm::rotateSprite(Part *part, const glm::vec2 &vector) {
+	float angle = atan2(vector.y, vector.x) * (180.0f / PI);
+	angle += 180.0f;
+
+	part->rotateSprite(glm::vec3(0.0f, 0.0f, angle));
+}
+
+void Worm::setPosition(const glm::vec2 &newDir) {
+	for (int i = (int)parts.size() - 1; i > 0; --i) {
+		if (distance(	parts[i]->getPosition() + parts[i]->anchorPoint, 
+						parts[i - 1]->getPosition() + parts[i - 1]->anchorPoint) >= 13.0f) {
+			glm::vec2 dir = getDir(	parts[i]->getPosition() + parts[i]->anchorPoint,
+									parts[i - 1]->getPosition() + parts[i - 1]->anchorPoint);
+			parts[i]->setPosition(parts[i]->getPosition() + 2.0f * dir);
+			rotateSprite(parts[i], 2.0f * 2.0f * dir);
+		}
 	}
-	this->pos = pos;
-	sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
-	collider->changePositionAbsolute(glm::vec2(tileMapDispl.x + pos.x, tileMapDispl.y + pos.y));
+
+	this->pos = this->pos + 2.0f * newDir;
+	parts[0]->setPosition(pos);
+	rotateSprite(parts[0], 2.0f * newDir);
+}
+
+void Worm::changeTarget() {
+
+	if (abs(distance(targetPosition, pos)) <= 1.0f) {
+		ableToChange = true;
+		if (currentTarget >= routesSize[(int)currentRute]) {
+			currentRute = nextRoute();
+			currentTarget = 0;
+		}
+		targetPosition = Routes[(int)currentRute][currentTarget];
+		currentTarget++;
+
+		//Offset to rectify deviation from script
+		targetPosition.y -= 10.0f;
+		targetPosition.x -= 10.0f;
+	}
+
+	if (ableToChange && currentTarget == 0) {
+		ableToChange = false;
+
+		currentRute = nextRoute();
+		currentTarget = 0;
+
+		targetPosition = Routes[(int)currentRute][currentTarget];
+		currentTarget++;
+
+		//Offset to rectify deviation from script
+		targetPosition.y -= 10.0f;
+		targetPosition.x -= 10.0f;
+	}
+}
+
+Worm::routesEnum Worm::nextRoute() {
+	srand(time(NULL));
+	if (upOrDown) {
+		int newOptions = rand() % IAUp[(int)currentRute].size();
+		currentRute = (routesEnum)IAUp[(int)currentRute][newOptions];
+	}
+	else {
+		int newOptions = rand() % IADown[(int)currentRute-3].size();
+		currentRute = (routesEnum)IADown[(int)currentRute-3][newOptions];
+	}
+	return currentRute;
+}
+
+glm::vec2 Worm::getDir(const glm::vec2 &posA, const glm::vec2 &posB) {
+	glm::vec2 vector = posB - posA;
+	float angle = atan2(vector.y, vector.x);
+	glm::vec2 dir = glm::vec2(cos(angle), sin(angle));
+	return dir;
+}
+
+void Worm::damage(int dmg, int id) {
+	for (int i = 1; i < parts.size() - 1; ++i) {
+			if (id == parts[i]->getId() && !parts[i]->isdamaged()) {
+			parts[i]->damage(dmg, id);
+			live -= 1;
+		}
+	}
 }
 
 
-
-Part::Part(glm::mat4 *project, int id, int idBody, const glm::ivec2 &tileMapPos) :Character(project, id, Collision::Enemy) {
+Part::Part(glm::mat4 *project, int id, int idBody) :Character(project, id, Collision::Enemy) {
 	this->idBody = idBody;
-	init(tileMapPos);
+	damaged = false;
+	init();
 }
 
-void Part::init(const glm::ivec2 &tileMapPos) {
+void Part::init() {
 	bJumping = false;
 
 	spritesheet = TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::Boss);
 
-	if (idBody == 8) {
+	if (idBody == 0) {
 		sprite = Sprite::createSprite(glm::ivec2(26, 22), glm::vec2(1.f / 9.34f, 1.f / 11.f), spritesheet, projection);
 		sprite->setNumberAnimations(1);
 
@@ -91,17 +176,21 @@ void Part::init(const glm::ivec2 &tileMapPos) {
 
 		collider->addCollider(glm::ivec4(0, 0, 26, 22));
 		collider->changePositionAbsolute(glm::vec2(tileMapDispl.x + pos.x, tileMapDispl.y + pos.y));
+
+		anchorPoint = glm::vec2(18.0f, 11.0f);
+
 	}
-	else if (idBody == 0) {
+	else if (idBody == 8) {
 		sprite = Sprite::createSprite(glm::ivec2(26, 22), glm::vec2(1.f / 9.34f, 1.f / 11.f), spritesheet, projection);
 		sprite->setNumberAnimations(1);
 
 		sprite->setAnimationSpeed(0, 8);
-		sprite->addKeyframe(0, glm::vec2(1.f / 9.34f*0.f, 1.f / 11.f*6.f));
-		rotate(0.f,180.f, 0.f);
+		sprite->addKeyframe(0, glm::vec2(1.f / 9.34f*0.f, 1.f / 11.f*5.f));
 
 		collider->addCollider(glm::ivec4(0, 0, 26, 22));
 		collider->changePositionAbsolute(glm::vec2(tileMapDispl.x + pos.x, tileMapDispl.y + pos.y));
+
+		anchorPoint = glm::vec2(8.0f, 11.0f);
 	}
 	else {
 		sprite = Sprite::createSprite(glm::ivec2(16, 16), glm::vec2(1.f / 16.f, 1 / 16.0), spritesheet, projection);
@@ -115,11 +204,13 @@ void Part::init(const glm::ivec2 &tileMapPos) {
 
 		collider->addCollider(glm::ivec4(0, 0, 16, 16));
 		collider->changePositionAbsolute(glm::vec2(tileMapDispl.x + pos.x, tileMapDispl.y + pos.y));
+
+		anchorPoint = glm::vec2(8.0f, 8.0f);
+
 	}
 	
 
 	sprite->changeAnimation(0, false);
-	tileMapDispl = tileMapPos;
 
 	
 
@@ -127,10 +218,31 @@ void Part::init(const glm::ivec2 &tileMapPos) {
 	collider->showHitBox();
 #endif // SHOW_HIT_BOXES
 
-	sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
+	sprite->setPosition(this->pos);
 }
 
-void Part::update(int deltaTime)
-{
+void Part::update(int deltaTime) {
 	
+}
+
+void Part::setPosition(const glm::vec2 &pos) {
+	this->pos = pos;
+	sprite->setPosition(this->pos);
+	collisionSystem->updateCollider(collider, this->pos);
+	collider->changePositionAbsolute(this->pos);
+}
+
+bool Part::isdamaged() {
+	return damaged;
+}
+
+void Part::rotateSprite(glm::vec3 rotation) {
+	rotate(rotation.x, rotation.y, rotation.z);
+}
+
+
+void Part::damage(int dmg, int id) {
+	sprite->changeAnimation(1, false);
+	damaged = true;
+	ExplosionFactory::getInstance()->spawnExplosion(Explosion::ExplosionEnemy, projection, pos, getBoundingBox());
 }

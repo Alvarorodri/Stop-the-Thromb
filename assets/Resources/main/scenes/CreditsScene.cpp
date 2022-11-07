@@ -96,7 +96,11 @@ void CreditsScene::render() {
 				}	
 			}
 			posText.y = aux-0.5f;
-			if (posText.y <= -SCREEN_HEIGHT)content.clear();
+			if (posText.y <= -350)content.clear();
+	}
+	if (content.size() == 0) {
+		Game::instance().changeToMainMenu(true);
+		enableControls = false;
 	}
 	
 }

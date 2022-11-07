@@ -27,6 +27,7 @@ private:
 	void spawnGreenBalls();
 	void warmReturn(int id);
 	void updateColliders();
+	void ExplosionsOfDeath();
 
 
 	int delay = 100;
@@ -44,7 +45,10 @@ private:
 	bool spawnedRight = false;
 	int lifeLeft = 0;
 	int lifeRight = 0;
-	
+	//Explosions
+	int delayExplosion1 = 20;
+	int delayExplosion2 = 20;
+	int loop = 2;
 	//Sprites
 	Sprite *spriteHead;
 	Sprite *spriteTail;

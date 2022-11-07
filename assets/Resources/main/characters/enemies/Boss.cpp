@@ -127,7 +127,7 @@ void Boss::update(int deltaTime)
 	spriteRightPart->update(deltaTime);
 	spriteLeftPart->update(deltaTime);
 	delay -= 1;
-
+	if (delay <= 0) ExplosionsOfDeath();
 	//Head
 	if (spriteHead->animation() == 1 && spriteHead->isFinidhedAnimation()) {
 		spriteHead->changeAnimation(0, false);
@@ -325,7 +325,50 @@ void  Boss::spawnGreenBalls() {
 	}
 	if ((!spawnedLeft || !spawnedRight) && delaySpawnGreenBall>0) delaySpawnGreenBall -= 1;
 }
+
 void  Boss::warmReturn(int id) {
 	CharacterFactory::getInstance()->destroyCharacter(id);
 	live -= CharacterFactory::getInstance()->getHealthCharacter(id);
+}
+
+void Boss::ExplosionsOfDeath() {
+	if (loop >= 0) {
+		if (delayExplosion1 == 20) {
+			AudioManager::getInstance()->playSoundEffect(AudioManager::Explode, 128);
+			for (int i = 0; i < collidersBody.size(); i += 3) {
+				ExplosionFactory::getInstance()->spawnExplosion(Explosion::ExplosionEnemy, projection, pos + glm::vec2(boxcoordenates[i].x, boxcoordenates[i].y), glm::vec4(0, 0, boxcoordenates[i].z - boxcoordenates[i].x, boxcoordenates[i].w - boxcoordenates[i].y));
+				ExplosionFactory::getInstance()->spawnExplosion(Explosion::ExplosionEnemy, projection, pos + glm::vec2(boxcoordenates[i].x+5, boxcoordenates[i].y), glm::vec4(0, 0, boxcoordenates[i].z - boxcoordenates[i].x, boxcoordenates[i].w - boxcoordenates[i].y));
+				ExplosionFactory::getInstance()->spawnExplosion(Explosion::ExplosionEnemy, projection, pos + glm::vec2(boxcoordenates[i].x -5, boxcoordenates[i].y-10), glm::vec4(0, 0, boxcoordenates[i].z - boxcoordenates[i].x, boxcoordenates[i].w - boxcoordenates[i].y));
+				ExplosionFactory::getInstance()->spawnExplosion(Explosion::ExplosionEnemy, projection, pos + glm::vec2(boxcoordenates[i].x - 8, boxcoordenates[i].y + 10), glm::vec4(0, 0, boxcoordenates[i].z - boxcoordenates[i].x, boxcoordenates[i].w - boxcoordenates[i].y));
+				ExplosionFactory::getInstance()->spawnExplosion(Explosion::ExplosionEnemy, projection, pos + glm::vec2(boxcoordenates[i].x + 8, boxcoordenates[i].y - 5), glm::vec4(0, 0, boxcoordenates[i].z - boxcoordenates[i].x, boxcoordenates[i].w - boxcoordenates[i].y));
+			}
+		}
+		if(delayExplosion1 != 0)delayExplosion1 -= 1;
+		if (delayExplosion1 == 0 && delayExplosion2 == 20) {
+			AudioManager::getInstance()->playSoundEffect(AudioManager::Explode, 128);
+			for (int i = 1; i < collidersBody.size(); i += 3) {
+				ExplosionFactory::getInstance()->spawnExplosion(Explosion::ExplosionEnemy, projection, pos + glm::vec2(boxcoordenates[i].x, boxcoordenates[i].y), glm::vec4(0, 0, boxcoordenates[i].z - boxcoordenates[i].x, boxcoordenates[i].w - boxcoordenates[i].y));
+				ExplosionFactory::getInstance()->spawnExplosion(Explosion::ExplosionEnemy, projection, pos + glm::vec2(boxcoordenates[i].x + 5, boxcoordenates[i].y), glm::vec4(0, 0, boxcoordenates[i].z - boxcoordenates[i].x, boxcoordenates[i].w - boxcoordenates[i].y));
+				ExplosionFactory::getInstance()->spawnExplosion(Explosion::ExplosionEnemy, projection, pos + glm::vec2(boxcoordenates[i].x - 5, boxcoordenates[i].y - 10), glm::vec4(0, 0, boxcoordenates[i].z - boxcoordenates[i].x, boxcoordenates[i].w - boxcoordenates[i].y));
+				ExplosionFactory::getInstance()->spawnExplosion(Explosion::ExplosionEnemy, projection, pos + glm::vec2(boxcoordenates[i].x - 8, boxcoordenates[i].y + 10), glm::vec4(0, 0, boxcoordenates[i].z - boxcoordenates[i].x, boxcoordenates[i].w - boxcoordenates[i].y));
+				ExplosionFactory::getInstance()->spawnExplosion(Explosion::ExplosionEnemy, projection, pos + glm::vec2(boxcoordenates[i].x + 8, boxcoordenates[i].y - 5), glm::vec4(0, 0, boxcoordenates[i].z - boxcoordenates[i].x, boxcoordenates[i].w - boxcoordenates[i].y));
+			}
+		}
+		if (delayExplosion1 <= 0 && delayExplosion2 != 0)delayExplosion2 -= 1;
+		if (delayExplosion2 == 0) {
+			AudioManager::getInstance()->playSoundEffect(AudioManager::Explode, 128);
+			for (int i = 2; i < collidersBody.size(); i += 3) {
+				ExplosionFactory::getInstance()->spawnExplosion(Explosion::ExplosionEnemy, projection, pos + glm::vec2(boxcoordenates[i].x, boxcoordenates[i].y), glm::vec4(0, 0, boxcoordenates[i].z - boxcoordenates[i].x, boxcoordenates[i].w - boxcoordenates[i].y));
+				ExplosionFactory::getInstance()->spawnExplosion(Explosion::ExplosionEnemy, projection, pos + glm::vec2(boxcoordenates[i].x + 5, boxcoordenates[i].y), glm::vec4(0, 0, boxcoordenates[i].z - boxcoordenates[i].x, boxcoordenates[i].w - boxcoordenates[i].y));
+				ExplosionFactory::getInstance()->spawnExplosion(Explosion::ExplosionEnemy, projection, pos + glm::vec2(boxcoordenates[i].x - 5, boxcoordenates[i].y - 10), glm::vec4(0, 0, boxcoordenates[i].z - boxcoordenates[i].x, boxcoordenates[i].w - boxcoordenates[i].y));
+				ExplosionFactory::getInstance()->spawnExplosion(Explosion::ExplosionEnemy, projection, pos + glm::vec2(boxcoordenates[i].x - 8, boxcoordenates[i].y + 10), glm::vec4(0, 0, boxcoordenates[i].z - boxcoordenates[i].x, boxcoordenates[i].w - boxcoordenates[i].y));
+				ExplosionFactory::getInstance()->spawnExplosion(Explosion::ExplosionEnemy, projection, pos + glm::vec2(boxcoordenates[i].x + 8, boxcoordenates[i].y - 5), glm::vec4(0, 0, boxcoordenates[i].z - boxcoordenates[i].x, boxcoordenates[i].w - boxcoordenates[i].y));
+			}
+			loop -= 1;
+			delayExplosion1 = 20;
+			delayExplosion2 = 20;
+
+		}
+		if (loop == 0) CharacterFactory::getInstance()->destroyCharacter(id);
+	}
 }
