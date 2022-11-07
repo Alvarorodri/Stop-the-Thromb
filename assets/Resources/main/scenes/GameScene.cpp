@@ -28,12 +28,13 @@ void GameScene::init() {
 
     initShaders();
     map = TileMap::createTileMap("levels/level00.txt", glm::vec2(SCREEN_X, SCREEN_Y), &projection);
-
+	map->setSpeed(0);
     ProjectileFactory::getInstance()->setProjection(&projection);
     ProjectileFactory::getInstance()->init();
 	ProjectileFactory::getInstance()->mapSpeed = map->getSpeed();
     
 	cExplosion = ExplosionFactory::getInstance();
+	cExplosion->setMap(map);
 	cFactory = CharacterFactory::getInstance();
 	cFactory->setProjection(&projection);
 	cFactory->setTileMapPos(glm::ivec2(SCREEN_X, SCREEN_Y));
@@ -41,7 +42,9 @@ void GameScene::init() {
 	cFactory->setMap(map);
 	cFactory->mapSpeed = map->getSpeed();
 
-	cFactory->spawnCharacter(CharacterFactory::CharacterAvailable::cPlayer, glm::vec2(-30.f, 128.0f));
+	cFactory->spawnCharacter(CharacterFactory::CharacterAvailable::cPlayer, glm::vec2(-30.f, 200.0f));
+	cFactory->spawnCharacter(CharacterFactory::CharacterAvailable::cBoss, glm::vec2(200, 100));
+
 
 	ObjectFactory::getInstance()->setProjection(&projection);
 	ObjectFactory::getInstance()->init();

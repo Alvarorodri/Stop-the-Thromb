@@ -23,7 +23,7 @@ void SpatialHashmap::insertObject(Collision* a) {
 void SpatialHashmap::insertObject(Collision* a, const glm::vec2 &pos) {
 	glm::ivec4 cells = a->colliderBox;
 
-	computeCells(cells, a->position);
+	computeCells(cells, pos);
 
     a->cells = cells;
 

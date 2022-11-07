@@ -55,13 +55,30 @@ void Enemy3::init(const glm::ivec2 &tileMapPos) {
 void Enemy3::update(int deltaTime) {
 	sprite->update(deltaTime);
 
-    
+	float vel = CharacterFactory::getInstance()->mapSpeed;
+	CollisionSystem::CollisionInfo mov = collisionSystem->isColliding(Enemy3::collider, glm::vec2(vel, 0.f));
+
+	if (mov.colliding) {
+		if (mov.collider->collisionGroup == Collision::CollisionGroups::Map) {
+			pos.x -= vel;
+			collider->changePositionRelative(glm::vec2(-vel, 0));
+		}
+		else if (mov.collider->collisionGroup == Collision::CollisionGroups::Player) {
+			CharacterFactory::getInstance()->damageCharacter(mov.collider->getId(), 1);
+			CharacterFactory::getInstance()->damageCharacter(id, 1);
+		}
+	}
+	else {
+		pos.x += vel;
+		collider->changePositionRelative(glm::vec2(vel, 0));
+	}
 
 	if(!landed){
 		CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Enemy3::collider, glm::vec2(0, FALL_STEP));
 		if (info.colliding) {
 			if (info.collider->collisionGroup == Collision::CollisionGroups::Player) {
 				CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
+				CharacterFactory::getInstance()->damageCharacter(id, 1);
 			}
 
 			landed = true;

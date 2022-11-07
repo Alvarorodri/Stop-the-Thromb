@@ -46,6 +46,7 @@ void Enemy2::update(int deltaTime)
 	if (info.colliding) {
 		if (info.collider->collisionGroup == Collision::CollisionGroups::Player) {
 				CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
+				CharacterFactory::getInstance()->damageCharacter(id, 1);
 		}
 	}else {
         pos.x -= 1;
@@ -66,6 +67,8 @@ void Enemy2::update(int deltaTime)
 				if (jumpAngle > 180)jumpAngle = 360 - (jumpAngle - 180);
 			} else if (info.collider->collisionGroup == Collision::CollisionGroups::Player) {
 				CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
+				CharacterFactory::getInstance()->damageCharacter(id, 1);
+
 			}
 		}
 

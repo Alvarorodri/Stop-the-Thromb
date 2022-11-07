@@ -1,4 +1,6 @@
 #include "Boss.h"
+#include "GeneralDefines.h"
+#include "characters/CharacterFactory.h"
 
 Boss::Boss(glm::mat4 *project, int id, const glm::ivec2 &tileMapPos):Character(project, id, Collision::Enemy) {
 	init(tileMapPos);
@@ -6,6 +8,7 @@ Boss::Boss(glm::mat4 *project, int id, const glm::ivec2 &tileMapPos):Character(p
 
 void Boss::init(const glm::ivec2 &tileMapPos) {
     bJumping = false;
+	live = 3000;
 	spritesheet = TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::Boss);
 	//Body
     sprite = Sprite::createSprite(glm::ivec2(110, 92), glm::vec2(1.f/2.209090909f, 1/ 2.630434782608696f), spritesheet, projection);
@@ -29,6 +32,7 @@ void Boss::init(const glm::ivec2 &tileMapPos) {
 	spriteHead->changeAnimation(0, false);
 //Parts
 	//Right
+
 	spriteRightPart = Sprite::createSprite(glm::ivec2(26, 30), glm::vec2(1.f / 9.3461538461f, 1 / 7.5625f), spritesheet, projection);
 	spriteRightPart->setNumberAnimations(3);
 	spriteRightPart->setAnimationSpeed(0, 8);
@@ -38,13 +42,14 @@ void Boss::init(const glm::ivec2 &tileMapPos) {
 	for (int i = 0; i < 7; ++i) {
 		spriteRightPart->addKeyframe(1, glm::vec2(1.f / 9.3461538461f*0.f, 1 / 7.5625f*5.f));
 		spriteRightPart->addKeyframe(1, glm::vec2(1.f / 9.3461538461f*1.f, 1 / 7.5625f*5.f));
-
 	}
 
 	spriteRightPart->setAnimationSpeed(2, 8);
 	spriteRightPart->addKeyframe(2, glm::vec2(1.f / 9.3461538461f*2.f, 1 / 7.5625f*5.f));
+	spriteRightPart->changeAnimation(0, false);
+	spriteRightPart->setRotation(glm::vec3(0.f, 180.f, 0.f));
 
-	spriteRightPart->changeAnimation(1, false);
+
 	//Left
 	spriteLeftPart = Sprite::createSprite(glm::ivec2(26, 30), glm::vec2(1.f / 9.3461538461f, 1 / 7.5625f), spritesheet, projection);
 	spriteLeftPart->setNumberAnimations(3);
@@ -55,12 +60,12 @@ void Boss::init(const glm::ivec2 &tileMapPos) {
 	for (int i = 0; i < 7; ++i) {
 		spriteLeftPart->addKeyframe(1, glm::vec2(1.f / 9.3461538461f*0.f, 1 / 7.5625f*5.f));
 		spriteLeftPart->addKeyframe(1, glm::vec2(1.f / 9.3461538461f*1.f, 1 / 7.5625f*5.f));
+
 	}
 
 	spriteLeftPart->setAnimationSpeed(2, 8);
 	spriteLeftPart->addKeyframe(2, glm::vec2(1.f / 9.3461538461f*2.f, 1 / 7.5625f*5.f));
-	spriteLeftPart->changeAnimation(1, false);
-	spriteLeftPart->setRotation(glm::vec3(0.f,180.f,0.f));
+	spriteLeftPart->changeAnimation(0, false);
 
 //Tail
 	spriteTail = Sprite::createSprite(glm::ivec2(32, 30), glm::vec2(1.f / 7.59375f, 1 / 7.5625f), spritesheet, projection);
@@ -77,43 +82,38 @@ void Boss::init(const glm::ivec2 &tileMapPos) {
 
 //Positions
 	//dentral
-    collider->addCollider(glm::ivec4(15, 3, 95, 80));
-	collider->addCollider(glm::ivec4(37,0,72,3));
-	collider->addCollider(glm::ivec4(45,80,65,91));
-	//quad1
-	collider->addCollider(glm::ivec4(1, 21, 15, 37));
-	collider->addCollider(glm::ivec4(3, 15, 15, 21));
-	collider->addCollider(glm::ivec4(10, 6, 15, 15));
-	collider->addCollider(glm::ivec4(6, 10, 10, 15));
-	collider->addCollider(glm::ivec4(5, 50, 15, 57));
-	//GreenBall collider->addCollider(glm::ivec4(-1, 40, 15, 55));
-	//quad2
-	collider->addCollider(glm::ivec4(95, 21, 109, 37));
-	collider->addCollider(glm::ivec4(95, 15, 107, 21));
-	collider->addCollider(glm::ivec4(95, 6, 100, 15));
-	collider->addCollider(glm::ivec4(100, 10, 103, 15));
-	collider->addCollider(glm::ivec4(95, 50, 105, 57));
-	//GreenBall collider->addCollider(glm::ivec4(95, 40, 112, 54));
-	//quad3
-	collider->addCollider(glm::ivec4(11, 73, 15, 85));
-	collider->addCollider(glm::ivec4(9, 83, 12, 91));
-	collider->addCollider(glm::ivec4(21, 80, 29, 84));
-	//quad4
-	collider->addCollider(glm::ivec4(95, 73, 99, 85));
-	collider->addCollider(glm::ivec4(97, 83, 101, 91));
-	collider->addCollider(glm::ivec4(81, 80, 89, 84));
-	//special
+	for (int i = 0; i < 19; ++i) {
+		Collision* coll = new Collision(id, projection, Collision::CollisionGroups::Enemy);;
+		coll->addCollider(boxcoordenates[i]);
+		collisionSystem->updateCollider(coll, glm::vec2(tileMapDispl.x + pos.x, pos.y));
+		coll->changePositionAbsolute(glm::vec2(tileMapDispl.x + pos.x, tileMapDispl.y + pos.y));
+		collidersBody.push_back(coll);
+	}
+		Collision* coll = new Collision(id + 1, projection, Collision::CollisionGroups::Enemy);;
+		coll->addCollider(glm::ivec4(-1, 40, 15, 55));
+		collisionSystem->updateCollider(coll, glm::vec2(0,0));
+		coll->changePositionAbsolute(glm::vec2(0, 0));
+		collidersGreenBalls.push_back(coll);
+		Collision* coll2 = new Collision(id + 2, projection, Collision::CollisionGroups::Enemy);;
+		coll2->addCollider(glm::ivec4(95, 40, 112, 54));
+		collisionSystem->updateCollider(coll2, glm::vec2(0, 0));
+		coll2->changePositionAbsolute(glm::vec2(0, 0));
+		collidersGreenBalls.push_back(coll2);
 
-	
-    collider->changePositionAbsolute(glm::vec2(tileMapDispl.x + pos.x, tileMapDispl.y + pos.y));
+
 
 #ifdef SHOW_HIT_BOXES
-   collider->showHitBox();
+	for (int i = 0; i < collidersBody.size(); i++) {
+		collidersBody[i]->showHitBox();
+	}
+	for (int i = 0; i < collidersGreenBalls.size(); i++) {
+		collidersGreenBalls[i]->showHitBox();
+	}
 #endif // SHOW_HIT_BOXES
 
     sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
-	spriteRightPart->setPosition(glm::vec2(float(tileMapDispl.x + pos.x-3), float(tileMapDispl.y + pos.y+30)));
-	spriteLeftPart->setPosition(glm::vec2(float(tileMapDispl.x + pos.x + 50), float(tileMapDispl.y + pos.y + 30)));
+	spriteLeftPart->setPosition(glm::vec2(float(tileMapDispl.x + pos.x-3), float(tileMapDispl.y + pos.y+30)));
+	spriteRightPart->setPosition(glm::vec2(float(tileMapDispl.x + pos.x + 50), float(tileMapDispl.y + pos.y + 30)));
 	spriteTail->setPosition(glm::vec2(float(tileMapDispl.x + pos.x + 39), float(tileMapDispl.y + pos.y + 62)));
 	spriteHead->setPosition(glm::vec2(float(tileMapDispl.x + pos.x + 39), float(tileMapDispl.y + pos.y -2)));
 }
@@ -128,74 +128,204 @@ void Boss::update(int deltaTime)
 	spriteLeftPart->update(deltaTime);
 	delay -= 1;
 
-	//Heaf
-	if (spriteHead->animation() == 0 && delay == 0) {
-		spriteHead->changeAnimation(1, false);
-	}
-	else if (spriteHead->animation() == 1 && spriteHead->isFinidhedAnimation()) {
+	//Head
+	if (spriteHead->animation() == 1 && spriteHead->isFinidhedAnimation()) {
 		spriteHead->changeAnimation(0, false);
-		delay = 100;
 	}
 	//Right
-	if (spriteRightPart->animation() == 0 && delay == 0) {
-		spriteRightPart->changeAnimation(1,false);
-	}
 	else if (spriteRightPart->animation() == 1 && spriteRightPart->isFinidhedAnimation()) {
+		spawnedRight = true;
 		spriteRightPart->changeAnimation(2, false);
-		delay = 100;
-	}
-	else if (spriteRightPart->animation() == 2 && delay == 0) {
-		spriteRightPart->changeAnimation(0, false);
-		delay = 100;
 	}
 	//Left
-	if (spriteLeftPart->animation() == 0 && delay == 0) {
-		spriteLeftPart->changeAnimation(1, false);
-	}
 	else if (spriteLeftPart->animation() == 1 && spriteLeftPart->isFinidhedAnimation()) {
+		spawnedLeft = true;
 		spriteLeftPart->changeAnimation(2, false);
-		delay = 100;
-	}
-	else if (spriteLeftPart->animation() == 2 && delay == 0) {
-		spriteLeftPart->changeAnimation(0, false);
-		delay = 100;
+		
 	}
 	//Tail
-	if (spriteTail->animation() == 0 && delay == 0) {
-		spriteTail->changeAnimation(1, false);
-	}
 	else if (spriteTail->animation() == 1 && spriteTail->isFinidhedAnimation()) {
 		spriteTail->changeAnimation(0, false);
-		delay = 100;
 	}
 
-
+	spawnGreenBalls();
+	spawnWorm();
+	updateColliders();
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
-	spriteRightPart->setPosition(glm::vec2(float(tileMapDispl.x + pos.x - 3), float(tileMapDispl.y + pos.y + 30)));
-	spriteLeftPart->setPosition(glm::vec2(float(tileMapDispl.x + pos.x + 87), float(tileMapDispl.y + pos.y + 30)));
+	spriteLeftPart->setPosition(glm::vec2(float(tileMapDispl.x + pos.x - 3), float(tileMapDispl.y + pos.y + 30)));
+	spriteRightPart->setPosition(glm::vec2(float(tileMapDispl.x + pos.x + 87), float(tileMapDispl.y + pos.y + 30)));
 	spriteTail->setPosition(glm::vec2(float(tileMapDispl.x + pos.x + 39), float(tileMapDispl.y + pos.y + 62)));
 	spriteHead->setPosition(glm::vec2(float(tileMapDispl.x + pos.x + 39), float(tileMapDispl.y + pos.y -2)));
-
-
+	
 }
 
 void Boss::render() {
-	Character::render();
+	sprite->render();
 	spriteHead->render();
 	spriteTail->render();
 	spriteRightPart->render();
 	spriteLeftPart->render();
+
+#ifdef SHOW_HIT_BOXES
+	for (int i = 0; i < collidersBody.size(); i++) {
+		collidersBody[i]->render();
+	}
+	for (int i = 0; i < collidersGreenBalls.size(); i++) {
+		collidersGreenBalls[i]->render();
+	}
+#endif // SHOW_HIT_BOXES
 }
 
 void Boss::setPosition(const glm::vec2 &pos) {
 	this->pos = pos;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
-	collider->changePositionAbsolute(glm::vec2(tileMapDispl.x + pos.x, tileMapDispl.y + pos.y));
-	spriteRightPart->setPosition(glm::vec2(float(tileMapDispl.x + pos.x - 3), float(tileMapDispl.y + pos.y + 30)));
-	spriteLeftPart->setPosition(glm::vec2(float(tileMapDispl.x + pos.x + 87), float(tileMapDispl.y + pos.y + 30)));
+	spriteLeftPart->setPosition(glm::vec2(float(tileMapDispl.x + pos.x - 3), float(tileMapDispl.y + pos.y + 30)));
+	spriteRightPart->setPosition(glm::vec2(float(tileMapDispl.x + pos.x + 87), float(tileMapDispl.y + pos.y + 30)));
 	spriteTail->setPosition(glm::vec2(float(tileMapDispl.x + pos.x + 39), float(tileMapDispl.y + pos.y + 62)));
-	spriteHead->setPosition(glm::vec2(float(tileMapDispl.x + pos.x + 39), float(tileMapDispl.y + pos.y -2)));
+	spriteHead->setPosition(glm::vec2(float(tileMapDispl.x + pos.x + 39), float(tileMapDispl.y + pos.y - 2)));
 
+	updateColliders();
+}
 
+void Boss::updateColliders() {
+	for (int i = 0; i < collidersBody.size(); i++) {
+		collisionSystem->updateCollider(collidersBody[i], this->pos);
+		collidersBody[i]->changePositionAbsolute(this->pos);
+	}
+	updateBoxBalls();
+}
 
+void Boss::updateBoxBalls(){
+	if (spawnedLeft) {
+		collisionSystem->updateCollider(collidersGreenBalls[0], this->pos);
+		collidersGreenBalls[0]->changePositionAbsolute(this->pos);
+	}
+	else {
+		collisionSystem->updateCollider(collidersGreenBalls[0], glm::vec2(SCREEN_WIDTH + 50, SCREEN_HEIGHT + 50));
+		collidersGreenBalls[0]->changePositionAbsolute(glm::vec2(SCREEN_WIDTH + 50, SCREEN_HEIGHT + 50));
+	}
+	if (spawnedRight) {
+		collisionSystem->updateCollider(collidersGreenBalls[1], this->pos);
+		collidersGreenBalls[1]->changePositionAbsolute(this->pos);
+	}
+	else {
+		collisionSystem->updateCollider(collidersGreenBalls[1], glm::vec2(SCREEN_WIDTH+50, SCREEN_HEIGHT +50));
+		collidersGreenBalls[1]->changePositionAbsolute(glm::vec2(SCREEN_WIDTH + 50, SCREEN_HEIGHT + 50));
+	}
+}
+
+void Boss::damage(int dmg, int id) {
+	dmg += 10;
+	if (id > this->id) {
+		if (id == (this->id + 1)) { 
+			lifeLeft -= dmg;
+			if (lifeLeft <= 0) {
+				spriteLeftPart->changeAnimation(0, false);
+				spawnedLeft = false;
+				updateBoxBalls();
+			}
+			live -= dmg;
+		}
+		if (id == (this->id + 2)) {
+			lifeRight -= dmg;
+			if (lifeRight <= 0) {
+				spriteRightPart->changeAnimation(0, false);
+				spawnedRight = false;
+				updateBoxBalls();
+			}
+			live -= dmg;
+		}
+	}
+}
+
+void  Boss::spawnWorm() {
+	if (delaySpawnWorm == 0 && (!spawnedDown || !spawnedUp)){ 
+		if (delaySpawnWormAnimation == 0) { 
+			delaySpawnWormAnimation = 30;
+			if (spawnedDown || spawnedUp) {
+				if (!spawnedDown) {
+					isGoingtoSpawnWorm = 0;
+					spriteTail->changeAnimation(1, false);
+				}
+				else {
+					isGoingtoSpawnWorm = 1;
+					spriteHead->changeAnimation(1, false);
+				}
+			}
+			else {
+				int num = rand() % 2;
+				if (num == 0) {
+					isGoingtoSpawnWorm = 0;
+					spriteTail->changeAnimation(1, false);
+				}
+				else {
+					isGoingtoSpawnWorm = 1;
+					spriteHead->changeAnimation(1, false);
+				}
+			}
+		}
+		delaySpawnWormAnimation -=1;
+		if(delaySpawnWormAnimation == 0){
+			switch (isGoingtoSpawnWorm)
+			{
+			case 0:
+				CharacterFactory::getInstance();
+				spawnedDown = true;
+				break;
+			case 1:
+				CharacterFactory::getInstance();
+				spawnedUp = true;
+				break;
+			}
+			delaySpawnWorm = 600;
+		}
+	}
+	if((!spawnedDown || !spawnedUp) && delaySpawnWorm>0) delaySpawnWorm -= 1;
+}
+
+void  Boss::spawnGreenBalls() {
+	if (delaySpawnGreenBall == 0 && (!spawnedLeft || !spawnedRight)) {
+		if (delaySpawnGreenBallAnimation == 0) {
+			delaySpawnGreenBallAnimation = 30;
+			if (spawnedLeft || spawnedRight) {
+				if (!spawnedLeft) {
+					isGoingtoSpawnGreenBall = 0;
+					spriteLeftPart->changeAnimation(1, false);
+				}
+				else {
+					isGoingtoSpawnGreenBall = 1;
+					spriteRightPart->changeAnimation(1, false);
+				}
+			}
+			else {
+				int num = rand() % 2;
+				if (num == 0) {
+					isGoingtoSpawnGreenBall = 0;
+					spriteLeftPart->changeAnimation(1, false);
+				}
+				else {
+					isGoingtoSpawnGreenBall = 1;
+					spriteRightPart->changeAnimation(1, false);
+				}
+			}
+		}
+		delaySpawnGreenBallAnimation -= 1;
+		if (delaySpawnGreenBallAnimation == 0) {
+			switch (isGoingtoSpawnGreenBall)
+			{
+			case 0:
+				lifeLeft = 30;
+				break;
+			case 1:
+				lifeRight = 30;
+				break;
+			}
+			delaySpawnGreenBall = 600;
+		}
+	}
+	if ((!spawnedLeft || !spawnedRight) && delaySpawnGreenBall>0) delaySpawnGreenBall -= 1;
+}
+void  Boss::warmReturn(int id) {
+	CharacterFactory::getInstance()->destroyCharacter(id);
+	live -= CharacterFactory::getInstance()->getHealthCharacter(id);
 }

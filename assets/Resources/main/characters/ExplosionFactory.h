@@ -19,6 +19,7 @@ private:
 	static ExplosionFactory *instance_;
 	ExplosionFactory();
 	~ExplosionFactory();
+	TileMap* map;
 
 public:
 	
@@ -27,6 +28,7 @@ public:
 	void spawnExplosion(Explosion::Explosions type, glm::mat4 *project, const glm::vec2 &pos, const glm::vec4 &box);
 	void update(int deltaTime);
 	void render();
+	void setMap(TileMap* map);
 	std::map<int, Explosion*> explosions;
 	int lastId = 0;
 	set<int> explosionsToDelete;

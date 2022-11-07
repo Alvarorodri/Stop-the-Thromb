@@ -23,13 +23,14 @@ public:
 	
 	virtual void update(int deltaTime);
 	virtual void render();
-	virtual void damage(int dmg);
+	virtual void damage(int dmg, int id);
 
 	virtual bool isPlayer() { return false; };
 
 	virtual void setTileMap(TileMap *tileMap);
 	virtual void setPosition(const glm::vec2 &pos);
 	int getId();
+	int getHealth();
 	glm::vec2 getPosition() { return pos; };
 	glm::vec4 getBoundingBox();
 	virtual void deleteRoutine();

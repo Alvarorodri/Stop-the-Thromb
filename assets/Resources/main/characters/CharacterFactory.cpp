@@ -108,9 +108,16 @@ bool CharacterFactory::getPlayerPos(glm::vec2 &pos) {
 	return true;
 }
 
+int CharacterFactory::getHealthCharacter(int id) {
+	auto it = characters.find(id);
+	if (it != characters.end()) return it->second->getHealth();
+	return 0;
+}
+
 void CharacterFactory::spawnCharacter(int type, const glm::vec2 &pos) {
 
 	Character *character = nullptr;
+	int aux = last_id;
 	switch (type) {
 	case cPlayer:
 		if (player == nullptr) {
@@ -138,6 +145,10 @@ void CharacterFactory::spawnCharacter(int type, const glm::vec2 &pos) {
 	case cBoss:
 		character = new Boss(projection, last_id, tileMapPos);
 		character->setPosition(pos);
+		++last_id;
+		IdreservedBoss.push_back(last_id);
+		++last_id;
+		IdreservedBoss.push_back(last_id);
 		break;
 	case cWorm:
 		character = new Worm(projection, last_id, tileMapPos);
@@ -148,7 +159,7 @@ void CharacterFactory::spawnCharacter(int type, const glm::vec2 &pos) {
 		character->setPosition(pos);
 		break;
 	}
-	if (character != nullptr)characters[last_id] = character;
+	if (character != nullptr)characters[aux] = character;
 	++last_id;
 
 
@@ -215,7 +226,21 @@ void CharacterFactory::killCharacter(const int &id) {
 
 void CharacterFactory::damageCharacter(const int &id, int dmg) {
 	auto search = characters.find(id);
-	if (search != characters.end()) search->second->damage(dmg);
+	if (search != characters.end()) search->second->damage(dmg,id);
+	else{
+		for (int i = 0; i < IdreservedBoss.size();++i) {
+			if (id == IdreservedBoss[i]) {
+				if (i == 0) {
+					auto search = characters.find((id - 1));
+					if (search != characters.end()) search->second->damage(dmg,id);
+				}
+				if (i == 1) {
+					auto search = characters.find(id - 2);
+					if (search != characters.end()) search->second->damage(dmg, id);
+				}
+			}
+		}
+	}
 }
 
 void CharacterFactory::increasePlayerForce() {

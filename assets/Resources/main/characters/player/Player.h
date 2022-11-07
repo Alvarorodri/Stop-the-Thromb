@@ -25,7 +25,7 @@ public:
 
 	void inputController();
 
-	void damage(int dmg) override;
+	void damage(int dmg, int id) override;
 
 	void spawnForce();
 	void destroyForce();

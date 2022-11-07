@@ -20,6 +20,7 @@ public:
 	void update(int deltaTime);
 	void render();
 	bool isEnded();
+	void setMap(TileMap* map);
 
 private:
 	bool ended;
@@ -27,5 +28,6 @@ private:
 	glm::vec2 pos;
 	Texture *spritesheet;
 	Sprite *sprite;
+	TileMap* map;
 };
 #endif // _EXPLOSIONFACTORY_INCLUDE

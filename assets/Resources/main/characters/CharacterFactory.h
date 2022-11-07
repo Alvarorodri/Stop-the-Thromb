@@ -38,6 +38,7 @@ public:
 	void setMap(TileMap *map);
 
 	bool getPlayerPos(glm::vec2 &pos);
+	int getHealthCharacter(int id);
 
 	void spawnCharacter(int type, const glm::vec2 &pos);
 	void spawnRoutine();
@@ -68,6 +69,7 @@ private:
 
 	vector<pair<CharacterAvailable, glm::vec2>> enemies;
 	int nextSpawn = 0;
+	vector<int>IdreservedBoss;
 
 };
 

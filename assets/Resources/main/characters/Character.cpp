@@ -37,7 +37,7 @@ void Character::render() {
 
 }
 
-void Character::damage(int dmg) {
+void Character::damage(int dmg, int id) {
 	live -= dmg;
 	if(live<=0)CharacterFactory::getInstance()->killCharacter(id);
 }
@@ -60,6 +60,10 @@ glm::vec4 Character::getBoundingBox() {
 
 int Character::getId() {
 	return this->id;
+}
+
+int Character::getHealth() {
+	return this->live;
 }
 
 void Character::rotate(const float &angleX, const float &angleY, const float &angleZ) {

@@ -137,7 +137,7 @@ bool Explosion::isEnded() {
 }
 
 void Explosion::update(int deltaTime) {
-	pos.x -= 2.f;
+	pos.x += map->getSpeed();
 	if (!ended) {
 		sprite->update(deltaTime);
 		ended = sprite->isFinidhedAnimation();
@@ -147,4 +147,8 @@ void Explosion::update(int deltaTime) {
 
 void Explosion::render() {
 	if(!ended)sprite->render();
+}
+
+void Explosion::setMap(TileMap* map) {
+	this->map = map;
 }

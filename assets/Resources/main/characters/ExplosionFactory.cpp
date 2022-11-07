@@ -18,6 +18,7 @@ ExplosionFactory::~ExplosionFactory() {
 
 void ExplosionFactory::spawnExplosion(Explosion::Explosions type, glm::mat4 *project, const glm::vec2 &pos, const glm::vec4 &box) {
 	Explosion* explosion = new Explosion(type, *project, pos, box);
+	explosion->setMap(map);
 	explosions.insert({ lastId, explosion });
 	lastId++;
 }
@@ -42,5 +43,9 @@ void ExplosionFactory::render() {
 		it->second->render();
 	}
 
+}
+
+void ExplosionFactory::setMap(TileMap* map) {
+	this->map = map;
 }
 

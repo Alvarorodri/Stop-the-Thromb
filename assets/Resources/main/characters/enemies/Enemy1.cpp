@@ -75,6 +75,8 @@ void Enemy1::update(int deltaTime)
 			}
 			else if (info.collider->collisionGroup == Collision::CollisionGroups::Player) {
 				CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
+				CharacterFactory::getInstance()->damageCharacter(id, 1);
+
 			}
 
 		}
@@ -114,6 +116,7 @@ void Enemy1::update(int deltaTime)
 				}
 				else if (info.collider->collisionGroup == Collision::CollisionGroups::Player) {
 					CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
+					CharacterFactory::getInstance()->damageCharacter(id, 1);
 				}
 
             }
@@ -140,6 +143,7 @@ void Enemy1::update(int deltaTime)
 			}
 			else if (info.collider->collisionGroup == Collision::CollisionGroups::Player) {
 				CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
+				CharacterFactory::getInstance()->damageCharacter(id, 1);
 			}
 			
         }

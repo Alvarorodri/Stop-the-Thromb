@@ -33,7 +33,7 @@ void Enemy4::init(const glm::ivec2 &tileMapPos) {
     collider->showHitBox();
 #endif // SHOW_HIT_BOXES
 
-    sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
+    sprite->setPosition(glm::vec2(float(pos.x), float( pos.y)));
 	startY = pos.y;
 }
 
@@ -42,22 +42,23 @@ void Enemy4::update(int deltaTime) {
 
 	glm::vec2 playerpos;
 	bool existsPlayer = CharacterFactory::getInstance()->getPlayerPos(playerpos);
-
-	CollisionSystem::CollisionInfo mov = collisionSystem->isColliding(Enemy4::collider, glm::vec2(-0.5, 0));
+	float vel = CharacterFactory::getInstance()->mapSpeed;
+	CollisionSystem::CollisionInfo mov = collisionSystem->isColliding(Enemy4::collider,glm::vec2( vel, 0.f));
 
 	if (mov.colliding) {
 		if (mov.collider->collisionGroup == Collision::CollisionGroups::Map) {
-			pos.x += 1;
-			collider->changePositionRelative(glm::vec2(0.5, 0));
+			pos.x -= vel;
+			collider->changePositionRelative(glm::vec2(-vel, 0));
 		}
 		else if (mov.collider->collisionGroup == Collision::CollisionGroups::Player) {
 			CharacterFactory::getInstance()->damageCharacter(mov.collider->getId(), 1);
+			CharacterFactory::getInstance()->damageCharacter(id, 1);
 		}
 	}
 	else {
-		pos.x -= 0.5;
-		collider->changePositionRelative(glm::vec2(-0.5,0));
-		}
+		pos.x += vel;
+		collider->changePositionRelative(glm::vec2(vel,0));
+	}
 
 	if (bJumping && existsPlayer && (playerpos.x - pos.x) <= 200.f && (playerpos.x - pos.x) >= -200.f) {
 		bJumping = false;
@@ -83,6 +84,7 @@ void Enemy4::update(int deltaTime) {
 					jumpAngle -= JUMP_ANGLE_STEP / 2.0;
 				} else if (info.collider->collisionGroup == Collision::CollisionGroups::Player){
 					CharacterFactory::getInstance()->damageCharacter(info.collider->getId(),1);
+					CharacterFactory::getInstance()->damageCharacter(id, 1);
 				}
 
 			}
@@ -109,6 +111,7 @@ void Enemy4::update(int deltaTime) {
 					} 
 					else if (info.collider->collisionGroup == Collision::CollisionGroups::Player){
 						CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
+						CharacterFactory::getInstance()->damageCharacter(id, 1);
 					}
 			}
 			else {
@@ -128,12 +131,13 @@ void Enemy4::update(int deltaTime) {
 			else {
 				if (info.collider->collisionGroup == Collision::CollisionGroups::Player) {
 					CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
+					CharacterFactory::getInstance()->damageCharacter(id, 1);
 				}
 			}
 		}
 	}
 
-    sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));	
+    sprite->setPosition(glm::vec2(float( pos.x), float( pos.y)));	
 	Character::update(deltaTime);
 	
 }

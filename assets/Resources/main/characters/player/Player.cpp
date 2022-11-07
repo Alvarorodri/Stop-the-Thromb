@@ -113,12 +113,22 @@ void Player::update(int deltaTime)
 
 #pragma region Player movement and Animation
 
-		if (Game::instance().getSpecialKey(GLUT_KEY_LEFT)) {
+		if (Game::instance().getSpecialKey(GLUT_KEY_LEFT) && ((pos.x-3)>=0)) {
 			CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Player::collider, glm::ivec2(-3, 0));
 			CollisionSystem::CollisionInfo info2;
 			if (forceSpawned) info2 = collisionSystem->isColliding(forceDevice->getCollider(), glm::ivec2(-3, 0));
 
-			if (info.colliding || (forceSpawned && forceDevice->isAttached() && info2.colliding)) {
+			if (info.colliding && info.collider->collisionGroup != Collision::CollisionGroups::Force) {
+				if (info.collider->collisionGroup == Collision::CollisionGroups::Map && !godmode) {
+					CharacterFactory::getInstance()->damageCharacter(id, 1);
+				}
+				else if(info.collider->collisionGroup == Collision::CollisionGroups::Enemy && !godmode){
+					CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
+					CharacterFactory::getInstance()->damageCharacter(id, 1);
+				}
+				
+			}
+			else if (info.colliding || (forceSpawned && forceDevice->isAttached() && info2.colliding)) {
 				sprite->changeAnimation(STAND_RIGHT, false);
 			}
 			else {
@@ -126,12 +136,21 @@ void Player::update(int deltaTime)
 				collider->changePositionAbsolute(pos);
 			}
 		}
-		else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT)) {
+		else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT)&&((pos.x + 3) <= 415)) {
 			CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Player::collider, glm::ivec2(3, 0));
 			CollisionSystem::CollisionInfo info2;
 			if (forceSpawned) info2 = collisionSystem->isColliding(forceDevice->getCollider(), glm::ivec2(3, 0));
+			if (info.colliding && info.collider->collisionGroup != Collision::CollisionGroups::Force) {
+				if (info.collider->collisionGroup == Collision::CollisionGroups::Map && !godmode) {
+					CharacterFactory::getInstance()->damageCharacter(id, 1);
+				}
+				else if (info.collider->collisionGroup == Collision::CollisionGroups::Enemy && !godmode) {
+					CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
+					CharacterFactory::getInstance()->damageCharacter(id, 1);
+				}
 
-			if (info.colliding || (forceSpawned && forceDevice->isAttached() && info2.colliding)) {
+			}
+			else if (info.colliding || (forceSpawned && forceDevice->isAttached() && info2.colliding)) {
 				sprite->changeAnimation(STAND_RIGHT, false);
 			}
 			else {
@@ -155,7 +174,17 @@ void Player::update(int deltaTime)
 			CollisionSystem::CollisionInfo info2;
 			if (forceSpawned) info2 = collisionSystem->isColliding(forceDevice->getCollider(), glm::ivec2(0, 2));
 
-			if (!(info.colliding || (forceSpawned && forceDevice->isAttached() && info2.colliding))) {
+			if (info.colliding && info.collider->collisionGroup != Collision::CollisionGroups::Force) {
+				if (info.collider->collisionGroup == Collision::CollisionGroups::Map && !godmode) {
+					CharacterFactory::getInstance()->damageCharacter(id, 1);
+				}
+				else if (info.collider->collisionGroup == Collision::CollisionGroups::Enemy && !godmode) {
+					CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
+					CharacterFactory::getInstance()->damageCharacter(id, 1);
+				}
+
+			}
+			else if (!(info.colliding || (forceSpawned && forceDevice->isAttached() && info2.colliding))) {
 				pos.y += 2;
 				collider->changePositionAbsolute(pos);
 			}
@@ -175,7 +204,17 @@ void Player::update(int deltaTime)
 			CollisionSystem::CollisionInfo info2;
 			if (forceSpawned) info2 = collisionSystem->isColliding(forceDevice->getCollider(), glm::ivec2(0, -2));
 
-			if (!(info.colliding || (forceSpawned && forceDevice->isAttached() && info2.colliding))) {
+			if (info.colliding && info.collider->collisionGroup != Collision::CollisionGroups::Force) {
+				if (info.collider->collisionGroup == Collision::CollisionGroups::Map && !godmode) {
+					CharacterFactory::getInstance()->damageCharacter(id, 1);
+				}
+				else if (info.collider->collisionGroup == Collision::CollisionGroups::Enemy && !godmode) {
+					CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
+					CharacterFactory::getInstance()->damageCharacter(id, 1);
+				}
+
+			}
+			else if (!(info.colliding || (forceSpawned && forceDevice->isAttached() && info2.colliding))) {
 				pos.y -= 2;
 				collider->changePositionAbsolute(pos);
 			}
@@ -294,9 +333,9 @@ void Player::render() {
 	if (isInitAnimation) boost->render();
 }
 
-void Player::damage(int dmg) {
+void Player::damage(int dmg, int id) {
 	if (!godmode) {
-		Character::damage(dmg);
+		Character::damage(dmg, id);
 	}
 }
 
