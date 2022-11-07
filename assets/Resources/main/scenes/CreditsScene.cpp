@@ -65,14 +65,14 @@ void CreditsScene::update(int deltaTime) {
 	for (int i = 0; i < (int)buttons.size(); i++) buttons[i].update(deltaTime);
 
 	if (enableControls) {
-		if (Game::instance().getSpecialKey(GLUT_KEY_LEFT) && !latchKeys[GLUT_KEY_LEFT]) {
-			latchKeys[GLUT_KEY_LEFT] = true;
+		if (Game::instance().getKey('x') && !latchKeys['x']) {
+			latchKeys['x'] = true;
 			AudioManager::getInstance()->playSoundEffect(AudioManager::ButtonPressed, 128);
 			buttons[selectedButton].setState(UI_Button::Clicked);
 
 		}
 
-		if (!Game::instance().getSpecialKey(GLUT_KEY_LEFT) && latchKeys[GLUT_KEY_LEFT]) latchKeys[GLUT_KEY_LEFT] = false;
+		if (!Game::instance().getKey('x') && latchKeys['x']) latchKeys['x'] = false;
 	
 	}
 }

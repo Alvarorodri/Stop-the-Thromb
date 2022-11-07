@@ -122,11 +122,10 @@ void Player::update(int deltaTime)
 				if (info.collider->collisionGroup == Collision::CollisionGroups::Map && !godmode) {
 					CharacterFactory::getInstance()->damageCharacter(id, 1);
 				}
-				else if(info.collider->collisionGroup == Collision::CollisionGroups::Enemy && !godmode){
+				else if(info.collider->collisionGroup == Collision::CollisionGroups::Enemy){
 					CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
-					CharacterFactory::getInstance()->damageCharacter(id, 1);
+					if (!godmode)CharacterFactory::getInstance()->damageCharacter(id, 1);
 				}
-				
 			}
 			else if (info.colliding || (forceSpawned && forceDevice->isAttached() && info2.colliding)) {
 				sprite->changeAnimation(STAND_RIGHT, false);
@@ -144,9 +143,9 @@ void Player::update(int deltaTime)
 				if (info.collider->collisionGroup == Collision::CollisionGroups::Map && !godmode) {
 					CharacterFactory::getInstance()->damageCharacter(id, 1);
 				}
-				else if (info.collider->collisionGroup == Collision::CollisionGroups::Enemy && !godmode) {
+				else if (info.collider->collisionGroup == Collision::CollisionGroups::Enemy) {
 					CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
-					CharacterFactory::getInstance()->damageCharacter(id, 1);
+					if (!godmode)CharacterFactory::getInstance()->damageCharacter(id, 1);
 				}
 
 			}
@@ -178,9 +177,9 @@ void Player::update(int deltaTime)
 				if (info.collider->collisionGroup == Collision::CollisionGroups::Map && !godmode) {
 					CharacterFactory::getInstance()->damageCharacter(id, 1);
 				}
-				else if (info.collider->collisionGroup == Collision::CollisionGroups::Enemy && !godmode) {
+				else if (info.collider->collisionGroup == Collision::CollisionGroups::Enemy) {
 					CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
-					CharacterFactory::getInstance()->damageCharacter(id, 1);
+					if (!godmode)CharacterFactory::getInstance()->damageCharacter(id, 1);
 				}
 
 			}
@@ -208,9 +207,9 @@ void Player::update(int deltaTime)
 				if (info.collider->collisionGroup == Collision::CollisionGroups::Map && !godmode) {
 					CharacterFactory::getInstance()->damageCharacter(id, 1);
 				}
-				else if (info.collider->collisionGroup == Collision::CollisionGroups::Enemy && !godmode) {
+				else if (info.collider->collisionGroup == Collision::CollisionGroups::Enemy) {
 					CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
-					CharacterFactory::getInstance()->damageCharacter(id, 1);
+					if(!godmode)CharacterFactory::getInstance()->damageCharacter(id, 1);
 				}
 
 			}
@@ -219,6 +218,23 @@ void Player::update(int deltaTime)
 				collider->changePositionAbsolute(pos);
 			}
 		}
+		else {
+			CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Player::collider, glm::ivec2(0, 0));
+			CollisionSystem::CollisionInfo info2;
+			if (forceSpawned) info2 = collisionSystem->isColliding(forceDevice->getCollider(), glm::ivec2(0, 0));
+
+			if (info.colliding && info.collider->collisionGroup != Collision::CollisionGroups::Force) {
+				if (info.collider->collisionGroup == Collision::CollisionGroups::Map && !godmode) {
+					CharacterFactory::getInstance()->damageCharacter(id, 1);
+				}
+				else if (info.collider->collisionGroup == Collision::CollisionGroups::Enemy) {
+					CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
+					if (!godmode)CharacterFactory::getInstance()->damageCharacter(id, 1);
+				}
+
+			}
+		}
+		
 
 		if (sprite->animation() == MOVE_UP && sprite->isFinidhedAnimation() == true) {
 			sprite->changeAnimation(STAND_UP, false);

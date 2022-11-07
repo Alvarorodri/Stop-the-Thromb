@@ -128,7 +128,7 @@ void Boss::update(int deltaTime)
 	spriteLeftPart->update(deltaTime);
 	delay -= 1;
 	if((rand()%700)==1)AudioManager::getInstance()->playSoundEffect(AudioManager::BossRoar, 80);
-	if (delay <= 0) ExplosionsOfDeath();
+	if (live <= 0) ExplosionsOfDeath();
 	//Head
 	if (spriteHead->animation() == 1 && spriteHead->isFinidhedAnimation()) {
 		spriteHead->changeAnimation(0, false);
@@ -149,8 +149,8 @@ void Boss::update(int deltaTime)
 		spriteTail->changeAnimation(0, false);
 	}
 
-	spawnGreenBalls();
-	spawnWorm();
+	if (live <= 0)spawnGreenBalls();
+	if (live <= 0)spawnWorm();
 	updateColliders();
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
 	spriteLeftPart->setPosition(glm::vec2(float(tileMapDispl.x + pos.x - 3), float(tileMapDispl.y + pos.y + 30)));
