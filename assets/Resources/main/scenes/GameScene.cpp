@@ -37,17 +37,25 @@ void GameScene::init() {
 	cExplosion->setMap(map);
 	cFactory = CharacterFactory::getInstance();
 	cFactory->setProjection(&projection);
+	
+	cFactory->destroyAllCharactersToEnd();
+	ProjectileFactory::getInstance()->destroyAllProjectiles();
+	ObjectFactory::getInstance()->destroyAllObjects();
+	ExplosionFactory::getInstance()->deleteAll();
+
 	cFactory->setTileMapPos(glm::ivec2(SCREEN_X, SCREEN_Y));
 	cFactory->setSpawnFiles("images/background/level00_entities-computed_entitiesSpawn.txt");
 	cFactory->setMap(map);
 	cFactory->mapSpeed = map->getSpeed();
 
-	cFactory->spawnCharacter(CharacterFactory::CharacterAvailable::cPlayer, glm::vec2(-30.f, 200.0f));
-	spawnBoss();
+	
 	ObjectFactory::getInstance()->setProjection(&projection);
 	ObjectFactory::getInstance()->init();
 	ObjectFactory::getInstance()->mapSpeed = map->getSpeed();
 
+	
+cFactory->spawnCharacter(CharacterFactory::CharacterAvailable::cPlayer, glm::vec2(-30.f, 128.0f));
+	
 	setMapSpeed(-1.0f);
 	
 }

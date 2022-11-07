@@ -71,6 +71,8 @@ private:
 	
 	map<int, Character *> characters;
 	int last_id = 0;
+	bool alive = false;
+	int timer = -1;
 
 	set<int> pendingToBeDestroyed;
 	set<int> pendingToBeKilled;

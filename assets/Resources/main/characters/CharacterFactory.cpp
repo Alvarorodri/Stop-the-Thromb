@@ -1,5 +1,5 @@
 #include "CharacterFactory.h"
-
+#include "Game.h"
 
 CharacterFactory* CharacterFactory::instance_ = nullptr;
 
@@ -33,13 +33,20 @@ void CharacterFactory::lateDestroyCharacter() {
 		if (characters.find(*it) != characters.end()) {
 			characters[*it]->deleteRoutine();
 
-			if (characters[*it] == player) player = nullptr;
+			if (characters[*it] == player) { 
+				player = nullptr; 
+			}
 
 			delete characters[*it];
 			characters.erase(*it);
 		}
 	}
 	pendingToBeKilled.clear();
+	if (player == nullptr && alive) {
+		alive = false;
+		timer = 200;
+		nextSpawn = 0;
+	}
 }
 
 void CharacterFactory::init() {
@@ -53,6 +60,14 @@ void CharacterFactory::update(int deltaTime) {
 
 	spawnRoutine();
 	lateDestroyCharacter();
+	if (timer != -1) {
+		timer -= 1;
+	}
+	if (timer == 0) {
+		timer = -1;
+		nextSpawn = 0;
+		Game::instance().changeToGame(true);
+	}
 }
 
 void CharacterFactory::render() {
@@ -126,6 +141,7 @@ void CharacterFactory::spawnCharacter(int type, const glm::vec2 &pos) {
 	switch (type) {
 	case cPlayer:
 		if (player == nullptr) {
+			alive = true;
 			player = new Player(projection, last_id, tileMapPos);
 			player->setPosition(pos);
 			character = player;
@@ -233,7 +249,7 @@ void CharacterFactory::destroyAllCharactersToTeleport() {
 
 void CharacterFactory::destroyAllCharactersToEnd() {
 	map<int, Character *>::iterator it = characters.begin();
-
+	enemies.clear();
 	while (it != characters.end()) {
 		pendingToBeDestroyed.insert(it->first);
 		++it;

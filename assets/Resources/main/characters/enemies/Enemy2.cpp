@@ -42,14 +42,14 @@ void Enemy2::update(int deltaTime)
 {
 	sprite->update(deltaTime);
 	shoot();
-	CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Enemy2::collider, glm::vec2(-1, 0));
+	CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Enemy2::collider, glm::vec2(-2, 0));
 	if (info.colliding) {
 		if (info.collider->collisionGroup == Collision::CollisionGroups::Player) {
 				CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
 				CharacterFactory::getInstance()->damageCharacter(id, 1);
 		}
 	}else {
-        pos.x -= 1;
+		pos.x -= 2;
         collider->changePositionAbsolute(pos);
 	}
 
