@@ -54,7 +54,7 @@ public:
 	void exterminateWorms();
 
 
-	void increasePlayerForce();
+	void increasePlayerForce(int power);
 
 	void wormRetun(int idSource, int idDest, bool upOrDown);
 

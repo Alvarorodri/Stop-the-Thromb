@@ -29,7 +29,7 @@ public:
 
 	void spawnForce();
 	void destroyForce();
-	void increaseForce();
+	void increaseForce(int power);
 
 private:
 

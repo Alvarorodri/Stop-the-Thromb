@@ -13,6 +13,8 @@ public:
     void update(int deltaTime);
 	void shoot();
 
+	void deleteRoutine();
+
 private:
 	enum Enemy3Anims { POS_0, POS_1, POS_2, POS_3, POS_4 };
 	void init(const glm::ivec2 &tileMapPos);

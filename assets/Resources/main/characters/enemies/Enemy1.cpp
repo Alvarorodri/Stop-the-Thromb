@@ -163,6 +163,7 @@ void Enemy1::update(int deltaTime)
 }
 
 void Enemy1::deleteRoutine() {
-	ObjectFactory::getInstance()->spawnObject(pos, Object::PowerUpBlue);
+	int random = rand() % 3;
+	if (random == 0) ObjectFactory::getInstance()->spawnObject(pos, Object::PowerUpBlue);
 	Character::deleteRoutine();
 }

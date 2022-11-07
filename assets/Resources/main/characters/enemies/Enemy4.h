@@ -15,6 +15,8 @@ public:
 
     void update(int deltaTime);
 
+	void deleteRoutine();
+
 private:
 	void init(const glm::ivec2 &tileMapPos);
 	void shoot();

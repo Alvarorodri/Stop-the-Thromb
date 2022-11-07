@@ -105,7 +105,8 @@ Collision* ForceDevice::getCollider() {
     return collider;
 }
 
-void ForceDevice::setForceLevel(int level) {
+void ForceDevice::setForceLevel(int level, int power) {
+	currentPower = power;
 	if (level > 2) level = 2;
 	else if (level < 0) level = 0;
 	forceLevel = level;
@@ -123,7 +124,7 @@ void ForceDevice::inputController() {
         latchKeys['j'] = true;
 
 		forceLevel++;
-		setForceLevel(forceLevel);
+		setForceLevel(forceLevel, 0);
 		cont = 60;
 		levelup = true;
     }
@@ -131,10 +132,17 @@ void ForceDevice::inputController() {
         latchKeys['h'] = true;
 
 		forceLevel--;
-		setForceLevel(forceLevel);
+		setForceLevel(forceLevel, 0);
 		cont = 60;
 		levelup = false;
     }
+	else if (Game::instance().getKey('k') && !latchKeys['k']) {
+		latchKeys['k'] = true;
+
+		currentPower++;
+		
+		if (currentPower == 3) currentPower = 0;
+	}
     else if (Game::instance().getKey('z') && !latchKeys['z']) {
         latchKeys['z'] = true;
 
@@ -153,22 +161,22 @@ void ForceDevice::inputController() {
     else if (Game::instance().getKey('x') && !latchKeys['x']) {
         latchKeys['x'] = true;
 
-		int offsetAttach = isAtached ? 3 : 0;
-		int tmp = offsetAttach + (int)forceLevel;
+		int tmp;
+		if (isAtached) tmp = currentPower;
+		else tmp = (int)forceLevel + 3;
 
 		if (currentShotCountdown < 0) {
 			spawnProjectiles();
-			currentShotCountdown = shotDelay[tmp];
+			currentShotCountdown = shotDelay1[tmp];
 		}
     }
 
     // Release State
     if (!Game::instance().getKey('j') && latchKeys['j']) latchKeys['j'] = false;
     else if (!Game::instance().getKey('h') && latchKeys['h']) latchKeys['h'] = false;
+	else if (!Game::instance().getKey('k') && latchKeys['k']) latchKeys['k'] = false;
     else if (!Game::instance().getKey('z') && latchKeys['z']) latchKeys['z'] = false;
-	else if (!Game::instance().getKey('x') && latchKeys['x']) {
-		latchKeys['x'] = false;
-	}
+	else if (!Game::instance().getKey('x') && latchKeys['x']) latchKeys['x'] = false;
 
 	currentShotCountdown -= 1;
 	if (currentShotCountdown > 10000) currentShotCountdown = 0;
@@ -278,10 +286,6 @@ void ForceDevice::spawnProjectiles() {
             ProjectileFactory::getInstance()->spawnProjectile(posForce + spawnOffset, glm::vec2(sign * 5.0f, 0.0f), true, Projectile::ForceProjectile);
             ProjectileFactory::getInstance()->spawnProjectile(posForce + spawnOffset, glm::vec2(sign * 5.0f, 5.0f), true, Projectile::ForceProjectile);
         }
-        else {
-            ProjectileFactory::getInstance()->spawnProjectile(posForce + spawnOffset, glm::vec2(sign * 5.0f, -5.0f), true, Projectile::Fireball);
-            ProjectileFactory::getInstance()->spawnProjectile(posForce + spawnOffset, glm::vec2(sign * 5.0f, 5.0f), true, Projectile::Fireball);
-        }
         break;
     case ForceMK3:
         if (!isAtached) {
@@ -291,11 +295,18 @@ void ForceDevice::spawnProjectiles() {
             ProjectileFactory::getInstance()->spawnProjectile(posForce + spawnOffset, glm::vec2(sign * 5.0f, 5.0f), true, Projectile::ForceProjectile);
             ProjectileFactory::getInstance()->spawnProjectile(posForce + spawnOffset, glm::vec2(sign * 0.0f, 5.0f), true, Projectile::ForceProjectile);
         }
-        else {
-            ProjectileFactory::getInstance()->spawnProjectile(posForce + spawnOffset, glm::vec2(sign * 5.0f, 0.0f), true, Projectile::Waves);
-        }
         break;
     }
+
+	if (isAtached) {
+		if (currentPower == 1) {
+			ProjectileFactory::getInstance()->spawnProjectile(posForce + spawnOffset, glm::vec2(sign * 5.0f, -5.0f), true, Projectile::Fireball);
+			ProjectileFactory::getInstance()->spawnProjectile(posForce + spawnOffset, glm::vec2(sign * 5.0f, 5.0f), true, Projectile::Fireball);
+		}
+		else if (currentPower == 2) {
+			ProjectileFactory::getInstance()->spawnProjectile(posForce + spawnOffset, glm::vec2(sign * 5.0f, 0.0f), true, Projectile::Waves);
+		}
+	}
 }
 
 bool ForceDevice::collisionHelper(const CollisionSystem::CollisionInfo &info) {

@@ -39,7 +39,10 @@ bool PowerUp::collisionRoutine() {
 		case Collision::Force:
 		case Collision::Player:
 			ObjectFactory::getInstance()->destroyObject(id);
-			CharacterFactory::getInstance()->increasePlayerForce();
+
+			if (type == Object::PowerUpBlue) CharacterFactory::getInstance()->increasePlayerForce(0);
+			else if (type == Object::ModifierMBlue) CharacterFactory::getInstance()->increasePlayerForce(1);
+			else if (type == Object::ModifierMRed) CharacterFactory::getInstance()->increasePlayerForce(2);
 			break;
 		}
 	}

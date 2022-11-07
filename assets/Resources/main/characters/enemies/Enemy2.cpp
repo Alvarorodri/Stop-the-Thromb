@@ -104,3 +104,12 @@ void Enemy2::shoot() {
 	}
 	else shootDelay -= 1;
 }
+
+void Enemy2::deleteRoutine() {
+	int random = rand() % 3;
+	if (random == 0) {
+		random = rand() % 2;
+		ObjectFactory::getInstance()->spawnObject(pos, (random == 0) ? Object::ModifierMBlue : Object::ModifierMRed);
+	}
+	Character::deleteRoutine();
+}

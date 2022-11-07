@@ -35,7 +35,7 @@ public:
 	bool isAttached() { return isAtached; };
 
 	int getForceLevel() { return forceLevel; };
-    void setForceLevel(int level);
+    void setForceLevel(int level, int power);
 
 	void deleteRoutine();
 
@@ -83,9 +83,10 @@ private:
     glm::vec2 forceVelocity = glm::vec2(3.0f,1.0f);
 						
 						/* ATTACHED   | NO ATTACHED*/
-	int shotDelay[6] = {   5, 10, 20,  0, 20, 40 };
+	int shotDelay1[6] = {   5, 15, 30,  0, 20, 40 };
 	int currentShotCountdown = 1;
 
+	int currentPower = 0;
 };
 
 #endif // _FORCE_DEVICE_INCLUDE

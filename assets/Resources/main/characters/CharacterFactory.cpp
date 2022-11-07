@@ -297,8 +297,8 @@ void CharacterFactory::damageCharacter(const int &id, int dmg) {
 	}
 }
 
-void CharacterFactory::increasePlayerForce() {
-	if (player != nullptr) player->increaseForce();
+void CharacterFactory::increasePlayerForce(int power) {
+	if (player != nullptr) player->increaseForce(power);
 }
 
 void CharacterFactory::wormRetun(int idSource, int idDest, bool upOrDown) {

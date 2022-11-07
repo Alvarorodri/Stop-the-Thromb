@@ -12,7 +12,7 @@ public:
     
     void update(int deltaTime);
 
-	
+	void deleteRoutine();
 
 private:
 	enum Enemy2Anims { MOVE_LEFT };
