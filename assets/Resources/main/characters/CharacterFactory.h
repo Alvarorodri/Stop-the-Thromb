@@ -24,7 +24,7 @@ private:
 	void lateDestroyCharacter();
 
 public:
-	enum CharacterAvailable{cPlayer, cEnemy1, cEnemy2, cEnemy3, cEnemy4, cBoss, cWorm};
+	enum CharacterAvailable{cPlayer, cEnemy1, cEnemy2, cEnemy3, cEnemy4, cBoss, cWormUp, cWormDown};
 
 	static CharacterFactory *getInstance();
 
@@ -49,6 +49,8 @@ public:
 	void damageCharacter(const int &id, int dmg);
 
 	void increasePlayerForce();
+
+	void wormRetun(int idSource, int idDest, bool upOrDown);
 
 public:
 

@@ -127,7 +127,7 @@ void Boss::update(int deltaTime)
 	spriteRightPart->update(deltaTime);
 	spriteLeftPart->update(deltaTime);
 	delay -= 1;
-	if (delay <= 0) ExplosionsOfDeath();
+	//if (delay <= 0) ExplosionsOfDeath();
 	//Head
 	if (spriteHead->animation() == 1 && spriteHead->isFinidhedAnimation()) {
 		spriteHead->changeAnimation(0, false);
@@ -217,6 +217,13 @@ void Boss::updateBoxBalls(){
 void Boss::damage(int dmg, int id) {
 	dmg += 10;
 	if (id > this->id) {
+
+		sprite->setFlicker();
+		spriteHead->setFlicker();
+		spriteLeftPart->setFlicker();
+		spriteRightPart->setFlicker();
+		spriteTail->setFlicker();
+
 		if (id == (this->id + 1)) { 
 			lifeLeft -= dmg;
 			if (lifeLeft <= 0) {
@@ -269,11 +276,11 @@ void  Boss::spawnWorm() {
 			switch (isGoingtoSpawnWorm)
 			{
 			case 0:
-				CharacterFactory::getInstance();
+				CharacterFactory::getInstance()->spawnCharacter(CharacterFactory::CharacterAvailable::cWormDown, glm::vec2(0.0f,0.0f));
 				spawnedDown = true;
 				break;
 			case 1:
-				CharacterFactory::getInstance();
+				CharacterFactory::getInstance()->spawnCharacter(CharacterFactory::CharacterAvailable::cWormUp, glm::vec2(0.0f, 0.0f));
 				spawnedUp = true;
 				break;
 			}
@@ -326,9 +333,26 @@ void  Boss::spawnGreenBalls() {
 	if ((!spawnedLeft || !spawnedRight) && delaySpawnGreenBall>0) delaySpawnGreenBall -= 1;
 }
 
-void  Boss::warmReturn(int id) {
-	CharacterFactory::getInstance()->destroyCharacter(id);
-	live -= CharacterFactory::getInstance()->getHealthCharacter(id);
+void  Boss::wormReturn(int id, bool upOrDown) {
+	if (upOrDown) {
+		spawnedUp = false;
+		spriteHead->changeAnimation(1, false);
+	}
+	else {
+		spawnedDown = false;
+		spriteTail->changeAnimation(1, false);
+	}
+
+	int dmg = CharacterFactory::getInstance()->getHealthCharacter(id);
+	live -= dmg;
+
+	if (dmg > 0) {
+		sprite->setFlicker();
+		spriteHead->setFlicker();
+		spriteLeftPart->setFlicker();
+		spriteRightPart->setFlicker();
+		spriteTail->setFlicker();
+	}
 }
 
 void Boss::ExplosionsOfDeath() {

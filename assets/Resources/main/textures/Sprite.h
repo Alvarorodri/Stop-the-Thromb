@@ -47,6 +47,9 @@ public:
     void setBox(const glm::vec2 &size);
     void setRotation(const glm::vec3 &rotation);
 
+	void flickering();
+	void setFlicker();
+
 private:
 
     Texture *texture;
@@ -66,6 +69,10 @@ private:
 
     glm::vec2 box;
     glm::vec3 angle;
+
+	int initflickeringTimeout = 60;
+	int flickeringTimeout = 0;
+	glm::vec4 color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 };
 
 #endif // _SPRITE_INCLUDE

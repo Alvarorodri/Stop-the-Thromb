@@ -35,6 +35,7 @@ Sprite::Sprite(const glm::vec2 &quadSize, const glm::vec2 &sizeInSpritesheet, Te
 }
 
 void Sprite::update(int deltaTime) {
+	flickering();
     if(currentAnimation >= 0) {
         timeAnimation += deltaTime;
 
@@ -54,7 +55,7 @@ void Sprite::update(int deltaTime) {
 void Sprite::render() {
     shaderProgram.use();
     shaderProgram.setUniformMatrix4f("projection", *projection);
-    shaderProgram.setUniform4f("color", 1.0f, 1.0f, 1.0f, 1.0f);
+    shaderProgram.setUniform4f("color", color.x, color.y, color.z, color.w);
 
     glm::mat4 modelview = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.f));
 	modelview = glm::translate(modelview, glm::vec3((box.x / 2.0), (box.y/2.0), 0.f));
@@ -140,6 +141,24 @@ void Sprite::setPosition(const glm::vec2 &pos) {
 
 glm::vec2 Sprite::getQuadsize() const{
 	return box;
+}
+
+void Sprite::flickering() {
+	if (flickeringTimeout > 0) {
+		if (flickeringTimeout%4 == 0) color = glm::vec4(0.1f, 0.1f, 0.1f, 0.1f);
+		else color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+
+		flickeringTimeout--;
+	}
+
+	if (flickeringTimeout == 0) {
+		color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+		flickeringTimeout--;
+	}
+}
+
+void Sprite::setFlicker() {
+	flickeringTimeout = initflickeringTimeout;
 }
 
 void Sprite::initShaders() {

@@ -56,8 +56,10 @@ void CharacterFactory::update(int deltaTime) {
 }
 
 void CharacterFactory::render() {
-	for (auto it = characters.begin(); it != characters.end(); it++) {
+	map<int, Character *>::reverse_iterator it = characters.rbegin();
+	while (it != characters.rend()) {
 		it->second->render();
+		++it;
 	}
 }
 
@@ -153,8 +155,9 @@ void CharacterFactory::spawnCharacter(int type, const glm::vec2 &pos) {
 		++last_id;
 		IdreservedBoss.push_back(last_id);
 		break;
-	case cWorm:
-		character = new Worm(projection, last_id, false);
+	case cWormDown:
+	case cWormUp:
+		character = new Worm(projection, last_id, (type == cWormUp) ? true : false, IdreservedBoss[0]-1);
 		if (IdreservedWorm1.empty()) {
 			for (int i = 0; i < 9; ++i) {
 				last_id += 1;
@@ -284,4 +287,9 @@ void CharacterFactory::damageCharacter(const int &id, int dmg) {
 
 void CharacterFactory::increasePlayerForce() {
 	if (player != nullptr) player->increaseForce();
+}
+
+void CharacterFactory::wormRetun(int idSource, int idDest, bool upOrDown) {
+	auto it = characters.find(idDest);
+	if (it != characters.end()) it->second->wormReturn(idSource, upOrDown);
 }

@@ -274,8 +274,6 @@ void Player::inputController() {
     }
     else if (Game::instance().getKey('c') && !latchKeys['c']) {
         latchKeys['c'] = true;
-		
-		isInitAnimation = !isInitAnimation;
     }
 	if (Game::instance().getKey('g') && !latchKeys['g']) {
 		latchKeys['g'] = true;

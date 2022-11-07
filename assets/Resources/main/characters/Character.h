@@ -37,6 +37,8 @@ public:
 
 	void clippingAvoidance();
 
+	virtual void wormReturn(int id, bool upOrDown);
+
 protected:
 
 	virtual void init(const glm::ivec2 &tileMapPos);

@@ -1,8 +1,9 @@
 #include "Worm.h"
 
-Worm::Worm(glm::mat4 *project, int id, bool upOrDown) :Character(project, id, Collision::Enemy) {
+Worm::Worm(glm::mat4 *project, int id, bool upOrDown, int bossID) :Character(project, id, Collision::Enemy) {
 	this->upOrDown = upOrDown;
-	live = 7;
+	live = 0;
+	this->bossID = bossID;
 	init();
 }
 
@@ -38,7 +39,14 @@ void Worm::init() {
 
 void Worm::update(int deltaTime)
 {
-	if (currentRute == SpawnPoint) goingToSpawn = true;
+	for (auto part : parts) {
+		if (!part->isdamaged()) part->shoot();
+	}
+
+	if (currentRute == SpawnPoint) {
+		if (!goingToSpawn) CharacterFactory::getInstance()->wormRetun(this->id, bossID, upOrDown);
+		goingToSpawn = true;
+	}
 
 	if (!goingToSpawn) {
 		changeTarget();
@@ -55,6 +63,7 @@ void Worm::update(int deltaTime)
 
 		if (parts.size() > 0 && distance(parts[0]->getPosition(), spawnPoint) <= 3.0f) {
 			parts[0]->deleteRoutine();
+			delete parts[0];
 			parts.erase(parts.begin());
 		}
 
@@ -129,12 +138,18 @@ void Worm::changeTarget() {
 Worm::routesEnum Worm::nextRoute() {
 	srand(time(NULL));
 	if (upOrDown) {
-		int newOptions = rand() % IAUp[(int)currentRute].size();
-		currentRute = (routesEnum)IAUp[(int)currentRute][newOptions];
+		if (currentRute == RouteUp && live == 7) currentRute = SpawnPoint;
+		else {
+			int newOptions = rand() % IAUp[(int)currentRute].size();
+			currentRute = (routesEnum)IAUp[(int)currentRute][newOptions];
+		}
 	}
 	else {
-		int newOptions = rand() % IADown[(int)currentRute-3].size();
-		currentRute = (routesEnum)IADown[(int)currentRute-3][newOptions];
+		if (currentRute == RouteDown && live == 7) currentRute = SpawnPoint;
+		else {
+			int newOptions = rand() % IADown[(int)currentRute - 3].size();
+			currentRute = (routesEnum)IADown[(int)currentRute - 3][newOptions];
+		}
 	}
 	return currentRute;
 }
@@ -150,7 +165,7 @@ void Worm::damage(int dmg, int id) {
 	for (int i = 1; i < parts.size() - 1; ++i) {
 			if (id == parts[i]->getId() && !parts[i]->isdamaged()) {
 			parts[i]->damage(dmg, id);
-			live -= 1;
+			live += 1;
 		}
 	}
 }
@@ -164,6 +179,7 @@ Part::Part(glm::mat4 *project, int id, int idBody) :Character(project, id, Colli
 
 void Part::init() {
 	bJumping = false;
+	shootDelay = 60;
 
 	spritesheet = TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::Boss);
 
@@ -222,7 +238,6 @@ void Part::init() {
 }
 
 void Part::update(int deltaTime) {
-	
 }
 
 void Part::setPosition(const glm::vec2 &pos) {
@@ -240,9 +255,32 @@ void Part::rotateSprite(glm::vec3 rotation) {
 	rotate(rotation.x, rotation.y, rotation.z);
 }
 
-
 void Part::damage(int dmg, int id) {
 	sprite->changeAnimation(1, false);
 	damaged = true;
 	ExplosionFactory::getInstance()->spawnExplosion(Explosion::ExplosionEnemy, projection, pos, getBoundingBox());
+}
+
+void Part::shoot() {
+	if (shootDelay == 0) {
+		shootDelay = 60;
+		int valor = rand() % 20;
+		if (valor == 1) {
+			glm::vec2 playerpos;
+			bool existsPlayer = CharacterFactory::getInstance()->getPlayerPos(playerpos);
+
+			if (!existsPlayer) return;
+
+			glm::vec2 dir = (playerpos + glm::vec2(16.f, 7.f)) - (pos + anchorPoint);
+
+			float angle = atan2(dir.y, dir.x);
+			dir = glm::vec2(cos(angle), sin(angle));
+
+			float velocity = 1.5f;
+			dir *= velocity;
+
+			ProjectileFactory::getInstance()->spawnProjectile(pos + anchorPoint, dir, false, Projectile::EnemyProjectile);
+		}
+	}
+	else shootDelay -= 1;
 }

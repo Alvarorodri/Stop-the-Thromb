@@ -84,3 +84,7 @@ void Character::clippingAvoidance() {
 		CharacterFactory::getInstance()->damageCharacter(id,100);
 	}
 }
+
+void Character::wormReturn(int id, bool upOrDown) {
+	throw exception("Not Implemented Method");
+}
