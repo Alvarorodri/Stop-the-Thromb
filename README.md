@@ -1,10 +1,12 @@
 # R-Type
 
-INTEGRANTS:
+#### INTEGRANTS:
+
 -Cognoms: Dumitru Maroz		Nom:Alexandru
+
 -Cognoms: Rodríguez Rubio	Nom:Álvaro
 
-FUNCIONALITATS:
+#### FUNCIONALITATS:
 
 -Estructura bàsica de 4 pantalles: menú principal, jugar, instruccions i crèdits.
 
