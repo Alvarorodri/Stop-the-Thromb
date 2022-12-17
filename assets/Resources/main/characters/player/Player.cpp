@@ -51,7 +51,7 @@ void Player::init(const glm::ivec2 &tileMapPos) {
 	boost->changeAnimation(0, false);
 #pragma endregion
 
-	collider->addCollider(glm::ivec4(3, 3, 64, 32));
+	collider->addCollider(glm::ivec4(3, 6, 62, 21));
 	collisionSystem->addColliderIntoGroup(collider);
 	collisionSystem->updateCollider(collider, glm::vec2(tileMapDispl.x + pos.x, tileMapDispl.y + pos.y));
 	collider->changePositionAbsolute(glm::vec2(tileMapDispl.x + pos.x, tileMapDispl.y + pos.y));
@@ -61,7 +61,7 @@ void Player::init(const glm::ivec2 &tileMapPos) {
 #endif // SHOW_HIT_BOXES
 
     sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
-	chargeProjectile->setPosition(glm::vec2(pos.x + 30.0f, pos.y + 4.0f));
+	chargeProjectile->setPosition(pos + projectileOffset);
 	boost->setPosition(glm::vec2(pos.x - 32.0f, pos.y + 2.0f));
 
 	if (!text.init("fonts/OpenSans-Bold.ttf"))
@@ -198,10 +198,7 @@ void Player::update(int deltaTime)
 
 #pragma endregion
 
-		if (!forceSpawned || (forceSpawned && !forceDevice->isAttached())) chargeProjectile->setPosition(glm::vec2(pos.x + 30.0f, pos.y + 4.0f));
-		else chargeProjectile->setPosition(glm::vec2(pos.x + 40.0f, pos.y + 2.0f));
-
-		if (forceSpawned) forceDevice->update(deltaTime);
+		chargeProjectile->setPosition(pos + projectileOffset);
 	}
 	else {
 		if (pos.x < 350.0f) {
@@ -258,7 +255,7 @@ void Player::inputController() {
 			soundcharge = false;
 		}
 
-		ProjectileFactory::getInstance()->spawnProjectile(pos + glm::vec2(32.0f, 6.0f), glm::vec2(3.0f, 0.0f), false, (Projectile::ProjectileType)((int)Projectile::R9mk0 + mk));
+		ProjectileFactory::getInstance()->spawnProjectile(pos + glm::vec2(rotated ? 0.0f : 62.0f, rotated ? 13.0f : 10.0f), glm::vec2(rotated ? -3.0f : 3.0f, 0.0f), false, (Projectile::ProjectileType)((int)Projectile::R9mk0 + mk));
 		currentCharge = 0.0f;
 	}
 	else if (!Game::instance().getKey('c') && latchKeys['c']) latchKeys['c'] = false;
@@ -266,11 +263,24 @@ void Player::inputController() {
 	else if (!Game::instance().getKey('f') && latchKeys['f']) latchKeys['f'] = false;
 }
 
+void Player::rotate(const float& angleX, const float& angleY, const float& angleZ) {
+	Character::rotate(angleX, angleY, angleZ);
+
+	if (angleY != 0.0f) {
+		rotated = true;
+		projectileOffset = glm::vec2(-12.0f, 6.0f);
+	} else {
+		rotated = false;
+		projectileOffset = glm::vec2(62.0f, 6.0f);
+	}
+
+	chargeProjectile->setRotation(glm::vec3(angleX, angleY, angleZ));
+}
+
 void Player::setPosition(const glm::vec2 &pos) {
 	Character::setPosition(pos);
-	chargeProjectile->setPosition(glm::vec2(pos.x + 30.0f, pos.y + 4.0f));
+	chargeProjectile->setPosition(pos + projectileOffset);
 	if (isInitAnimation) boost->setPosition(glm::vec2(pos.x - 23.0f, pos.y - 6.0f));
-	if (forceSpawned) forceDevice->setPosition(glm::vec2(float(tileMapDispl.x + pos.x + 32.0f), float(tileMapDispl.y + pos.y)));
 }
 
 void Player::render() {
@@ -283,7 +293,6 @@ void Player::render() {
 	}
 
 	Character::render();
-	if (forceSpawned) forceDevice->render();
 	if (currentCharge != 0) chargeProjectile->render();
 	if (isInitAnimation) boost->render();
 }
@@ -296,25 +305,12 @@ void Player::damage(int dmg, int id) {
 }
 
 void Player::spawnForce() {
-	if (!forceSpawned) {
-		forceDevice = new ForceDevice(projection);
-		forceDevice->init(collider);
-		forceDevice->setPosition(glm::vec2(-20.0f, 256.0f / 2.0f));
-		forceSpawned = true;
-	}
 }
 
 void Player::destroyForce() {
-	if (forceSpawned) {
-		forceDevice->deleteRoutine();
-		delete forceDevice;
-		forceSpawned = false;
-	}
 }
 
 void Player::increaseForce(int power) {
-	if (!forceSpawned) spawnForce();
-	else forceDevice->setForceLevel(forceDevice->getForceLevel()+1, power);
 }
 
 void Player::initAnimation() {

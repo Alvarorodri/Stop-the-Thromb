@@ -63,6 +63,9 @@ private:
 
 	bool latchKeys[256] = { false };
 
+	glm::vec2 projectileOffset = glm::vec2(62.0f, 6.0f);
+	bool rotated = false;
+
 };
 
 #endif // _PLAYER_INCLUDE
