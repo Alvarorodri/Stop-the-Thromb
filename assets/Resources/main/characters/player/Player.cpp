@@ -11,43 +11,12 @@ void Player::init(const glm::ivec2 &tileMapPos) {
 	rot = false;
 
 #pragma region Player
-	spritesheet = TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::Player);
-	sprite = Sprite::createSprite(glm::ivec2(32, 16), glm::vec2(1 / 16.0, 1 / 16.0), spritesheet, projection);
-	sprite->setNumberAnimations(7);
+	spritesheet = TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::PlayerStt);
+	sprite = Sprite::createSprite(glm::ivec2(64, 32), glm::vec2(1 / 2.0, 1 / 4.0), spritesheet, projection);
+	sprite->setNumberAnimations(1);
 
 	sprite->setAnimationSpeed(STAND_RIGHT, 8);
-	sprite->addKeyframe(STAND_RIGHT, glm::vec2(0.0625*8.0, 0.f));
-
-	sprite->setAnimationSpeed(STAND_UP, 8);
-	sprite->addKeyframe(STAND_UP, glm::vec2(0.0625*3.0, 0.0625*2.0f));
-
-	sprite->setAnimationSpeed(MOVE_UP, 8);
-	sprite->addKeyframe(MOVE_UP, glm::vec2(0.0625*0.0, 0.0625*2.0f));
-	sprite->addKeyframe(MOVE_UP, glm::vec2(0.0625*1.0, 0.0625*2.0f));
-	sprite->addKeyframe(MOVE_UP, glm::vec2(0.0625*2.0, 0.0625*2.0f));
-	sprite->addKeyframe(MOVE_UP, glm::vec2(0.0625*3.0, 0.0625*2.0f));
-
-
-	sprite->setAnimationSpeed(STAND_DOWN, 8);
-	sprite->addKeyframe(STAND_DOWN, glm::vec2(0.0625*3.0, 0.0625*4.0f));
-
-	sprite->setAnimationSpeed(MOVE_DOWN, 8);
-	sprite->addKeyframe(MOVE_DOWN, glm::vec2(0.0625*5.0, 0.0625*4.0f));
-	sprite->addKeyframe(MOVE_DOWN, glm::vec2(0.0625*4.0, 0.0625*4.0f));
-	sprite->addKeyframe(MOVE_DOWN, glm::vec2(0.0625*3.0, 0.0625*4.0f));
-
-	sprite->setAnimationSpeed(UP_RETURN, 8);
-	sprite->addKeyframe(UP_RETURN, glm::vec2(0.0625*2.0, 0.0625*2.0f));
-	sprite->addKeyframe(UP_RETURN, glm::vec2(0.0625*1.0, 0.0625*2.0f));
-	sprite->addKeyframe(UP_RETURN, glm::vec2(0.0625*0.0, 0.0625*2.0f));
-	//sprite->addKeyframe(UP_RETURN, glm::vec2(0.0625*2.0, 0.0625*2.0f));
-
-
-	sprite->setAnimationSpeed(DOWN_RETURN, 8);
-	sprite->addKeyframe(DOWN_RETURN, glm::vec2(0.0625*3.0, 0.0625*4.0f));
-	sprite->addKeyframe(DOWN_RETURN, glm::vec2(0.0625*4.0, 0.0625*4.0f));
-	sprite->addKeyframe(DOWN_RETURN, glm::vec2(0.0625*5.0, 0.0625*4.0f));
-	//sprite->addKeyframe(DOWN_RETURN, glm::vec2(0.0625*2.0, 0.0625*2.0f));
+	sprite->addKeyframe(STAND_RIGHT, glm::vec2(0.f, 0.f));
 
 	sprite->changeAnimation(0, false);
 	tileMapDispl = tileMapPos;
@@ -82,7 +51,7 @@ void Player::init(const glm::ivec2 &tileMapPos) {
 	boost->changeAnimation(0, false);
 #pragma endregion
 
-	collider->addCollider(glm::ivec4(3, 3, 30, 14));
+	collider->addCollider(glm::ivec4(3, 3, 64, 32));
 	collisionSystem->addColliderIntoGroup(collider);
 	collisionSystem->updateCollider(collider, glm::vec2(tileMapDispl.x + pos.x, tileMapDispl.y + pos.y));
 	collider->changePositionAbsolute(glm::vec2(tileMapDispl.x + pos.x, tileMapDispl.y + pos.y));
@@ -114,6 +83,10 @@ void Player::update(int deltaTime)
 #pragma region Player movement and Animation
 
 		if (Game::instance().getSpecialKey(GLUT_KEY_LEFT) && ((pos.x-3)>=0)) {
+			if (rot == false) {
+				rot = true;
+				rotate(0.f, 180.f, 0.f);
+			}
 			CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Player::collider, glm::ivec2(-3, 0));
 			CollisionSystem::CollisionInfo info2;
 			if (forceSpawned) info2 = collisionSystem->isColliding(forceDevice->getCollider(), glm::ivec2(-3, 0));
@@ -136,6 +109,10 @@ void Player::update(int deltaTime)
 			}
 		}
 		else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT)&&((pos.x + 3) <= 415)) {
+			if (rot == true) {
+				rot = false;
+				rotate(0.f, 0.f, 0.f);
+			}
 			CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Player::collider, glm::ivec2(3, 0));
 			CollisionSystem::CollisionInfo info2;
 			if (forceSpawned) info2 = collisionSystem->isColliding(forceDevice->getCollider(), glm::ivec2(3, 0));
@@ -159,15 +136,6 @@ void Player::update(int deltaTime)
 		}
 
 		if (Game::instance().getSpecialKey(GLUT_KEY_DOWN)) {
-			if (sprite->animation() == STAND_RIGHT) {
-				sprite->changeAnimation(MOVE_DOWN, false);
-			}
-			else if (sprite->animation() == STAND_UP) {
-				sprite->changeAnimation(UP_RETURN, false);
-			}
-			else if (sprite->animation() == STAND_UP || sprite->animation() == MOVE_UP) {
-				sprite->changeAnimation(UP_RETURN, false);
-			}
 
 			CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Player::collider, glm::ivec2(0, 2));
 			CollisionSystem::CollisionInfo info2;
@@ -189,15 +157,6 @@ void Player::update(int deltaTime)
 			}
 		}
 		else if (Game::instance().getSpecialKey(GLUT_KEY_UP)) {
-			if (sprite->animation() == STAND_RIGHT) {
-				sprite->changeAnimation(MOVE_UP, false);
-			}
-			else if (sprite->animation() == STAND_DOWN) {
-				sprite->changeAnimation(DOWN_RETURN, false);
-			}
-			else if (sprite->animation() == STAND_DOWN || sprite->animation() == MOVE_DOWN) {
-				sprite->changeAnimation(DOWN_RETURN, false);
-			}
 
 			CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Player::collider, glm::ivec2(0, -2));
 			CollisionSystem::CollisionInfo info2;
@@ -236,24 +195,6 @@ void Player::update(int deltaTime)
 		}
 		
 
-		if (sprite->animation() == MOVE_UP && sprite->isFinidhedAnimation() == true) {
-			sprite->changeAnimation(STAND_UP, false);
-		}
-		else if (sprite->animation() == STAND_UP && !Game::instance().getSpecialKey(GLUT_KEY_UP)) {
-			sprite->changeAnimation(UP_RETURN, false);
-		}
-		else if (sprite->animation() == UP_RETURN && sprite->isFinidhedAnimation() == true) {
-			sprite->changeAnimation(STAND_RIGHT, false);
-		}
-		else if (sprite->animation() == DOWN_RETURN && sprite->isFinidhedAnimation() == true) {
-			sprite->changeAnimation(STAND_RIGHT, false);
-		}
-		else if (sprite->animation() == MOVE_DOWN && sprite->isFinidhedAnimation() == true) {
-			sprite->changeAnimation(STAND_DOWN, false);
-		}
-		else if (sprite->animation() == STAND_DOWN && !Game::instance().getSpecialKey(GLUT_KEY_DOWN)) {
-			sprite->changeAnimation(DOWN_RETURN, false);
-		}
 
 #pragma endregion
 
