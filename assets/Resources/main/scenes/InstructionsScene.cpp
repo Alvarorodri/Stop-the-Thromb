@@ -22,29 +22,35 @@ InstructionsScene::~InstructionsScene() {
 }
 
 void InstructionsScene::init() {
-	posText = glm::ivec2(100, SCREEN_HEIGHT / 2.0f-50.f);
+	posText = glm::ivec2(100, SCREEN_HEIGHT / 3.0f-50.f);
 	fontSize = 24;
 	currentFontSize = fontSize;
 	textAlignment = Text::Left;
 	color = glm::vec4(1, 1, 1, 1);
 	content.push_back("INSTRUCTIONS");
-	content.push_back("         MOVEMENTS");
 	content.push_back("");
-	content.push_back("To movearound the map use the arrow keys: up arrow to go up,down arrow to go down,");
-	content.push_back("left arrow to go left and right arrowto go right.");
-	content.push_back("Press the key 'X' to shoot or maintain or hold to make a charged attack that has more");
-	content.push_back("power thana normal one and lasts longer.");
-	content.push_back("If you acquire the Force, you can call it to hook if it's detached or split if it's");
-	content.push_back("hooked pressing the key 'Z'.");
+	content.push_back("OBJECTIVE");
 	content.push_back("");
-	content.push_back("         CHEATS");
+	content.push_back("This game is made to educate about Thrombosis, a disease where blood coagulates and");
+	content.push_back("affects people of any age. It is important to have an active life to prevent this disease,");
+	content.push_back("like running or doing some sport 30 min a day. If a person has this disease,");
+	content.push_back("using Tights or using anticoagulantes like Heparin can help to cure this disease.");
 	content.push_back("");
-	content.push_back("-Invulnerability: press the 'G' key and you will not be able to die, or press it gain to");
-	content.push_back(" desactive this option.");
-	content.push_back("-Make the Force appear if you don't have it by pressing the 'F' key.");
-	content.push_back("-Press the number keys 1, 2, 3, 4 and 5 to jump to specific points in the level.");
-	content.push_back("-Press the key 'J' or 'H' to increase or decrease respectively the level of the Force.");
-	content.push_back("-Press 'D' to be able to see or hide the collision boxes of all the elements of the game.");
+	content.push_back("MOVEMENTS");
+	content.push_back("");
+	content.push_back("To move around the map use the arrow keys: up arrow to go up,down arrow to go down,");
+	content.push_back("left arrow to go left and right arrow to go right.");
+	content.push_back("Press the key 'X' to shoot or hold to make a charged attack that has more power");
+	content.push_back("than a normal one and lasts longer.");
+	content.push_back("");
+	content.push_back("BOOSTERS");
+	content.push_back("");
+	content.push_back("If you acquire the Heparin, all your attacks change to charged attacks during 10s.");
+	content.push_back("");
+	content.push_back("If you acquire the Tights, your attacks get doubled for 10s.");
+	content.push_back("");
+	content.push_back("If you acquire the Runner, your attacks get faster for 10s.");
+	content.push_back("");
 
 
 	if (!text.init("fonts/OpenSans-Bold.ttf"))
@@ -89,7 +95,7 @@ void InstructionsScene::render() {
 	for (int i = 0; i < (int)content.size(); ++i) {
 		if (first) {
 			first = false;
-			text.render(content[i], glm::ivec2(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f-100.f), 50, color, Text::Center);
+			text.render(content[i], glm::ivec2(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 3.0f-100.f), 50, color, Text::Center);
 		}
 		else {
 			if (content[i] == "") posText.y -= 10;

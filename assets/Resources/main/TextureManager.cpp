@@ -45,11 +45,8 @@ Texture* TextureManager::getSpriteSheet(Textures type) {
 		case TextureManager::Waves:
 			image = "images/projectiles/waves.png";
 			break;
-		case TextureManager::Enemies:
-			image = "images/Enemies/basic-enemies.png";
-			break;
-		case TextureManager::Boss:
-			image = "images/enemies/Boss.png";
+		case TextureManager::BloodEnemies:
+			image = "images/enemies/enemigos.png";
 			break;
 		case TextureManager::PoweUp:
 			image = "images/misc/power-ups.png";
