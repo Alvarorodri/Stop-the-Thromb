@@ -90,7 +90,10 @@ void UI_Trombito::settingText() {
     buttonText3 = buttonText.substr(40, 20);
 }
 
-void UI_Trombito::showTrombito() {
+void UI_Trombito::showTrombito(const string& buttonText, int time) {
+    this->buttonText = buttonText;
+    settingText();
+
     state = true;
-    timeRemaining = initTime;
+    timeRemaining = time * 1000;
 }

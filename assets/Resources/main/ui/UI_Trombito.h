@@ -30,7 +30,7 @@ public:
     void setTime(int time);
 
     void settingText();
-    void showTrombito();
+    void showTrombito(const string& buttonText, int time);
 
 private:
 
