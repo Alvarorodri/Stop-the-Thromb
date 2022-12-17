@@ -50,7 +50,7 @@ void BloodEnemy1::update(int deltaTime)
 
 	
 
-		CollisionSystem::CollisionInfo info = collisionSystem->isColliding(BloodEnemy1::collider, glm::vec2(-2, 0));
+		CollisionSystem::CollisionInfo info = collisionSystem->isColliding(BloodEnemy1::collider, glm::vec2(-1, 0));
 		if (info.colliding ) {
 			if (coagulated && info.collider->collisionGroup == Collision::CollisionGroups::Player) {
 				CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
@@ -61,7 +61,7 @@ void BloodEnemy1::update(int deltaTime)
 			}
 		}
 		else {
-			pos.x -= 2;
+			pos.x -= 1;
 			collider->changePositionAbsolute(pos);
 		}
 
