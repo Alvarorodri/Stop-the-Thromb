@@ -188,32 +188,11 @@
     <ClCompile Include="main\characters\Character.cpp">
       <Filter>Archivos de código fuente\Characters</Filter>
     </ClCompile>
-    <ClCompile Include="main\characters\CharacterFactory.cpp">
-      <Filter>Archivos de código fuente\Characters</Filter>
-    </ClCompile>
     <ClCompile Include="main\characters\player\ForceDevice.cpp">
       <Filter>Archivos de código fuente\Characters\Player</Filter>
     </ClCompile>
     <ClCompile Include="main\characters\player\Player.cpp">
       <Filter>Archivos de código fuente\Characters\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="main\characters\enemies\Boss.cpp">
-      <Filter>Archivos de código fuente\Characters\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="main\characters\enemies\Enemy1.cpp">
-      <Filter>Archivos de código fuente\Characters\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="main\characters\enemies\Enemy2.cpp">
-      <Filter>Archivos de código fuente\Characters\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="main\characters\enemies\Enemy3.cpp">
-      <Filter>Archivos de código fuente\Characters\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="main\characters\enemies\Enemy4.cpp">
-      <Filter>Archivos de código fuente\Characters\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="main\characters\enemies\Worm.cpp">
-      <Filter>Archivos de código fuente\Characters\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="main\projectiles\ProjectileWaves.cpp">
       <Filter>Archivos de código fuente\Projectiles</Filter>
@@ -257,8 +236,11 @@
     <ClCompile Include="main\objects\Object.cpp">
       <Filter>Archivos de código fuente\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="main\ui\UI_Contador.cpp">
-      <Filter>Archivos de código fuente\UI</Filter>
+    <ClCompile Include="main\characters\enemies\BloodEnemy1.cpp">
+      <Filter>Archivos de código fuente\Characters\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="main\characters\CharacterFactory.cpp">
+      <Filter>Archivos de código fuente\Characters</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -346,24 +328,6 @@
     <ClInclude Include="main\characters\player\Player.h">
       <Filter>Archivos de encabezado\Characters\Player</Filter>
     </ClInclude>
-    <ClInclude Include="main\characters\enemies\Enemy3.h">
-      <Filter>Archivos de encabezado\Characters\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="main\characters\enemies\Enemy4.h">
-      <Filter>Archivos de encabezado\Characters\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="main\characters\enemies\Boss.h">
-      <Filter>Archivos de encabezado\Characters\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="main\characters\enemies\Enemy1.h">
-      <Filter>Archivos de encabezado\Characters\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="main\characters\enemies\Enemy2.h">
-      <Filter>Archivos de encabezado\Characters\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="main\characters\enemies\Worm.h">
-      <Filter>Archivos de encabezado\Characters\Enemies</Filter>
-    </ClInclude>
     <ClInclude Include="main\projectiles\ProjectileWaves.h">
       <Filter>Archivos de encabezado\Projectiles</Filter>
     </ClInclude>
@@ -406,8 +370,8 @@
     <ClInclude Include="main\objects\PowerUp.h">
       <Filter>Archivos de encabezado\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="main\ui\UI_Contador.h">
-      <Filter>Archivos de encabezado\UI</Filter>
+    <ClInclude Include="main\characters\enemies\BloodEnemy1.h">
+      <Filter>Archivos de encabezado\Characters\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
