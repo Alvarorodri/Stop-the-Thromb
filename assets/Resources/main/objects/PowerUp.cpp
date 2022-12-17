@@ -8,15 +8,16 @@ PowerUp::PowerUp(int id, glm::mat4 *project, const ObjectType type) : Object(id,
 void PowerUp::init() {
 	spritesheet = TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::PoweUp);
 
-    sprite = Sprite::createSprite(glm::ivec2(PowerUp::size, PowerUp::size), glm::vec2(1.0/8.0, 1.0), spritesheet, projection);
+    sprite = Sprite::createSprite(glm::ivec2(PowerUp::size, PowerUp::size), glm::vec2(1.0/4.0, 1.0), spritesheet, projection);
     sprite->setNumberAnimations(8);
+	float mult = 0;
+	if (type = Object::ModifierMBlue) mult = 1;
+	else if (type = Object::ModifierMRed) mult = 2;
+    sprite->setAnimationSpeed(0, 8);
+    sprite->addKeyframe(0, glm::vec2((1.0 / 4.0) * mult, 0.f));
+        
 
-        for (int i = 0; i < 8; ++i) {
-            sprite->setAnimationSpeed(i, 8);
-            sprite->addKeyframe(i, glm::vec2((1.0 / 8.0) * i, 0.f));
-        }
-
-    sprite->changeAnimation(type, false);
+    sprite->changeAnimation(0, false);
 
     collider->addCollider(glm::ivec4(0, 0, PowerUp::size, PowerUp::size));
 	collisionSystem->addColliderIntoGroup(collider);

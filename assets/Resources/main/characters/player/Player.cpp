@@ -38,18 +38,6 @@ void Player::init(const glm::ivec2 &tileMapPos) {
 	chargeProjectile->changeAnimation(0, false);
 #pragma endregion
 
-#pragma region Boost
-	Texture* tmpSpriteSheet2 = TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::Player);
-	boost = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1 / 16.0, 1 / 8.0), tmpSpriteSheet2, projection);
-	boost->setNumberAnimations(1);
-
-	boost->setAnimationSpeed(0, 30);
-	boost->addKeyframe(0, glm::vec2((1 / 16.0) * 1.0, (1 / 8.0) * 3.0f));
-	boost->addKeyframe(0, glm::vec2((1 / 16.0) * 2.0, (1 / 8.0) * 3.0f));
-
-
-	boost->changeAnimation(0, false);
-#pragma endregion
 
 	collider->addCollider(glm::ivec4(3, 6, 62, 21));
 	collisionSystem->addColliderIntoGroup(collider);
@@ -62,7 +50,6 @@ void Player::init(const glm::ivec2 &tileMapPos) {
 
     sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
 	chargeProjectile->setPosition(pos + projectileOffset);
-	boost->setPosition(glm::vec2(pos.x - 32.0f, pos.y + 2.0f));
 
 	if (!text.init("fonts/OpenSans-Bold.ttf"))
 		cout << "Could not load font!!!" << endl;
@@ -73,7 +60,6 @@ void Player::init(const glm::ivec2 &tileMapPos) {
 void Player::update(int deltaTime)
 {
     sprite->update(deltaTime);
-	if (isInitAnimation) boost->update(deltaTime);
 
 	if (!isInitAnimation) {
 		chargeProjectile->update(deltaTime);
@@ -201,7 +187,7 @@ void Player::update(int deltaTime)
 		chargeProjectile->setPosition(pos + projectileOffset);
 	}
 	else {
-		if (pos.x < 350.0f) {
+		if (pos.x < 150.0f) {
 			pos.x += 3;
 			collider->changePositionAbsolute(pos);
 		}
@@ -209,8 +195,6 @@ void Player::update(int deltaTime)
 			godmode = false;
 			isInitAnimation = false;
 		}
-
-		boost->setPosition(glm::vec2(pos.x - 23.0f, pos.y - 6.0f));
 	}
 
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
@@ -280,7 +264,6 @@ void Player::rotate(const float& angleX, const float& angleY, const float& angle
 void Player::setPosition(const glm::vec2 &pos) {
 	Character::setPosition(pos);
 	chargeProjectile->setPosition(pos + projectileOffset);
-	if (isInitAnimation) boost->setPosition(glm::vec2(pos.x - 23.0f, pos.y - 6.0f));
 }
 
 void Player::render() {
@@ -294,7 +277,7 @@ void Player::render() {
 
 	Character::render();
 	if (currentCharge != 0) chargeProjectile->render();
-	if (isInitAnimation) boost->render();
+	
 }
 
 void Player::damage(int dmg, int id) {
@@ -315,6 +298,6 @@ void Player::increaseForce(int power) {
 
 void Player::initAnimation() {
 	isInitAnimation = true;
-	AudioManager::getInstance()->playSoundEffect(AudioManager::Boost, 128);
+	AudioManager::getInstance()->playSoundEffect(AudioManager::Boost, 60);
 	godmode = true;
 }
