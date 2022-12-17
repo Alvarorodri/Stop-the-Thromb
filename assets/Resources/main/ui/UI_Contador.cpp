@@ -28,7 +28,6 @@ void UI_Contador::update(int deltaTime) {
 
     if (timeRemaining <= -2) {
         contadorState = ContadorStates::Stopped;
-        timeRemaining = initTime;
     }
 
     settingText();

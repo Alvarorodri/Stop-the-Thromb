@@ -9,7 +9,6 @@
 #include "utilities\ShaderProgram.h"
 #include "textures\TileMap.h"
 #include "ui\UI_Button.h"
-#include "ui\UI_Contador.h"
 #include "sound\SDL2Music.h"
 
 // Scene contains all the entities of our game.
@@ -37,7 +36,6 @@ private:
     TileMap *map;
 
     vector<UI_Button> buttons;
-    UI_Contador counter;
     int selectedButton;
 	bool playedMusic = false;
 

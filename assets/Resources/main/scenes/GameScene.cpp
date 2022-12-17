@@ -31,6 +31,10 @@ void GameScene::init() {
 	CollisionSystem::getInstance()->deleteReference();
 	ExplosionFactory::getInstance()->deleteReference();
 
+	counter.init(4, glm::ivec2(SCREEN_WIDTH - 300.0f, 50.0f), "Timer: 00:00", 48, this);
+	counter.setTime(120 * 1000);
+	counter.setState(UI_Contador::ContadorStates::Started);
+
     initShaders();
 	contEnd = -1;
     map = TileMap::createTileMap("levels/level00.txt", glm::vec2(SCREEN_X, SCREEN_Y), &projection);
@@ -61,6 +65,7 @@ void GameScene::init() {
 void GameScene::update(int deltaTime) {
 
 	inputManager();
+	counter.update(deltaTime);
 
     currentTime += deltaTime;
 	map->moveMap(map->getSpeed());
@@ -83,6 +88,7 @@ void GameScene::update(int deltaTime) {
 		Game::instance().music.playMusicTrack(Game::Songs::Menu);
 	}
 	if (contEnd == -1 && cFactory->isBossDead()) contEnd = 200;
+	else if (contEnd == -1 && counter.getTime() <= 0) contEnd = 10;
 	else if (contEnd != -1) contEnd -= 1;
 
 	if(!isSpawnedBoss)spawnBoss();
@@ -102,6 +108,8 @@ void GameScene::render() {
 	cExplosion->render();
 
 	ObjectFactory::getInstance()->render();
+
+	counter.render();
 
 }
 
