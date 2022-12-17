@@ -46,7 +46,7 @@ Texture* TextureManager::getSpriteSheet(Textures type) {
 			image = "images/projectiles/waves.png";
 			break;
 		case TextureManager::BloodEnemies:
-			image = "images/enemies/globulosrojosNormales.png";
+			image = "images/enemies/enemigos.png";
 			break;
 		case TextureManager::PoweUp:
 			image = "images/misc/power-ups.png";
