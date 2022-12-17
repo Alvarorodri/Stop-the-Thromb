@@ -83,6 +83,10 @@ void Player::update(int deltaTime)
 #pragma region Player movement and Animation
 
 		if (Game::instance().getSpecialKey(GLUT_KEY_LEFT) && ((pos.x-3)>=0)) {
+			if (rot == false) {
+				rot = true;
+				rotate(0.f, 180.f, 0.f);
+			}
 			CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Player::collider, glm::ivec2(-3, 0));
 			CollisionSystem::CollisionInfo info2;
 			if (forceSpawned) info2 = collisionSystem->isColliding(forceDevice->getCollider(), glm::ivec2(-3, 0));
@@ -105,6 +109,10 @@ void Player::update(int deltaTime)
 			}
 		}
 		else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT)&&((pos.x + 3) <= 415)) {
+			if (rot == true) {
+				rot = false;
+				rotate(0.f, 0.f, 0.f);
+			}
 			CollisionSystem::CollisionInfo info = collisionSystem->isColliding(Player::collider, glm::ivec2(3, 0));
 			CollisionSystem::CollisionInfo info2;
 			if (forceSpawned) info2 = collisionSystem->isColliding(forceDevice->getCollider(), glm::ivec2(3, 0));
