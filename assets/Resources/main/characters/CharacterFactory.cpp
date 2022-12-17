@@ -230,7 +230,7 @@ void CharacterFactory::destroyAllCharactersToEnd() {
 void CharacterFactory::killCharacter(const int &id) {
 	pendingToBeKilled.insert(id);
 	auto it = characters.find(id);
-	AudioManager::getInstance()->playSoundEffect(AudioManager::Explode, 128);
+	AudioManager::getInstance()->playSoundEffect(AudioManager::EnemyKilled, 128);
 	if (it != characters.end()) {
 		if(player != nullptr && player->getId() == id){
 			ExplosionFactory::getInstance()->spawnExplosion(Explosion::Explosions::ExplosionPlayer, projection, it->second->getPosition(), it->second->getBoundingBox());
