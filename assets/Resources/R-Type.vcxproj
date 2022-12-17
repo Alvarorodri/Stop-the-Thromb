@@ -72,6 +72,7 @@
     <ClCompile Include="main\textures\TileMap.cpp" />
     <ClCompile Include="main\ui\Text.cpp" />
     <ClCompile Include="main\ui\UI_Button.cpp" />
+    <ClCompile Include="main\ui\UI_Contador.cpp" />
     <ClCompile Include="main\utilities\Quad.cpp" />
     <ClCompile Include="main\utilities\Shader.cpp" />
     <ClCompile Include="main\utilities\ShaderProgram.cpp" />
@@ -121,6 +122,7 @@
     <ClInclude Include="main\textures\TileMap.h" />
     <ClInclude Include="main\ui\Text.h" />
     <ClInclude Include="main\ui\UI_Button.h" />
+    <ClInclude Include="main\ui\UI_Contador.h" />
     <ClInclude Include="main\utilities\AnimKeyframes.h" />
     <ClInclude Include="main\utilities\Quad.h" />
     <ClInclude Include="main\utilities\Shader.h" />

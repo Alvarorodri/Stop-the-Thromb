@@ -1,5 +1,5 @@
-#ifndef _UI_BUTTON_INCLUDE
-#define _UI_BUTTON_INCLUDE
+#ifndef _UI_CONTADOR_INCLUDE
+#define _UI_CONTADOR_INCLUDE
 
 #include "textures\Sprite.h"
 #include "ui\Text.h"
@@ -56,4 +56,4 @@ private:
 
 };
 
-#endif // _UI_BUTTON_INCLUDE
+#endif // _UI_CONTADOR_INCLUDE

@@ -1,5 +1,4 @@
 #include "ui\UI_Contador.h"
-#include "scenes\Scene.h"
 #include "GeneralDefines.h"
 
 UI_Contador::UI_Contador() {
@@ -24,7 +23,7 @@ void UI_Contador::init(int id, const glm::vec2& pos, const string& _buttonText, 
 
 void UI_Contador::update(int deltaTime) {
     if (contadorState == ContadorStates::Started) {
-        timeRemaining--;
+        timeRemaining -= deltaTime;
     }
 
     if (timeRemaining <= -2) {
@@ -73,5 +72,6 @@ void UI_Contador::settingText() {
     int minutes = seconds / 60;
     seconds %= 60;
 
-    buttonText = std::to_string(minutes) + ":" + std::to_string(seconds);
+    buttonText = "Timer: ";
+    buttonText = buttonText + ((minutes < 10) ? "0" : "") + std::to_string(minutes) + ":" + ((seconds < 10) ? "0" : "") + std::to_string(seconds);
 }

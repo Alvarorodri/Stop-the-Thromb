@@ -1,6 +1,7 @@
 #include "MainMenuScene.h"
 #include "Game.h"
 #include "ui\UI_Button.h"
+#include "ui\UI_Contador.h"
 #include "sound\AudioManager.h"
 #include "GeneralDefines.h"
 
@@ -33,6 +34,10 @@ void MainMenuScene::init() {
     buttons[2].init(2, glm::ivec2(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f + 100),    "Credits",      32, this);
     buttons[3].init(3, glm::ivec2(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f + 150),    "Quit Game",    32, this);
 
+    counter.init(4, glm::ivec2(SCREEN_WIDTH - 200.0f, 50.0f), "Timer: 00:00", 32, this);
+    counter.setTime(20000);
+    counter.setState(UI_Contador::ContadorStates::Started);
+
     buttons[selectedButton].setState(UI_Button::Selected);
     enableControls = true;
 
@@ -49,6 +54,8 @@ void MainMenuScene::update(int deltaTime) {
 	}*/
 
     for (int i = 0; i < 4; i++) buttons[i].update(deltaTime);
+
+    counter.update(deltaTime);
 
     if (enableControls) {
         if (Game::instance().getSpecialKey(GLUT_KEY_UP) && !latchKeys[GLUT_KEY_UP]) {
@@ -91,6 +98,7 @@ void MainMenuScene::update(int deltaTime) {
 void MainMenuScene::render() {
     map->render();
     for (int i = 0; i < (int)buttons.size(); i++) buttons[i].render();
+    counter.render();
 }
 
 void MainMenuScene::buttonCallback(int id) {
