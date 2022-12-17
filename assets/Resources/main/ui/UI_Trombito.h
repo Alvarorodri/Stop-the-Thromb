@@ -15,6 +15,7 @@ public:
 
 public:
 
+    UI_Trombito();
     UI_Trombito(glm::mat4* project);
 
     void init(int id, const glm::vec2 &pos, const string &buttonText, const int &size, void *context);
@@ -27,19 +28,25 @@ public:
     void setAlignment(const Text::textAlignment align);
 
     void setTime(int time);
-    int getTime();
 
     void settingText();
+    void showTrombito();
 
 private:
 
     Texture* spritesheet;
     Sprite* sprite;
     glm::mat4* projection;
+    glm::ivec2 offset1 = glm::ivec2(130, 25);
+    glm::ivec2 offset2 = glm::ivec2(130, 47);
+    glm::ivec2 offset3 = glm::ivec2(130, 69);
 
     glm::ivec2 tileMapDispl, posButton;
 
 	string buttonText;
+	string buttonText1;
+	string buttonText2;
+	string buttonText3;
 
 	Text text;
 
@@ -54,6 +61,7 @@ private:
 
     void *buttonContext;
     int buttonId;
+    bool state = false;
 
 };
 

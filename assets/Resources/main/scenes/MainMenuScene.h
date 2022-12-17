@@ -9,6 +9,7 @@
 #include "utilities\ShaderProgram.h"
 #include "textures\TileMap.h"
 #include "ui\UI_Button.h"
+#include "ui\UI_Trombito.h"
 #include "sound\SDL2Music.h"
 
 // Scene contains all the entities of our game.
@@ -38,6 +39,8 @@ private:
     vector<UI_Button> buttons;
     int selectedButton;
 	bool playedMusic = false;
+
+    UI_Trombito trombito;
 
     float currentTime;
     glm::mat4 projection;
