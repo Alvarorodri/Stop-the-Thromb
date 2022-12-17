@@ -63,6 +63,9 @@ Texture* TextureManager::getSpriteSheet(Textures type) {
 		case TextureManager::ExplosionProyectileEnemy:
 			image = "images/player/force-pit-beam.png";
 			break;
+		case TextureManager::Trombito:
+			image = "images/trombito/trombito.png";
+			break;
 		
 		}
 
@@ -74,7 +77,6 @@ Texture* TextureManager::getSpriteSheet(Textures type) {
 
 		textures.insert({ type, spritesheet });
 		it = textures.find(type);
-		
 	}
 	return &(it->second);
 	
