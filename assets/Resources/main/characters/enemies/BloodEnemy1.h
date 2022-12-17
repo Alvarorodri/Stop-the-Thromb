@@ -1,6 +1,6 @@
 #pragma once
-#ifndef _Enemy1_INCLUDE
-#define _Enemy1_INCLUDE
+#ifndef _BloodEnemy1_INCLUDE
+#define _BloodEnemy1_INCLUDE
 
 #include "characters\Character.h"
 
@@ -15,13 +15,17 @@ public:
 
 private:
 
-	enum BloodEnemy1Anims { STAND_LEFT, MOVE_LEFT, FLY_LEFT, LANDING_LEFT, JUMP_LEFT };
+	enum BloodEnemy1Anims {NORMAL, COAGULATED};
 
 	void init(const glm::ivec2& tileMapPos);
 
 
 	int jumpDelay;
+	bool staystatick;
+	bool coagulated;
+	bool up;
+	bool right;
 
 };
 
-#endif // _Enemy1_INCLUDE
+#endif // _BloodEnemy1_INCLUDE
