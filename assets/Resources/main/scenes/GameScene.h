@@ -10,6 +10,7 @@
 #include "characters\CharacterFactory.h"
 #include "characters\ExplosionFactory.h"
 #include "sound\SDL2Music.h"
+#include "ui\UI_Contador.h"
 #include "projectiles\ProjectileFactory.h"
 #include "objects\ObjectFactory.h"
 
@@ -46,6 +47,7 @@ private:
 	CharacterFactory *cFactory;
 	ExplosionFactory *cExplosion;
 
+	UI_Contador counter;
 
     ShaderProgram texProgram;
     float currentTime;
