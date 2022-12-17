@@ -31,6 +31,10 @@ public:
 	void destroyForce();
 	void increaseForce(int power);
 
+protected:
+
+	void rotate(const float& angleX, const float& angleY, const float& angleZ) override;
+
 private:
 
 	void init(const glm::ivec2 &tileMapPos);

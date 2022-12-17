@@ -72,21 +72,21 @@ void AudioManager::stopSoundEffectLooped(int sound) {
 	}
 }
 
-void AudioManager::playSoundEffectLooped(int sound, int volume = 128) {
+void AudioManager::playSoundEffectLooped(int sound, int volume = 16) {
 
 	map<soundNames, int>::iterator it = loops.find((soundNames)sound);
 
 	if (it == loops.end()) {
 		int channel = Mix_PlayChannel(-1, mSoundEffectBank[sound], -1);
 
-		Mix_Volume(channel, volume);
+		Mix_Volume(channel, 16);
 
 		loops.insert({ (soundNames)sound, channel });
 	}
 }
 
-void AudioManager::playSoundEffect(int sound, int volume = 128) {
+void AudioManager::playSoundEffect(int sound, int volume = 16) {
 	int channel = Mix_PlayChannel(-1, mSoundEffectBank[sound], 0);
 
-	Mix_Volume(channel, volume);
+	Mix_Volume(channel, 16);
 }
