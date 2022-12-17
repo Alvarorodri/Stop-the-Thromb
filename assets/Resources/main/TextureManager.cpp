@@ -33,6 +33,9 @@ Texture* TextureManager::getSpriteSheet(Textures type) {
 		case TextureManager::Player:
 			image = "images/player/player.png";
 			break;
+		case TextureManager::PlayerStt:
+			image = "images/player/player-stt.png";
+			break;
 		case TextureManager::Force:
 			image = "images/player/force-pit-beam.png";
 			break;
