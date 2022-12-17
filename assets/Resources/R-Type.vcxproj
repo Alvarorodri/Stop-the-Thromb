@@ -31,12 +31,7 @@
   <ItemGroup>
     <ClCompile Include="main\characters\Character.cpp" />
     <ClCompile Include="main\characters\CharacterFactory.cpp" />
-    <ClCompile Include="main\characters\enemies\Boss.cpp" />
-    <ClCompile Include="main\characters\enemies\Enemy1.cpp" />
-    <ClCompile Include="main\characters\enemies\Enemy2.cpp" />
-    <ClCompile Include="main\characters\enemies\Enemy3.cpp" />
-    <ClCompile Include="main\characters\enemies\Enemy4.cpp" />
-    <ClCompile Include="main\characters\enemies\Worm.cpp" />
+    <ClCompile Include="main\characters\enemies\BloodEnemy1.cpp" />
     <ClCompile Include="main\characters\Explosion.cpp" />
     <ClCompile Include="main\characters\ExplosionFactory.cpp" />
     <ClCompile Include="main\characters\player\ForceDevice.cpp" />
@@ -81,12 +76,7 @@
   <ItemGroup>
     <ClInclude Include="main\characters\Character.h" />
     <ClInclude Include="main\characters\CharacterFactory.h" />
-    <ClInclude Include="main\characters\enemies\Boss.h" />
-    <ClInclude Include="main\characters\enemies\Enemy1.h" />
-    <ClInclude Include="main\characters\enemies\Enemy2.h" />
-    <ClInclude Include="main\characters\enemies\Enemy3.h" />
-    <ClInclude Include="main\characters\enemies\Enemy4.h" />
-    <ClInclude Include="main\characters\enemies\Worm.h" />
+    <ClInclude Include="main\characters\enemies\BloodEnemy1.h" />
     <ClInclude Include="main\characters\Explosion.h" />
     <ClInclude Include="main\characters\ExplosionFactory.h" />
     <ClInclude Include="main\characters\player\ForceDevice.h" />

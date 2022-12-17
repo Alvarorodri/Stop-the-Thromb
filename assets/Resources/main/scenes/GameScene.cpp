@@ -91,7 +91,7 @@ void GameScene::update(int deltaTime) {
 	else if (contEnd == -1 && counter.getTime() <= 0) contEnd = 10;
 	else if (contEnd != -1) contEnd -= 1;
 
-	if(!isSpawnedBoss)spawnBoss();
+	//if(!isSpawnedBoss)spawnBoss();
 	if (contspawn > 0) contspawn -= 1;
 	else if (contspawn == 0) {
 		Game::instance().music.Play_Pause();
@@ -180,24 +180,9 @@ void GameScene::inputManager() {
 }
 
 void  GameScene::spawnBoss() {
-	if (abs(map->getPosition()) >= 7680.f) {
-			map->setSpeed(0);
-		cExplosion->spawnExplosion(Explosion::Portal, &projection, glm::vec2(130.f, 30.0f), glm::vec4(0, 0, 180.f, 80.0f));
-		cFactory->spawnCharacter(CharacterFactory::CharacterAvailable::cBoss, glm::vec2(180.f, 80.0f));
-		glm::vec2 pos;
-		if (cFactory->getPlayerPos(pos)) {
-			if (pos.x > 100 || pos.y < 100 || pos.y > 200) {
-				AudioManager::getInstance()->playSoundEffect(AudioManager::BossRoar,128);
-				Game::instance().music.Play_Pause();
-				Game::instance().music.playMusicTrack(Game::Alert);
-				contspawn = 240;
-				cExplosion->spawnExplosion(Explosion::PortalPlayer, &projection, pos, cFactory->player->getBoundingBox());
-				cFactory->player->setPosition(glm::vec2(50,150));
-				cExplosion->spawnExplosion(Explosion::PortalPlayer, &projection, glm::vec2(50.f, 150.0f), cFactory->player->getBoundingBox());
-			}
-		}
-		isSpawnedBoss = true;
-	}
+	AudioManager::getInstance()->playSoundEffect(AudioManager::BossRoar,128);
+	Game::instance().music.Play_Pause();
+	Game::instance().music.playMusicTrack(Game::Alert);
 }
 
 void GameScene::initShaders() {
