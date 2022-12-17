@@ -30,9 +30,6 @@ Texture* TextureManager::getSpriteSheet(Textures type) {
 		case TextureManager::Planets:
 			image = "images/background/planets.png";
 			break;
-		case TextureManager::Player:
-			image = "images/player/player.png";
-			break;
 		case TextureManager::PlayerStt:
 			image = "images/player/player-stt.png";
 			break;
@@ -49,7 +46,7 @@ Texture* TextureManager::getSpriteSheet(Textures type) {
 			image = "images/enemies/enemigos.png";
 			break;
 		case TextureManager::PoweUp:
-			image = "images/misc/power-ups.png";
+			image = "images/misc/boosters.png";
 			break;
 		case TextureManager::ExplosionPlayer:
 			image = "images/misc/explosion1.png";
