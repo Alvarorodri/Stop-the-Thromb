@@ -166,7 +166,15 @@ void BloodEnemy1::attachRoutine() {
 
 void BloodEnemy1::deleteRoutine() {
 	int random = rand() % 3;
-	if (random == 0) ObjectFactory::getInstance()->spawnObject(pos, Object::PowerUpBlue);
+
+	if (random == 0) {
+		int randomaux = rand() % 3;
+		if(randomaux == 1 )ObjectFactory::getInstance()->spawnObject(pos, Object::PowerUpBlue);
+		else if (randomaux == 0)ObjectFactory::getInstance()->spawnObject(pos, Object::ModifierMBlue);
+		else ObjectFactory::getInstance()->spawnObject(pos, Object::ModifierMRed);
+	}
+
     Game::instance().relativeEnemies(-1);
+
 	Character::deleteRoutine();
 }

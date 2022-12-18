@@ -38,7 +38,7 @@ void ObjectFactory::spawnObject(const glm::vec2 &pos, Object::ObjectType type) {
 		case Object::ModifierMRed:
 		case Object::ModifierMBlue:
             object = new PowerUp(last_id, projection, type);
-			object->setSize(10);
+			object->setSize(14);
 			object->init();
 			object->setPosition(pos);
 			object->setType(type);
