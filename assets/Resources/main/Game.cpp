@@ -125,3 +125,7 @@ bool Game::getKey(int key) const {
 bool Game::getSpecialKey(int key) const {
     return specialKeys[key];
 }
+
+void Game::relativeEnemies(int num) {
+    reinterpret_cast<GameScene*>(scene)->staticEnemies += num;
+}

@@ -163,6 +163,7 @@ bool ProjectileWaves::collisionRoutine() {
 				ProjectileFactory::getInstance()->destroyProjectile(idProjectile);
 				return false;
 				break;
+            case Collision::EnemyStatic:
 			case Collision::Enemy:
 				CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
 				break;

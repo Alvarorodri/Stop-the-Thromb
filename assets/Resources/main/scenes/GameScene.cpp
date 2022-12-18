@@ -33,12 +33,12 @@ void GameScene::init() {
 	ExplosionFactory::getInstance()->deleteReference();
 
 	counter.init(4, glm::ivec2(SCREEN_WIDTH - 300.0f, 50.0f), "Timer: 00:00", 48, this);
-	counter.setTime(20 * 1000);
+	counter.setTime(180 * 1000);
 	counter.setState(UI_Contador::ContadorStates::Started);
 
     trombito.init(4, glm::ivec2(0.0f, 0.0f), "Hola, esto es una prueba de texto!", 32, this);
     trombito.setColor(glm::vec3(0.0f, 0.0f, 0.0f));
-    trombito.setTime(20 * 1000);
+    trombito.setTime(180 * 1000);
 
     initShaders();
 	contEnd = -1;
@@ -83,17 +83,17 @@ void GameScene::update(int deltaTime) {
 		ProjectileFactory::getInstance()->destroyAllProjectiles();
 		ObjectFactory::getInstance()->destroyAllObjects();
 		ExplosionFactory::getInstance()->deleteAll();
+
+        Game::instance().changeToCredits(true);
+        Game::instance().music.playMusicTrack(Game::Songs::Menu);
 	}
 
     cFactory->update(deltaTime);
     ProjectileFactory::getInstance()->update(deltaTime);
 	cExplosion->update(deltaTime);
 	ObjectFactory::getInstance()->update(deltaTime);
-	if (contEnd == 0) {
-		Game::instance().changeToCredits(true);
-		Game::instance().music.playMusicTrack(Game::Songs::Menu);
-	}
-	if (contEnd == -1 && cFactory->isBossDead()) contEnd = 200;
+
+	if (contEnd == -1 && (cFactory->isBossDead() || staticEnemies >= 10)) contEnd = 200;
     else if (contEnd == -1 && counter.getTime() <= 0) {
         CharacterFactory::getInstance()->destroyAllCharactersToEnd();
         contEnd = 150;

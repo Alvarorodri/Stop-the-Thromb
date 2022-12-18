@@ -151,6 +151,7 @@ bool ProjectileFireball::followMapShape() {
 
 bool ProjectileFireball::collisionHelper(const CollisionSystem::CollisionInfo &info) {
 	switch (info.collider->collisionGroup) {
+    case Collision::EnemyStatic:
 	case Collision::Enemy:
 		CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
 		break;
