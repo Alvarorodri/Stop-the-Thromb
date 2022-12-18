@@ -36,7 +36,7 @@ protected:
 
 	int id;
 
-    int size = 20;
+    int size = 10;
 	ObjectType type;
 
     glm::vec2 pos;

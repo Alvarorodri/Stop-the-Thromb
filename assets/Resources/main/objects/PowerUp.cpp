@@ -44,7 +44,9 @@ bool PowerUp::collisionRoutine() {
 		case Collision::Player:
 			ObjectFactory::getInstance()->destroyObject(id);
 			AudioManager::getInstance()->playSoundEffect(AudioManager::CollectBonus, 128);
+			if (type == ModifierMBlue)CharacterFactory::getInstance()->increasePlayerForce(0);
 			if (type == ModifierMBlue)CharacterFactory::getInstance()->increasePlayerForce(1);
+			if (type == ModifierMBlue)CharacterFactory::getInstance()->increasePlayerForce(2);
 			break;
 		}
 	}
