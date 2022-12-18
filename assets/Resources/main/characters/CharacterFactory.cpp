@@ -170,7 +170,7 @@ void CharacterFactory::spawnCharacter(int type, const glm::vec2 &pos) {
 }
 
 void CharacterFactory::spawnRoutine() {
-    if (rand() % 10 == 1) {
+    if (rand() % 100 == 1) {
         spawnCharacter((rand() % 100 < 85) ? cEnemy1 : cEnemy2, glm::vec2(470.0f, 240 - (rand() % 200)));
     }
 }

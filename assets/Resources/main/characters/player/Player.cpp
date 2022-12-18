@@ -95,7 +95,7 @@ void Player::update(int deltaTime)
 				if (info.collider->collisionGroup == Collision::CollisionGroups::Map && !godmode) {
 					CharacterFactory::getInstance()->damageCharacter(id, 1);
 				}
-				else if(info.collider->collisionGroup == Collision::CollisionGroups::Enemy){
+				else if(info.collider->collisionGroup == Collision::CollisionGroups::Enemy || info.collider->collisionGroup == Collision::CollisionGroups::EnemyStatic){
 					CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
 					if (!godmode)CharacterFactory::getInstance()->damageCharacter(id, 1);
 				}
@@ -120,7 +120,7 @@ void Player::update(int deltaTime)
 				if (info.collider->collisionGroup == Collision::CollisionGroups::Map && !godmode) {
 					CharacterFactory::getInstance()->damageCharacter(id, 1);
 				}
-				else if (info.collider->collisionGroup == Collision::CollisionGroups::Enemy) {
+				else if (info.collider->collisionGroup == Collision::CollisionGroups::Enemy || info.collider->collisionGroup == Collision::CollisionGroups::EnemyStatic) {
 					CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
 					if (!godmode)CharacterFactory::getInstance()->damageCharacter(id, 1);
 				}
@@ -145,7 +145,7 @@ void Player::update(int deltaTime)
 				if (info.collider->collisionGroup == Collision::CollisionGroups::Map && !godmode) {
 					CharacterFactory::getInstance()->damageCharacter(id, 1);
 				}
-				else if (info.collider->collisionGroup == Collision::CollisionGroups::Enemy) {
+				else if (info.collider->collisionGroup == Collision::CollisionGroups::Enemy || info.collider->collisionGroup == Collision::CollisionGroups::EnemyStatic) {
 					CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
 					if (!godmode)CharacterFactory::getInstance()->damageCharacter(id, 1);
 				}
@@ -166,7 +166,7 @@ void Player::update(int deltaTime)
 				if (info.collider->collisionGroup == Collision::CollisionGroups::Map && !godmode) {
 					CharacterFactory::getInstance()->damageCharacter(id, 1);
 				}
-				else if (info.collider->collisionGroup == Collision::CollisionGroups::Enemy) {
+				else if (info.collider->collisionGroup == Collision::CollisionGroups::Enemy || info.collider->collisionGroup == Collision::CollisionGroups::EnemyStatic) {
 					CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
 					if(!godmode)CharacterFactory::getInstance()->damageCharacter(id, 1);
 				}
@@ -186,7 +186,7 @@ void Player::update(int deltaTime)
 				if (info.collider->collisionGroup == Collision::CollisionGroups::Map && !godmode) {
 					CharacterFactory::getInstance()->damageCharacter(id, 1);
 				}
-				else if (info.collider->collisionGroup == Collision::CollisionGroups::Enemy) {
+				else if (info.collider->collisionGroup == Collision::CollisionGroups::Enemy || info.collider->collisionGroup == Collision::CollisionGroups::EnemyStatic) {
 					CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
 					if (!godmode)CharacterFactory::getInstance()->damageCharacter(id, 1);
 				}

@@ -71,8 +71,13 @@ void BloodEnemy1::normalRoutine() {
         else if (info.collider->collisionGroup == Collision::CollisionGroups::Map) {
             coagulated = true;
         }
-        else if (info.collider->collisionGroup == Collision::CollisionGroups::Enemy) {
-            Character::deleteRoutine();
+        else if (info.collider->collisionGroup == Collision::CollisionGroups::EnemyStatic) {
+            collisionSystem->removeColliderFromGroup(collider);
+            collider->changeGroup(Collision::CollisionGroups::EnemyStatic);
+            collisionSystem->addColliderIntoGroup(collider);
+
+            coagulated = true;
+            staystatic = true;
         }
     }
     else {
@@ -97,8 +102,13 @@ void BloodEnemy1::normalRoutine() {
                 CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
                 CharacterFactory::getInstance()->damageCharacter(id, 1);
             }
-            else if (info.collider->collisionGroup == Collision::CollisionGroups::Enemy) {
-                Character::deleteRoutine();
+            else if (info.collider->collisionGroup == Collision::CollisionGroups::EnemyStatic) {
+                collisionSystem->removeColliderFromGroup(collider);
+                collider->changeGroup(Collision::CollisionGroups::EnemyStatic);
+                collisionSystem->addColliderIntoGroup(collider);
+
+                coagulated = true;
+                staystatic = true;
             }
         }
         else {
@@ -128,7 +138,11 @@ void BloodEnemy1::attachRoutine() {
             CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);
             CharacterFactory::getInstance()->damageCharacter(id, 1);
         }
-        else if (info.collider->collisionGroup == Collision::CollisionGroups::Map || info.collider->collisionGroup == Collision::CollisionGroups::Enemy) {
+        else if (info.collider->collisionGroup == Collision::CollisionGroups::Map || info.collider->collisionGroup == Collision::CollisionGroups::EnemyStatic) {
+            collisionSystem->removeColliderFromGroup(collider);
+            collider->changeGroup(Collision::CollisionGroups::EnemyStatic);
+            collisionSystem->addColliderIntoGroup(collider);
+
             coagulated = true;
             staystatic = true;
         }
