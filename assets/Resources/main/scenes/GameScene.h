@@ -61,7 +61,9 @@ private:
 	bool isSpawnedBoss = false;
 
 	bool latchKeys[256] = { false };
-	
+
+public:
+    int staticEnemies = 0;
 
 };
 

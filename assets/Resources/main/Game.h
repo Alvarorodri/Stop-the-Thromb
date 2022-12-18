@@ -53,6 +53,8 @@ public:
     bool getSpecialKey(int key) const;
 	SDL2Music music;
 	bool showHBox = false;
+
+    void relativeEnemies(int num);
 private:
 	
 	bool playedMusic = false;

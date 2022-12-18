@@ -24,6 +24,7 @@ public:
         EnemyProjectiles,
         Uknown,
 		Object,
+        EnemyStatic,
     };
 
     Collision();
@@ -39,6 +40,7 @@ public:
     void changePositionRelative(const glm::vec2 &pos);
 	void setRotation(const glm::vec3 &rotation);
 	void setBox(const glm::vec2 &size);
+    void changeGroup(Collision::CollisionGroups group);
 	int getId();
 
     glm::vec4 getBoundingBox();
