@@ -155,7 +155,7 @@ void CharacterFactory::spawnCharacter(int type, const glm::vec2 &pos) {
 		character->setPosition(pos);
 		break;
 	case cEnemy2:
-		character = new BloodEnemy1(projection, last_id, tileMapPos);
+		character = new BloodEnemy2(projection, last_id, tileMapPos);
 		character->setPosition(pos);
 		break;
 	default:
@@ -171,7 +171,8 @@ void CharacterFactory::spawnCharacter(int type, const glm::vec2 &pos) {
 
 void CharacterFactory::spawnRoutine() {
     if (rand() % 100 == 1) {
-        spawnCharacter((rand() % 100 < 85) ? cEnemy1 : cEnemy2, glm::vec2(470.0f, 240 - (rand() % 200)));
+		if ((rand() % 100 < 80)) spawnCharacter(cEnemy1, glm::vec2(470.0f, 240 - (rand() % 200)));
+		else spawnCharacter(cEnemy2, glm::vec2(470.0f, 128.0f));
     }
 }
 

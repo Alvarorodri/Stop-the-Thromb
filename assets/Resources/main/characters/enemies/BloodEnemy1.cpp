@@ -61,6 +61,10 @@ void BloodEnemy1::update(int deltaTime) {
 	Character::update(deltaTime);
 }
 
+void BloodEnemy1::damage(int dmg, int id) {
+    if (coagulated) Character::damage(dmg, id);
+}
+
 void BloodEnemy1::normalRoutine() {
     CollisionSystem::CollisionInfo info = collisionSystem->isColliding(BloodEnemy1::collider, glm::vec2(-2, 0));
     if (info.colliding) {
