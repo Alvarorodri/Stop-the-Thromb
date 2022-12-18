@@ -14,7 +14,7 @@
 
 -Estructura bàsica de 4 pantalles: menú principal, jugar, instruccions i crèdits.
 
--Un nivell amb on el jugador a d'eliminar els glòbuls vermells vermells coagulats que intentan formar una barrera per waturar el reg sanguinin i així provocar una trombosis.
+-Un nivell on el jugador ha d'eliminar els glòbuls vermells coagulats que intentan formar una barrera per aturar el reg sanguinin i així provocar una trombosis.
 
 -La xeringa pot disparar, polsant la tecla ‘X’, de forma normal i també carregant l'agulla, mantenint premuda aquesta mateixa tecla un cert temps, per un atac més poderós. Aquest segon atac fa més mal i travessa als enemics. A més depenent del temps que es carregui és més o menys poderós tenint tres nivells. 
 
