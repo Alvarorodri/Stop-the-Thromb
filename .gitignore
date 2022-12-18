@@ -18,7 +18,6 @@ mono_crash.*
 
 # Build results
 [Dd]ebugPublic/
-[Rr]eleases/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
@@ -350,7 +349,6 @@ assets/[Dd]ebug/*.pdb
 
 assets/[Dd]ebug/*.exe
 assets/[Dd]ebug/*.ilk
-assets/[Rr]elease/*.pdb
 
 assets/Resources/[Dd]ebug/
 assets/Resources/[Rr]elease/
