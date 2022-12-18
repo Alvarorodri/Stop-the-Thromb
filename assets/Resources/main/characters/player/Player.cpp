@@ -206,13 +206,18 @@ void Player::update(int deltaTime)
 
 	if (CounterPWUp1 > 0)CounterPWUp1--;
 	if (CounterPWUp1 > 0)CounterPWUp2--;
-	if (CounterPWUp1 > 0)CounterPWUp3--;
+	if (CounterPWUp1 > 0) {
+		CounterPWUp3--;
+		if(CounterPWUp3 == 0)for (int i = 0; i < 4; i++) {
+			timestampMks[i] = timestampMks[i] * 2;
+		}
+	}
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
 	Character::update(deltaTime);
 }
 
 void Player::inputController() {
-    if (Game::instance().getKey('x')) {
+    if (CounterPWUp2 <= 0 && CounterPWUp1<=0 && Game::instance().getKey('x')) {
 		if (!soundcharge) {
 			AudioManager::getInstance()->playSoundEffectLooped(AudioManager::ChargeAttack, 128);
 			soundcharge = true;
@@ -220,10 +225,13 @@ void Player::inputController() {
 		latchKeys['x'] = true;
 		currentCharge += 1.0f;
     }
+	else if (CounterPWUp2 > 0 && Game::instance().getKey('x')) {
+		latchKeys['x'] = false;
+	}
     else if (Game::instance().getKey('c') && !latchKeys['c']) {
         latchKeys['c'] = true;
     }
-	if (Game::instance().getKey('g') && !latchKeys['g']) {
+	else if (Game::instance().getKey('g') && !latchKeys['g']) {
 		latchKeys['g'] = true;
 
 		godmode = !godmode;
@@ -233,8 +241,11 @@ void Player::inputController() {
 		if (!forceSpawned) spawnForce();	
 		latchKeys['f'] = !latchKeys['f'];
 	}
+	/*if () {
+		
+	}*/
 
-	if (!Game::instance().getKey('x') && latchKeys['x']) {
+	if (CounterPWUp2 <= 0 && CounterPWUp1 <= 0 && !Game::instance().getKey('x') && latchKeys['x']) {
 		latchKeys['x'] = false;
 
 		AudioManager::getInstance()->playSoundEffect(AudioManager::LaserGun, 128);
@@ -255,6 +266,17 @@ void Player::inputController() {
 	else if (!Game::instance().getKey('c') && latchKeys['c']) latchKeys['c'] = false;
 	else if (!Game::instance().getKey('g') && latchKeys['g']) latchKeys['g'] = false;
 	else if (!Game::instance().getKey('f') && latchKeys['f']) latchKeys['f'] = false;
+	else if(CounterPWUp2 > 0 && !Game::instance().getKey('x') && latchKeys['x']) latchKeys['x'] = false;
+	else if (CounterPWUp2 > 0 && !Game::instance().getKey('x') && latchKeys['x']) {
+		latchKeys['x'] = false;
+		AudioManager::getInstance()->playSoundEffect(AudioManager::LaserGun, 128);
+		ProjectileFactory::getInstance()->spawnProjectile(pos + glm::vec2(rotated ? 0.0f : 62.0f, rotated ? 13.0f : 10.0f), glm::vec2(rotated ? -3.0f : 3.0f, 0.0f), false, (Projectile::ProjectileType)((int)Projectile::R9mk3));
+		currentCharge = 0.0f;
+	}
+	if (CounterPWUp1 > 0 && !Game::instance().getKey('x') && latchKeys['x']) {
+		ProjectileFactory::getInstance()->spawnProjectile(pos + glm::vec2(rotated ? 0.0f : 62.0f, rotated ? 13.0f : 10.0f), glm::vec2((rotated ? -1 : 1) * 5.0f, -5.0f), true, Projectile::Fireball);
+		ProjectileFactory::getInstance()->spawnProjectile(pos + glm::vec2(rotated ? 0.0f : 62.0f, rotated ? 13.0f : 10.0f), glm::vec2((rotated ? -1 : 1) * 5.0f, 5.0f), true, Projectile::Fireball);
+	}
 }
 
 void Player::rotate(const float& angleX, const float& angleY, const float& angleZ) {
@@ -305,8 +327,18 @@ void Player::destroyForce() {
 
 void Player::increaseForce(int power) {
 	if (power == 0)CounterPWUp1 = 100;
-	else if (power == 1)CounterPWUp2 = 100;
-	else CounterPWUp3 = 100;
+	else if (power == 1) { 
+		AudioManager::getInstance()->stopSoundEffectLooped(AudioManager::ChargeAttack);
+		CounterPWUp2 = 100; 
+	}
+	else {
+		if(CounterPWUp3 == 0)
+		for (int i = 0; i < 4; i++) {
+			timestampMks[i] = timestampMks[i] / 2;
+		}
+		CounterPWUp3 = 100;
+		
+	}
 }
 
 void Player::initAnimation() {
