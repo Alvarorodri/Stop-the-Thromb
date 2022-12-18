@@ -27,10 +27,10 @@ void MainMenuScene::init() {
 
     map = TileMap::createTileMap("levels/MainMenu.txt", glm::vec2(SCREEN_X, SCREEN_Y), &projection);
 
-    buttons[0].init(0, glm::ivec2(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f),          "Play",         32, this);
-    buttons[1].init(1, glm::ivec2(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f + 50),     "Instructions", 32, this);
-    buttons[2].init(2, glm::ivec2(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f + 100),    "Credits",      32, this);
-    buttons[3].init(3, glm::ivec2(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f + 150),    "Quit Game",    32, this);
+    buttons[0].init(0, glm::ivec2(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f + 50),          "Play",         32, this);
+    buttons[1].init(1, glm::ivec2(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f + 100),     "Instructions", 32, this);
+    buttons[2].init(2, glm::ivec2(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f + 150),    "Credits",      32, this);
+    buttons[3].init(3, glm::ivec2(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f + 200),    "Quit Game",    32, this);
 
     buttons[selectedButton].setState(UI_Button::Selected);
     enableControls = true;
