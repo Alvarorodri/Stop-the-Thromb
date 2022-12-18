@@ -32,18 +32,18 @@ public:
 private:
 
     const bool collisionMatrix[10][10] = {
-        /*                          Player Force  Map    Enemy  PlProj EnProj Uknown Object  EneSt  ---                            */
-        /* Player               */ {  0   , false, true , true , false, true , false, false, true, false }, /* Player             */
-        /* Force                */ { false,  0   , true , true , false, true , false, false, true, false }, /* Force              */
-        /* Map                  */ { true , true ,  0   , true , true , true , true , false, true, false }, /* Map                */
-        /* Enemy                */ { true , false, true ,  0   , false, false, false, false, true, false }, /* Enemy              */
-        /* PlayerProjectiles    */ { false, false, true , true ,  0   , false, false, false, true, false }, /* PlayerProjectiles  */
-        /* EnemyProjectiles     */ { true , true , true , false, false ,  0  , false, false, false, false }, /* EnemyProjectiles  */
+        /*                          Player Force  Map    Enemy  PlProj EnProj Uknown Object  EneSt  Enemy2                            */
+        /* Player               */ {  0   , false, true , true , false, true , false, false, true , true  }, /* Player             */
+        /* Force                */ { false,  0   , true , true , false, true , false, false, true , true  }, /* Force              */
+        /* Map                  */ { true , true ,  0   , true , true , true , true , false, true , true  }, /* Map                */
+        /* Enemy                */ { true , false, true ,  0   , false, false, false, false, true , false }, /* Enemy              */
+        /* PlayerProjectiles    */ { false, false, true , true ,  0   , false, false, false, true , true  }, /* PlayerProjectiles  */
+        /* EnemyProjectiles     */ { true , true , true , false, false,  0   , false, false, false, false }, /* EnemyProjectiles  */
         /* Uknown               */ { false, false, false, false, false, false,  0   , false, false, false }, /* Uknown             */
         /* Object               */ { true , true , false, false, false, false, false,  0   , false, false }, /* Object             */
         /* EnemyStatic          */ { true , false, true , true , false, false, false, false,  0   , false }, /* EnemyStatic                */
-        /* ---                  */ { false, false, false, false, false, false, false, false, false,  0    }, /* ---                */
-        /*                          Player Force  Map    Enemy  PlProj EnProj Uknown Object  EneSt  ---                            */
+        /* Enemy2               */ { true , false, true , false, false, false, false, false, false,  0    }, /* Enemy2                */
+        /*                          Player Force  Map    Enemy  PlProj EnProj Uknown Object  EneSt  Enemy2                            */
     };
 
     const bool triggersMatrix[10][10] = {

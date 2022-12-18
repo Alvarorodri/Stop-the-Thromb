@@ -64,7 +64,6 @@ void GameScene::init() {
 
 	
 	cFactory->spawnCharacter(CharacterFactory::CharacterAvailable::cPlayer, glm::vec2(-30.f, 128.0f));
-	
 }
 
 void GameScene::update(int deltaTime) {
