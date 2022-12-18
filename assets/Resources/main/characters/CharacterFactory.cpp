@@ -170,35 +170,9 @@ void CharacterFactory::spawnCharacter(int type, const glm::vec2 &pos) {
 }
 
 void CharacterFactory::spawnRoutine() {
-	float x1 = COORD_VIEW_LIMIT_X;
-	float x2 = x1 + 25.0f;
-	float mapOffset = mapa->getPosition();
-
-	if (nextSpawn >= (int)enemies.size()) return;
-
-	glm::vec2 tempPos = enemies[nextSpawn].second;
-	tempPos.x += mapOffset;
-
-	// Loop to discard all the enemies that can not spawn because its position
-	while (nextSpawn < (int)enemies.size() && tempPos.x < x1) {
-		++nextSpawn;
-
-		if (nextSpawn < (int)enemies.size()) {
-			tempPos = enemies[nextSpawn].second;
-			tempPos.x += mapOffset;
-		}
-	}
-
-	// Actual loop that spawn the following enemy
-	while (nextSpawn < (int)enemies.size() && tempPos.x >= x1 && tempPos.x <= x2) {
-		spawnCharacter(enemies[nextSpawn].first, tempPos);
-
-		++nextSpawn;
-		if (nextSpawn < (int)enemies.size()) {
-			tempPos = enemies[nextSpawn].second;
-			tempPos.x += mapOffset;
-		}
-	}
+    if (rand() % 10 == 1) {
+        spawnCharacter((rand() % 100 < 85) ? cEnemy1 : cEnemy2, glm::vec2(470.0f, 240 - (rand() % 200)));
+    }
 }
 
 void CharacterFactory::destroyCharacter(const int &id) {
