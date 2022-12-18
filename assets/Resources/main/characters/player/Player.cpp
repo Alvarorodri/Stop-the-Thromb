@@ -44,8 +44,14 @@ void Player::init(const glm::ivec2 &tileMapPos) {
 	collisionSystem->updateCollider(collider, glm::vec2(tileMapDispl.x + pos.x, tileMapDispl.y + pos.y));
 	collider->changePositionAbsolute(glm::vec2(tileMapDispl.x + pos.x, tileMapDispl.y + pos.y));
 
+	/*needle->addCollider(glm::ivec4(41, 8, 62, 18));
+	collisionSystem->addColliderIntoGroup(needle);
+	collisionSystem->updateCollider(needle, glm::vec2(tileMapDispl.x + pos.x, tileMapDispl.y + pos.y));
+	needle->changePositionAbsolute(glm::vec2(tileMapDispl.x + pos.x, tileMapDispl.y + pos.y))*/
+
 #ifdef SHOW_HIT_BOXES
 	collider->showHitBox();
+	//needle->showHitBox();
 #endif // SHOW_HIT_BOXES
 
     sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
@@ -197,6 +203,10 @@ void Player::update(int deltaTime)
 		}
 	}
 
+
+	if (CounterPWUp1 > 0)CounterPWUp1--;
+	if (CounterPWUp1 > 0)CounterPWUp2--;
+	if (CounterPWUp1 > 0)CounterPWUp3--;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
 	Character::update(deltaTime);
 }
@@ -294,6 +304,9 @@ void Player::destroyForce() {
 }
 
 void Player::increaseForce(int power) {
+	if (power == 0)CounterPWUp1 = 100;
+	else if (power == 1)CounterPWUp2 = 100;
+	else CounterPWUp3 = 100;
 }
 
 void Player::initAnimation() {
