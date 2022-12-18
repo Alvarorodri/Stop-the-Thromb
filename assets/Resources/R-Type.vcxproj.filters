@@ -242,6 +242,9 @@
     <ClCompile Include="main\characters\CharacterFactory.cpp">
       <Filter>Archivos de código fuente\Characters</Filter>
     </ClCompile>
+    <ClCompile Include="main\ui\UI_Trombito.cpp">
+      <Filter>Archivos de código fuente\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\Game.h">
@@ -372,6 +375,9 @@
     </ClInclude>
     <ClInclude Include="main\characters\enemies\BloodEnemy1.h">
       <Filter>Archivos de encabezado\Characters\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="main\ui\UI_Trombito.h">
+      <Filter>Archivos de encabezado\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

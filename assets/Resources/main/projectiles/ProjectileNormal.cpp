@@ -109,6 +109,7 @@ bool ProjectileNormal::collisionRoutine() {
 				ProjectileFactory::getInstance()->destroyProjectile(idProjectile);
 				return false;
 				break;
+            case Collision::EnemyStatic:
 			case Collision::Enemy:
 				if (projectileType != ProjectileType::EnemyProjectile) {
 					CharacterFactory::getInstance()->damageCharacter(info.collider->getId(), 1);

@@ -11,6 +11,7 @@
 #include "characters\ExplosionFactory.h"
 #include "sound\SDL2Music.h"
 #include "ui\UI_Contador.h"
+#include "ui\UI_Trombito.h"
 #include "projectiles\ProjectileFactory.h"
 #include "objects\ObjectFactory.h"
 
@@ -32,6 +33,8 @@ public:
     void update(int deltaTime);
     void render();
 
+    void GameScene::showTrombito(const string& text, int time);
+
 	void setMapSpeed(float newSpeed);
 	void teleport(float newPos);
 
@@ -46,6 +49,7 @@ private:
     TileMap *map;
 	CharacterFactory *cFactory;
 	ExplosionFactory *cExplosion;
+    UI_Trombito trombito;
 
 	UI_Contador counter;
 
@@ -57,7 +61,9 @@ private:
 	bool isSpawnedBoss = false;
 
 	bool latchKeys[256] = { false };
-	
+
+public:
+    int staticEnemies = 0;
 
 };
 

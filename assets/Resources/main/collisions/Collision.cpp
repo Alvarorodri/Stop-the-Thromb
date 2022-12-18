@@ -83,6 +83,10 @@ void Collision::setBox(const glm::vec2 &size) {
 #endif // SHOW_HIT_BOXES
 }
 
+void Collision::changeGroup(Collision::CollisionGroups group) {
+    collisionGroup = group;
+}
+
 int Collision::getId() {
 	return id;
 }
