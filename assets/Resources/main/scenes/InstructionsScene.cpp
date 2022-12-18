@@ -22,7 +22,7 @@ InstructionsScene::~InstructionsScene() {
 }
 
 void InstructionsScene::init() {
-	posText = glm::ivec2(100, SCREEN_HEIGHT / 3.0f-50.f);
+	posText = glm::ivec2(100, SCREEN_HEIGHT / 3.0f-140.f);
 	fontSize = 24;
 	currentFontSize = fontSize;
 	textAlignment = Text::Left;
@@ -35,9 +35,13 @@ void InstructionsScene::init() {
 	content.push_back("affects people of any age. It is important to have an active life to prevent this disease,");
 	content.push_back("like running or doing some sport 30 min a day. If a person has this disease,");
 	content.push_back("using Tights or using anticoagulantes like Heparin can help to cure this disease.");
+	content.push_back("In this game, blood cells coagulate forming a barrier, and our objective as a syringe is to");
+	content.push_back("destroy this wall, and surviving the time limit. Some times a block of blood cells will");
+	content.push_back("appear and you need to stop it before escapes, because it will spread the thrombosis.");
 	content.push_back("");
 	content.push_back("MOVEMENTS");
 	content.push_back("");
+	content.push_back("Press X to select elements in menu, moving from elements in the menu is done with arrow keys.");
 	content.push_back("To move around the map use the arrow keys: up arrow to go up,down arrow to go down,");
 	content.push_back("left arrow to go left and right arrow to go right.");
 	content.push_back("Press the key 'X' to shoot or hold to make a charged attack that has more power");
@@ -95,7 +99,7 @@ void InstructionsScene::render() {
 	for (int i = 0; i < (int)content.size(); ++i) {
 		if (first) {
 			first = false;
-			text.render(content[i], glm::ivec2(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 3.0f-100.f), 50, color, Text::Center);
+			text.render(content[i], glm::ivec2(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 3.0f-150.f), 50, color, Text::Center);
 		}
 		else {
 			if (content[i] == "") posText.y -= 10;
