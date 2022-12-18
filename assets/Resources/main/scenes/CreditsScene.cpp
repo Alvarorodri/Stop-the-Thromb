@@ -38,7 +38,7 @@ void CreditsScene::init() {
 	content.push_back("");
 	content.push_back("Eloi Balaer Morales");
 	content.push_back("");
-	content.push_back("Rubén Villanueva Baxarias");
+	content.push_back("Ruben Villanueva Baxarias");
 	content.push_back("");
 
 
