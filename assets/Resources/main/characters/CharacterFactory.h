@@ -5,7 +5,7 @@
 
 #include "Character.h"
 #include "enemies\BloodEnemy1.h"
-//#include "enemies\BloodEnemy2.h"
+#include "enemies\BloodEnemy2.h"
 #include "player\Player.h"
 #include "ExplosionFactory.h"
 

@@ -12,7 +12,7 @@ private:
 	~TextureManager();
 
 public:
-	enum Textures { Map, Background, Planets, Player, PlayerStt, Force, Projectiles, Waves, BloodEnemies, PoweUp, ExplosionPlayer, ExplosionEnemy, ExplosionProyectilePlayer, ExplosionProyectileEnemy};
+	enum Textures { Map, Background, Planets, Player, PlayerStt, Force, Projectiles, Waves, BloodEnemies, PoweUp, ExplosionPlayer, ExplosionEnemy, ExplosionProyectilePlayer, ExplosionProyectileEnemy, Trombito};
 	static TextureManager *getInstance();
 	Texture* getSpriteSheet(Textures type);
 

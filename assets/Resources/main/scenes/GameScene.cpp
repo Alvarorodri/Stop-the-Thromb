@@ -8,6 +8,7 @@ GameScene *GameScene::getGame() {
 }
 
 GameScene::GameScene() {
+    trombito = UI_Trombito::UI_Trombito(&projection);
     map = NULL;
 	cFactory = NULL;
 	cExplosion = NULL;
@@ -32,8 +33,12 @@ void GameScene::init() {
 	ExplosionFactory::getInstance()->deleteReference();
 
 	counter.init(4, glm::ivec2(SCREEN_WIDTH - 300.0f, 50.0f), "Timer: 00:00", 48, this);
-	counter.setTime(120 * 1000);
+	counter.setTime(180 * 1000);
 	counter.setState(UI_Contador::ContadorStates::Started);
+
+    trombito.init(4, glm::ivec2(0.0f, 0.0f), "Hola, esto es una prueba de texto!", 32, this);
+    trombito.setColor(glm::vec3(0.0f, 0.0f, 0.0f));
+    trombito.setTime(180 * 1000);
 
     initShaders();
 	contEnd = -1;
@@ -59,13 +64,13 @@ void GameScene::init() {
 
 	
 	cFactory->spawnCharacter(CharacterFactory::CharacterAvailable::cPlayer, glm::vec2(-30.f, 128.0f));
-	
 }
 
 void GameScene::update(int deltaTime) {
 
 	inputManager();
 	counter.update(deltaTime);
+    trombito.update(deltaTime);
 
     currentTime += deltaTime;
 	map->moveMap(map->getSpeed());
@@ -77,19 +82,23 @@ void GameScene::update(int deltaTime) {
 		ProjectileFactory::getInstance()->destroyAllProjectiles();
 		ObjectFactory::getInstance()->destroyAllObjects();
 		ExplosionFactory::getInstance()->deleteAll();
+
+        Game::instance().changeToCredits(true);
+        Game::instance().music.playMusicTrack(Game::Songs::Menu);
 	}
 
     cFactory->update(deltaTime);
     ProjectileFactory::getInstance()->update(deltaTime);
 	cExplosion->update(deltaTime);
 	ObjectFactory::getInstance()->update(deltaTime);
-	if (contEnd == 0) {
-		Game::instance().changeToCredits(true);
-		Game::instance().music.playMusicTrack(Game::Songs::Menu);
-	}
-	if (contEnd == -1 && cFactory->isBossDead()) contEnd = 200;
-	else if (contEnd == -1 && counter.getTime() <= 0) contEnd = 10;
-	else if (contEnd != -1) contEnd -= 1;
+
+	if (contEnd == -1 && (cFactory->isBossDead() || staticEnemies >= 10)) contEnd = 200;
+    else if (contEnd == -1 && counter.getTime() <= 0) {
+        CharacterFactory::getInstance()->destroyAllCharactersToEnd();
+        contEnd = 150;
+        showTrombito("Felicidades por la  Victoria!", 10);
+    }
+    else if (contEnd != -1) contEnd -= 1;
 
 	//if(!isSpawnedBoss)spawnBoss();
 	if (contspawn > 0) contspawn -= 1;
@@ -105,12 +114,16 @@ void GameScene::render() {
 
     cFactory->render();
     ProjectileFactory::getInstance()->render();
-	cExplosion->render();
+    cExplosion->render();
 
-	ObjectFactory::getInstance()->render();
+    ObjectFactory::getInstance()->render();
 
-	counter.render();
+    counter.render();
+    trombito.render();
+}
 
+void GameScene::showTrombito(const string& text, int time) {
+    trombito.showTrombito(text, time);
 }
 
 void GameScene::setMapSpeed(float newSpeed) {
