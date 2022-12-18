@@ -11,8 +11,8 @@ bool Game::update(int deltaTime) {
 
 	if (!playedMusic) {
 		AudioManager::getInstance()->init("sounds/sounds.txt");
-		music.addMusicTrack("sounds/Menu.mp3");
-		music.addMusicTrack("sounds/Game.mp3");
+		music.addMusicTrack("sounds/intro_music.mp3");
+		music.addMusicTrack("sounds/gameplay_music.mp3");
 		music.addMusicTrack("sounds/RedAlert.mp3");
 		music.addMusicTrack("sounds/BossBattle.mp3");
 		music.playMusicTrack(Songs::Menu);
