@@ -33,14 +33,14 @@ void CreditsScene::init() {
 	content.push_back("PROGRAMERS");
 	content.push_back("");
 	content.push_back("Alexandru Dumitru Maroz");
-	content.push_back("&");
+	content.push_back("");
 	content.push_back("Alvaro Rodriguez Rubio");
 	content.push_back("");
+	content.push_back("Eloi Balaer Morales");
 	content.push_back("");
+	content.push_back("Rubén Villanueva Baxarias");
 	content.push_back("");
-	content.push_back("SPRITES");
-	content.push_back("");
-	content.push_back("Belongs to IREM");
+
 
 	
 	if (!text.init("fonts/OpenSans-Bold.ttf"))
