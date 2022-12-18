@@ -8,7 +8,7 @@ BloodEnemy2::BloodEnemy2(glm::mat4* project, int id, const glm::ivec2& tileMapPo
 }
 
 void BloodEnemy2::init(const glm::ivec2& tileMapPos) {
-    live = 50;
+    live = 20;
     bJumping = false;
     jumpDelay = 250;
     spritesheet = TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::BloodEnemies);

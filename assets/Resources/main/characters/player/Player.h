@@ -46,6 +46,7 @@ private:
 
 	Sprite *chargeProjectile;
 	Sprite *boost;
+	Collision* needle;
 	bool isInitAnimation = false;
 	bool soundcharge = false;
 	bool soundBoost = false;
@@ -65,7 +66,9 @@ private:
 
 	glm::vec2 projectileOffset = glm::vec2(62.0f, 6.0f);
 	bool rotated = false;
-
+	int CounterPWUp1 = 0;
+	int CounterPWUp2 = 0;
+	int CounterPWUp3 = 0;
 };
 
 #endif // _PLAYER_INCLUDE

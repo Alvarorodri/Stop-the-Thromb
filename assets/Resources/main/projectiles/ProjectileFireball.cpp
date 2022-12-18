@@ -13,7 +13,7 @@ ProjectileFireball::ProjectileFireball(glm::mat4 *project, int id) {
 
 void ProjectileFireball::init(Texture *spritesheet, int type) {
 	projType = (ProjectileType)type;
-    glm::vec2 spriteCuts = glm::vec2(1.0 / 8.0, 1.0 / 8.0);
+    glm::vec2 spriteCuts = glm::vec2(1.0f / 8.0f, 1.0f / 8.0f);
     sprite = Sprite::createSprite(glm::ivec2(32, 32), spriteCuts, spritesheet, projection);
     sprite->setNumberAnimations(1);
 
@@ -23,10 +23,6 @@ void ProjectileFireball::init(Texture *spritesheet, int type) {
     lastMovement = projVelocity.y > 0.0f ? Down : Up;
 
 	mapSpeed = ProjectileFactory::getInstance()->mapSpeed;
-
-#ifdef SHOW_HIT_BOXES
-	collider->showHitBox();
-#endif // SHOW_HIT_BOXES
 
     sprite->setPosition(glm::vec2(0.0f,0.0f));
 }
@@ -44,9 +40,6 @@ void ProjectileFireball::update(int deltaTime) {
 void ProjectileFireball::render() {
     sprite->render();
 
-#ifdef SHOW_HIT_BOXES
-	if (Game::instance)collider->render();
-#endif // SHOW_HIT_BOXES
 }
 
 void ProjectileFireball::projectileConfigurator(ProjectileType type, const glm::vec2 &xy) {

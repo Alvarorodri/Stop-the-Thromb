@@ -8,13 +8,16 @@ PowerUp::PowerUp(int id, glm::mat4 *project, const ObjectType type) : Object(id,
 void PowerUp::init() {
 	spritesheet = TextureManager::getInstance()->getSpriteSheet(TextureManager::Textures::PoweUp);
 
-    sprite = Sprite::createSprite(glm::ivec2(PowerUp::size, PowerUp::size), glm::vec2(1.0/4.0, 1.0), spritesheet, projection);
-    sprite->setNumberAnimations(8);
-	float mult = 0;
-	if (type = Object::ModifierMBlue) mult = 1;
-	else if (type = Object::ModifierMRed) mult = 2;
-    sprite->setAnimationSpeed(0, 8);
-    sprite->addKeyframe(0, glm::vec2((1.0 / 4.0) * mult, 0.f));
+    sprite = Sprite::createSprite(glm::ivec2(PowerUp::size, PowerUp::size), glm::vec2(1.0f/4.0f, 1.0f), spritesheet, projection);
+    sprite->setNumberAnimations(1);
+	float mult = 0.0f;
+	sprite->setAnimationSpeed(0, 8);
+	if (type == Object::ModifierMBlue) mult = 1.0f;
+	else if (type == Object::ModifierMRed) {
+		mult = 2.0f;
+	}
+    
+    sprite->addKeyframe(0, glm::vec2((1.f/4.f)* mult, 0.f));
         
 
     sprite->changeAnimation(0, false);
@@ -41,9 +44,9 @@ bool PowerUp::collisionRoutine() {
 		case Collision::Player:
 			ObjectFactory::getInstance()->destroyObject(id);
 			AudioManager::getInstance()->playSoundEffect(AudioManager::CollectBonus, 128);
-			if (type == Object::PowerUpBlue) CharacterFactory::getInstance()->increasePlayerForce(0);
-			else if (type == Object::ModifierMBlue) CharacterFactory::getInstance()->increasePlayerForce(1);
-			else if (type == Object::ModifierMRed) CharacterFactory::getInstance()->increasePlayerForce(2);
+			if (type == ModifierMBlue)CharacterFactory::getInstance()->increasePlayerForce(0);
+			if (type == ModifierMBlue)CharacterFactory::getInstance()->increasePlayerForce(1);
+			if (type == ModifierMBlue)CharacterFactory::getInstance()->increasePlayerForce(2);
 			break;
 		}
 	}
