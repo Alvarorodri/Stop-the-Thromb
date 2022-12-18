@@ -22,8 +22,8 @@ private:
 
 	void init(const glm::ivec2& tileMapPos);
 
-    glm::vec2 upPosition = glm::vec2(250.0f, 0.0f);
-    glm::vec2 downPosition = glm::vec2(250.0f, 256.0f);
+    glm::vec2 upPosition = glm::vec2(220.0f, 0.0f);
+    glm::vec2 downPosition = glm::vec2(220.0f, 256.0f);
 
 	int jumpDelay;
 	bool staystatic;

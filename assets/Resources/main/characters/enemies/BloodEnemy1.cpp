@@ -1,6 +1,6 @@
 #include "BloodEnemy1.h"
 #include "characters/CharacterFactory.h"
-
+#include "Game.h"
 
 BloodEnemy1::BloodEnemy1(glm::mat4* project, int id, const glm::ivec2& tileMapPos) :Character(project, id, Collision::Enemy) {
 	init(tileMapPos);
@@ -38,9 +38,9 @@ void BloodEnemy1::init(const glm::ivec2& tileMapPos) {
 
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
 
-    float randomOffset = rand() % 80;
+    float randomOffset = (rand() % 80)+1;
 
-    if (right) randomOffset /= rand() % 3;
+    if (right) randomOffset /= (rand() % 2) + 1;
 
     upPosition.x += 20.0f - randomOffset;
     downPosition.x += 20.0f - randomOffset;
@@ -53,7 +53,7 @@ void BloodEnemy1::update(int deltaTime) {
     else sprite->changeAnimation(COAGULATED, false);
 
     if (!staystatic) {
-        if (pos.x < 270.0f) attachRoutine();
+        if (pos.x < 250.0f) attachRoutine();
         else normalRoutine();
     }
 
@@ -75,6 +75,8 @@ void BloodEnemy1::normalRoutine() {
             collisionSystem->removeColliderFromGroup(collider);
             collider->changeGroup(Collision::CollisionGroups::EnemyStatic);
             collisionSystem->addColliderIntoGroup(collider);
+
+            Game::instance().relativeEnemies(1);
 
             coagulated = true;
             staystatic = true;
@@ -107,6 +109,8 @@ void BloodEnemy1::normalRoutine() {
                 collider->changeGroup(Collision::CollisionGroups::EnemyStatic);
                 collisionSystem->addColliderIntoGroup(collider);
 
+                Game::instance().relativeEnemies(1);
+
                 coagulated = true;
                 staystatic = true;
             }
@@ -127,10 +131,11 @@ void BloodEnemy1::attachRoutine() {
 
     glm::vec2 dir = targetPosition - pos;
 
-    glm::vec2 tmp = dir / ((dir.x > dir.y) ? ((dir.y >= 0.0f) ? dir.x : dir.y) : dir.y);
+    glm::vec2 tmp = glm::vec2(((dir.x >= 0.0f) ? dir.x : -1.0f * dir.x), (dir.y >= 0.0f) ? dir.y : -1.0f * dir.y);
+    tmp = tmp / ((tmp.x > tmp.y) ? tmp.x : tmp.y);
 
     
-    dir = tmp * glm::vec2(dir.x * tmp.x > 0.0f ? 1.0f : ((dir.x < 0.0f) ? -1.0f : 1.0f), dir.y * tmp.y > 0.0f ? 1.0f : ((dir.y < 0.0f) ? -1.0f : 1.0f));
+    dir = tmp * glm::vec2(dir.x >= 0.0f ? 1.0f : -1.0f, dir.y >= 0.0f ? 1.0f : -1.0f);
 
     CollisionSystem::CollisionInfo info = collisionSystem->isColliding(BloodEnemy1::collider, dir * 1.5f);
     if (info.colliding) {
@@ -142,6 +147,8 @@ void BloodEnemy1::attachRoutine() {
             collisionSystem->removeColliderFromGroup(collider);
             collider->changeGroup(Collision::CollisionGroups::EnemyStatic);
             collisionSystem->addColliderIntoGroup(collider);
+
+            Game::instance().relativeEnemies(1);
 
             coagulated = true;
             staystatic = true;
@@ -156,5 +163,6 @@ void BloodEnemy1::attachRoutine() {
 void BloodEnemy1::deleteRoutine() {
 	int random = rand() % 3;
 	if (random == 0) ObjectFactory::getInstance()->spawnObject(pos, Object::PowerUpBlue);
+    Game::instance().relativeEnemies(-1);
 	Character::deleteRoutine();
 }

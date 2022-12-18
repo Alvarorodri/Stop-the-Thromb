@@ -93,7 +93,7 @@ void GameScene::update(int deltaTime) {
 	cExplosion->update(deltaTime);
 	ObjectFactory::getInstance()->update(deltaTime);
 
-	if (contEnd == -1 && cFactory->isBossDead()) contEnd = 200;
+	if (contEnd == -1 && (cFactory->isBossDead() || staticEnemies >= 10)) contEnd = 200;
     else if (contEnd == -1 && counter.getTime() <= 0) {
         CharacterFactory::getInstance()->destroyAllCharactersToEnd();
         contEnd = 150;
